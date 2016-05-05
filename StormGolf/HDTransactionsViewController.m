@@ -106,12 +106,14 @@ updatedQueryStartDate:(NSDate *)start
    
     NSString *query = [HDDBManager queryStringFromUnixStartDate:[start timeIntervalSince1970]
                                                      finishDate:[finish timeIntervalSince1970]];
-    self.currentTransactions = [[NSArray alloc] initWithArray:[[HDDBManager sharedManager] loadTransactionDataFromDatabase:query]];
-    for (HDTransactionObject *transaction in self.currentTransactions) {
-        NSString *startTime = [[HDHelper formatter] stringFromDate:transaction.transactionDate];
-        NSLog(@"%@",startTime);
-    }
-    [self.tableView reloadData];
+    [[HDDBManager sharedManager] queryDataFromDatabase:query completion:^(NSArray *results) {
+        self.currentTransactions = [NSArray arrayWithArray:results];
+        [self.tableView reloadData];
+        for (HDTransactionObject *transaction in self.currentTransactions) {
+            NSString *startTime = [[HDHelper formatter] stringFromDate:transaction.transactionDate];
+            NSLog(@"%@",startTime);
+        }
+    }];
 }
 
 @end

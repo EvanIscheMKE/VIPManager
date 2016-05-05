@@ -72,49 +72,55 @@
     return formatter;
 }
 
-+ (float)currentUserBalanceWithUserID:(NSUInteger)userID {
++ (void)currentUserBalanceWithUserID:(NSUInteger)userID results:(ResultsBlock)resultsBlock {
     
     /* Starting Balance for all Members */
-    float currentBalance = 00.00;
+    __block float currentBalance = 00.00;
     
     NSString * const ADD_IF_TRUE = @"VIP Card";
     
     /* Perform query */
+    __block NSArray *queryResults = nil;
     NSString *query = [HDDBManager queryStringForTransactionsFromUserID:userID];
-    NSArray *transactions = [[NSArray alloc] initWithArray:[[HDDBManager sharedManager] loadTransactionDataFromDatabase:query]];
-    for (HDTransactionObject *transaction in transactions) {
-        if (transaction.transactionDescription == ADD_IF_TRUE) {
-            // Add cost
-            currentBalance += transaction.transactionPrice;
-        } else {
-            // Subtract cost
-            currentBalance -= transaction.transactionPrice;
+    [[HDDBManager sharedManager] queryDataFromDatabase:query completion:^(NSArray *results) {
+        queryResults = [[NSArray alloc] initWithArray:results];
+        for (HDTransactionObject *transaction in queryResults) {
+            if (transaction.transactionDescription == ADD_IF_TRUE) {
+                // Add cost
+                currentBalance += transaction.transactionPrice;
+            } else {
+                // Subtract cost
+                currentBalance -= transaction.transactionPrice;
+            }
         }
-    }
-    return currentBalance;
+        resultsBlock(currentBalance);
+    }];
 }
 
 
-+ (float)currentUser:(NSUInteger)userID balanceForTransactionID:(NSUInteger)transactionID {
++ (void)currentUser:(NSUInteger)userID balanceForTransactionID:(NSUInteger)transactionID results:(ResultsBlock)resultsBlock {
     
     /* Starting Balance for all Members */
-    float currentBalance = 00.00;
+    __block float currentBalance = 00.00;
     
     NSString * const ADD_IF_TRUE = @"VIP Card";
     
     /* Perform query */
+    __block NSArray *queryResults = nil;
     NSString *query = [HDDBManager queryStringForTransactionsFromUserID:userID beforeTransitionID:transactionID];
-    NSArray *transactions = [[NSArray alloc] initWithArray:[[HDDBManager sharedManager] loadTransactionDataFromDatabase:query]];
-    for (HDTransactionObject *transaction in transactions) {
-        if (transaction.transactionDescription == ADD_IF_TRUE) {
-            // Add cost
-            currentBalance += transaction.transactionPrice;
-        } else {
-            // Subtract cost
-            currentBalance -= transaction.transactionPrice;
+    [[HDDBManager sharedManager] queryDataFromDatabase:query completion:^(NSArray *results) {
+        queryResults = [[NSArray alloc] initWithArray:results];
+        for (HDTransactionObject *transaction in queryResults) {
+            if (transaction.transactionDescription == ADD_IF_TRUE) {
+                // Add cost
+                currentBalance += transaction.transactionPrice;
+            } else {
+                // Subtract cost
+                currentBalance -= transaction.transactionPrice;
+            }
         }
-    }
-    return currentBalance;
+        resultsBlock(currentBalance);
+    }];
 }
 
 @end

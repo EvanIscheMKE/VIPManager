@@ -6,11 +6,16 @@
 //  Copyright © 2016 Evan William Ische. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
+
+typedef void (^ResultsBlock)(float currentBalance);
 
 @interface HDHelper : NSObject
-+ (float)currentUserBalanceWithUserID:(NSUInteger)userID;
-+ (float)currentUser:(NSUInteger)userID balanceForTransactionID:(NSUInteger)transactionID;
++ (void)currentUserBalanceWithUserID:(NSUInteger)userID
+                             results:(ResultsBlock)resultsBlock;
++ (void)currentUser:(NSUInteger)userID
+balanceForTransactionID:(NSUInteger)transactionID
+            results:(ResultsBlock)resultsBlock;
 + (NSArray *)userObjectsFromArray:(NSArray *)rawUserData
                   withColumnNames:(NSArray *)columns;
 + (NSArray *)transactionObjectsFromArray:(NSArray *)rawTransactionData
