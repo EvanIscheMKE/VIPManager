@@ -7,6 +7,7 @@
 //
 
 #import "HDHelper.h"
+#import "HDDBManager.h"
 #import "HDUserObject.h"
 #import "HDTransactionObject.h"
 
@@ -69,6 +70,51 @@
          [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     });
     return formatter;
+}
+
++ (float)currentUserBalanceWithUserID:(NSUInteger)userID {
+    
+    /* Starting Balance for all Members */
+    float currentBalance = 00.00;
+    
+    NSString * const ADD_IF_TRUE = @"VIP Card";
+    
+    /* Perform query */
+    NSString *query = [HDDBManager queryStringForTransactionsFromUserID:userID];
+    NSArray *transactions = [[NSArray alloc] initWithArray:[[HDDBManager sharedManager] loadTransactionDataFromDatabase:query]];
+    for (HDTransactionObject *transaction in transactions) {
+        if (transaction.transactionDescription == ADD_IF_TRUE) {
+            // Add cost
+            currentBalance += transaction.transactionPrice;
+        } else {
+            // Subtract cost
+            currentBalance -= transaction.transactionPrice;
+        }
+    }
+    return currentBalance;
+}
+
+
++ (float)currentUser:(NSUInteger)userID balanceForTransactionID:(NSUInteger)transactionID {
+    
+    /* Starting Balance for all Members */
+    float currentBalance = 00.00;
+    
+    NSString * const ADD_IF_TRUE = @"VIP Card";
+    
+    /* Perform query */
+    NSString *query = [HDDBManager queryStringForTransactionsFromUserID:userID beforeTransitionID:transactionID];
+    NSArray *transactions = [[NSArray alloc] initWithArray:[[HDDBManager sharedManager] loadTransactionDataFromDatabase:query]];
+    for (HDTransactionObject *transaction in transactions) {
+        if (transaction.transactionDescription == ADD_IF_TRUE) {
+            // Add cost
+            currentBalance += transaction.transactionPrice;
+        } else {
+            // Subtract cost
+            currentBalance -= transaction.transactionPrice;
+        }
+    }
+    return currentBalance;
 }
 
 @end

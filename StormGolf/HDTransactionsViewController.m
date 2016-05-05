@@ -8,6 +8,7 @@
 
 #import "HDTransactionsViewController.h"
 #import "HDBasePresentationController.h"
+#import "HDDataGridTableViewCell.h"
 #import "HDPopoverViewController.h"
 #import "HDTransactionObject.h"
 #import "HDDBManager.h"
@@ -24,15 +25,23 @@ NSString * const HDTransactionTableViewReuseIdentifier = @"identifier";
 
 - (instancetype)init {
     if (self = [super init]) {
-        self.title = @"Transactions";
+        self.title = [NSString stringWithFormat:@"%@",[[HDHelper formatter] stringFromDate:NSDate.date]];
     }
     return self;
 }
 
 - (void)viewDidLoad {
     
+    dispatch_queue_t queue = dispatch_queue_create("com.StormGolf.SerialQueue", DISPATCH_QUEUE_SERIAL);
+    dispatch_async(queue, ^{
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+           
+        });
+    });
+    
     [super viewDidLoad];
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:HDTransactionTableViewReuseIdentifier];
+    [self.tableView registerClass:[HDDataGridTableViewCell class] forCellReuseIdentifier:HDTransactionTableViewReuseIdentifier];
     
     self.baseTransitioningDelegate = [HDBaseTransitioningDelegate new];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
@@ -40,16 +49,21 @@ NSString * const HDTransactionTableViewReuseIdentifier = @"identifier";
                                                                                            action:@selector(_presentCalendarViewController)];
     
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSCalendarIdentifierGregorian];
-   
-    NSUInteger epochToday = [NSDate.date timeIntervalSince1970];
-    NSUInteger epochTodayMorning = [[calendar dateBySettingHour:0 minute:0 second:0 ofDate:NSDate.date options:0] timeIntervalSince1970];
+    NSUInteger unixTodayMorning = [[calendar dateBySettingHour:0 minute:0 second:0 ofDate:NSDate.date options:0] timeIntervalSince1970];
     
-    NSString *q = [NSString stringWithFormat:@"select * from trans where createdAt >= %zd AND createdAt <= %zd", epochTodayMorning,epochToday];
-    self.currentTransactions = [[NSArray alloc] initWithArray:[[HDDBManager sharedManager] loadTransactionDataFromDatabase:q]];
-    for (HDTransactionObject *transaction in self.currentTransactions) {
-        NSString *startTime = [[HDHelper formatter] stringFromDate:transaction.transactionDate];
-        NSLog(@"%@",startTime);
-    }
+
+    NSString *query = [HDDBManager queryStringFromUnixStartDate:unixTodayMorning
+                                                 finishDate:[NSDate.date timeIntervalSince1970]];
+#if DEBUG
+    query = @"select * from trans";
+#endif
+    [[HDDBManager sharedManager] queryDataFromDatabase:query completion:^(NSArray *results) {
+        self.currentTransactions = [NSArray arrayWithArray:results];
+        for (HDTransactionObject *transaction in self.currentTransactions) {
+            NSString *startTime = [[HDHelper formatter] stringFromDate:transaction.transactionDate];
+            NSLog(@"%@",startTime);
+        }
+    }];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -57,7 +71,18 @@ NSString * const HDTransactionTableViewReuseIdentifier = @"identifier";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HDTransactionTableViewReuseIdentifier forIndexPath:indexPath];
+    HDDataGridTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HDTransactionTableViewReuseIdentifier forIndexPath:indexPath];
+    cell.isTopCell = indexPath.row == 0;
+    
+    HDTransactionObject *transaction = self.currentTransactions[indexPath.row];
+    
+//    NSString *dateAsString = [[HDHelper formatter] stringFromDate:transaction.transactionDate];
+//    NSString *transactionDescription = transaction.transactionDescription;
+//    
+//    const float startingBalance = [HDHelper currentUser:transaction.userID balanceForTransactionID:transaction.transactionID];
+//    const float endingBalance = startingBalance - transaction.transactionPrice;
+//    const float itemCost = transaction.transactionPrice;
+    
     return cell;
 }
 
@@ -79,16 +104,14 @@ NSString * const HDTransactionTableViewReuseIdentifier = @"identifier";
 updatedQueryStartDate:(NSDate *)start
      finishDate:(NSDate *)finish {
    
-    NSUInteger epochToday = [finish timeIntervalSince1970];
-    NSUInteger epochTodayMorning = [start timeIntervalSince1970];
-    
-    NSString *q = [NSString stringWithFormat:@"select * from trans where createdAt >= %zd AND createdAt <= %zd", epochTodayMorning,epochToday];
-    self.currentTransactions = [[NSArray alloc] initWithArray:[[HDDBManager sharedManager] loadTransactionDataFromDatabase:q]];
+    NSString *query = [HDDBManager queryStringFromUnixStartDate:[start timeIntervalSince1970]
+                                                     finishDate:[finish timeIntervalSince1970]];
+    self.currentTransactions = [[NSArray alloc] initWithArray:[[HDDBManager sharedManager] loadTransactionDataFromDatabase:query]];
     for (HDTransactionObject *transaction in self.currentTransactions) {
         NSString *startTime = [[HDHelper formatter] stringFromDate:transaction.transactionDate];
         NSLog(@"%@",startTime);
     }
-
+    [self.tableView reloadData];
 }
 
 @end

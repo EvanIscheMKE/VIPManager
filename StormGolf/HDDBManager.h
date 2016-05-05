@@ -8,6 +8,8 @@
 
 @import Foundation;
 
+typedef void (^CompletionBlock)(NSArray *results);
+
 @interface HDDBManager : NSObject
 + (HDDBManager *)sharedManager;
 @property (nonatomic, strong) NSMutableArray *columnNames;
@@ -17,9 +19,10 @@
 @property (nonatomic, copy) NSString *databaseFilename;
 - (instancetype)initWithDatabaseFilename:(NSString *)filename;
 - (void)copyDatabaseIntoDocumentsDirectory;
-- (NSArray *)loadUserDataFromDatabase:(NSString *)query;
-- (NSArray *)loadTransactionDataFromDatabase:(NSString *)query;
+- (void)queryDataFromDatabase:(NSString *)query
+                   completion:(CompletionBlock)completion;
 - (void)executeQuery:(NSString *)query;
+
 + (NSString *)executableStringWithFirstName:(NSString *)firstname
                                    lastname:(NSString *)lastname
                                       email:(NSString *)email;
@@ -27,4 +30,9 @@
                                      price:(float)price
                                description:(NSString *)description
                                     userID:(NSInteger)userID;
++ (NSString *)queryStringFromUnixStartDate:(NSUInteger)startDate
+                                finishDate:(NSUInteger)finishDate;
++ (NSString *)queryStringForTransactionsFromUserID:(NSUInteger)userID;
++ (NSString *)queryStringForTransactionsFromUserID:(NSUInteger)userID
+                                beforeTransitionID:(NSUInteger)transitionID;
 @end

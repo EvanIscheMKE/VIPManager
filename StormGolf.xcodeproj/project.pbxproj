@@ -41,6 +41,7 @@
 		387CBEBF1CD0746900B5B342 /* HDBasePresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387CBEBE1CD0746900B5B342 /* HDBasePresentationController.m */; };
 		38AE1EB81CDABE9200847B67 /* stormgolfdatabase.sql in Resources */ = {isa = PBXBuildFile; fileRef = 38AE1EB71CDABE9200847B67 /* stormgolfdatabase.sql */; };
 		38BDC2F41CCD4C9F00E8B77D /* HDItemManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BDC2F31CCD4C9F00E8B77D /* HDItemManager.m */; };
+		38EE1DAD1CDB0E06009ABB87 /* HDDataGridTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */; };
 		38F711361CD6721D008C9DC5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F711351CD6721D008C9DC5 /* libsqlite3.tbd */; };
 		38F711381CD67229008C9DC5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F711371CD67229008C9DC5 /* QuartzCore.framework */; };
 		38F7113C1CD673AB008C9DC5 /* HDDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F7113B1CD673AB008C9DC5 /* HDDBManager.m */; };
@@ -123,6 +124,8 @@
 		38AE1EB71CDABE9200847B67 /* stormgolfdatabase.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = stormgolfdatabase.sql; sourceTree = "<group>"; };
 		38BDC2F21CCD4C9F00E8B77D /* HDItemManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDItemManager.h; sourceTree = "<group>"; };
 		38BDC2F31CCD4C9F00E8B77D /* HDItemManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDItemManager.m; sourceTree = "<group>"; };
+		38EE1DAB1CDB0E06009ABB87 /* HDDataGridTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDDataGridTableViewCell.h; sourceTree = "<group>"; };
+		38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDDataGridTableViewCell.m; sourceTree = "<group>"; };
 		38F711351CD6721D008C9DC5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		38F711371CD67229008C9DC5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		38F7113A1CD673AB008C9DC5 /* HDDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDDBManager.h; sourceTree = "<group>"; };
@@ -212,6 +215,7 @@
 			children = (
 				38721A221CCABDA7007B9FE3 /* HDAppDelegate.h */,
 				38721A231CCABDA7007B9FE3 /* HDAppDelegate.m */,
+				38EE1DAE1CDB0E98009ABB87 /* View */,
 				38BDC2F51CCD56EA00E8B77D /* Model */,
 				38BDC2F11CCD4C8C00E8B77D /* Controller */,
 				38BDC2F61CCD56F100E8B77D /* Category */,
@@ -285,6 +289,15 @@
 				38721A491CCACD43007B9FE3 /* UIColor+ColorAdditions.m */,
 			);
 			name = Category;
+			sourceTree = "<group>";
+		};
+		38EE1DAE1CDB0E98009ABB87 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				38EE1DAB1CDB0E06009ABB87 /* HDDataGridTableViewCell.h */,
+				38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */,
+			);
+			name = View;
 			sourceTree = "<group>";
 		};
 		38F711341CD67200008C9DC5 /* Frameworks */ = {
@@ -420,6 +433,7 @@
 				381A1CAA1CDA831D00445AB6 /* FSCalendarConstance.m in Sources */,
 				38721A241CCABDA7007B9FE3 /* HDAppDelegate.m in Sources */,
 				381A1CA81CDA831D00445AB6 /* FSCalendarCell.m in Sources */,
+				38EE1DAD1CDB0E06009ABB87 /* HDDataGridTableViewCell.m in Sources */,
 				38F7113C1CD673AB008C9DC5 /* HDDBManager.m in Sources */,
 				3828456B1CD955B0002420E4 /* HDUserObject.m in Sources */,
 				381A1CA71CDA831D00445AB6 /* FSCalendarAppearance.m in Sources */,

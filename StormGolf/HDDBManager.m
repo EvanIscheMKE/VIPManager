@@ -13,6 +13,8 @@
 
 static NSString * const HDDatabaseKey = @"stormgolfdatabase.sql";
 
+typedef void (^CompletionBlock)(NSArray *results);
+
 @interface HDDBManager ()
 @property (nonatomic, strong) NSMutableArray *results;
 @end
@@ -115,28 +117,48 @@ static NSString * const HDDatabaseKey = @"stormgolfdatabase.sql";
             }
             
         } else {
-            NSLog(@"FAIL DAWG");
+            NSLog(@"YOU FAILED HOMIE");
         }
         sqlite3_finalize(compiledStatement);
     }
     sqlite3_close(sqlite3Database);
 }
 
-- (NSArray *)loadUserDataFromDatabase:(NSString *)query {
-    [self runQuery:[query UTF8String] isQueryExecutable:NO];
-    return [HDHelper userObjectsFromArray:self.results withColumnNames:self.columnNames];
-}
-
-- (NSArray *)loadTransactionDataFromDatabase:(NSString *)query {
-    [self runQuery:[query UTF8String] isQueryExecutable:NO];
-    return [HDHelper transactionObjectsFromArray:self.results withColumnNames:self.columnNames];
+- (void)queryDataFromDatabase:(NSString *)query completion:(CompletionBlock)completion {
+    
+    __block NSArray *results = nil;
+    dispatch_queue_t queue = dispatch_queue_create("com.StormGolf.SerialQueue", DISPATCH_QUEUE_SERIAL);
+    dispatch_async(queue, ^{
+        [self runQuery:[query UTF8String] isQueryExecutable:NO];
+        results = [HDHelper userObjectsFromArray:self.results withColumnNames:self.columnNames];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                completion(results);
+        });
+    });
 }
 
 - (void)executeQuery:(NSString *)query {
-    [self runQuery:[query UTF8String] isQueryExecutable:YES];
+    dispatch_queue_t queue = dispatch_queue_create("com.StormGolf.SerialQueue", DISPATCH_QUEUE_SERIAL);
+    dispatch_async(queue, ^{
+        [self runQuery:[query UTF8String] isQueryExecutable:YES];
+    });
 }
 
 #pragma mark - Classy 
+
++ (NSString *)queryStringForTransactionsFromUserID:(NSUInteger)userID {
+    return [NSString stringWithFormat:@"select * from trans where userID=%zd",userID];
+}
+
++ (NSString *)queryStringForTransactionsFromUserID:(NSUInteger)userID
+                                beforeTransitionID:(NSUInteger)transitionID {
+    return [NSString stringWithFormat:@"select * from trans where userID=%zd AND transitionID<%zd",userID, transitionID];
+}
+
++ (NSString *)queryStringFromUnixStartDate:(NSUInteger)startDate
+                                finishDate:(NSUInteger)finishDate {
+   return [NSString stringWithFormat:@"select * from trans where createdAt >= %zd AND createdAt <= %zd", startDate, finishDate];
+}
 
 + (NSString *)executableStringWithFirstName:(NSString *)firstname
                                    lastname:(NSString *)lastname

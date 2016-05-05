@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @interface HDHelper : NSObject
++ (float)currentUserBalanceWithUserID:(NSUInteger)userID;
++ (float)currentUser:(NSUInteger)userID balanceForTransactionID:(NSUInteger)transactionID;
 + (NSArray *)userObjectsFromArray:(NSArray *)rawUserData
                   withColumnNames:(NSArray *)columns;
 + (NSArray *)transactionObjectsFromArray:(NSArray *)rawTransactionData
