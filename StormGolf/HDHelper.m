@@ -82,7 +82,7 @@
     /* Perform query */
     __block NSArray *queryResults = nil;
     NSString *query = [HDDBManager queryStringForTransactionsFromUserID:userID];
-    [[HDDBManager sharedManager] queryDataFromDatabase:query completion:^(NSArray *results) {
+    [[HDDBManager sharedManager] queryTransactionDataFromDatabase:query completion:^(NSArray *results) {
         queryResults = [[NSArray alloc] initWithArray:results];
         for (HDTransactionObject *transaction in queryResults) {
             if (transaction.transactionDescription == ADD_IF_TRUE) {
@@ -98,7 +98,9 @@
 }
 
 
-+ (void)currentUser:(NSUInteger)userID balanceForTransactionID:(NSUInteger)transactionID results:(ResultsBlock)resultsBlock {
++ (void)currentUser:(NSUInteger)userID
+balanceForTransactionID:(NSUInteger)transactionID
+            results:(ResultsBlock)resultsBlock {
     
     /* Starting Balance for all Members */
     __block float currentBalance = 00.00;
@@ -108,7 +110,7 @@
     /* Perform query */
     __block NSArray *queryResults = nil;
     NSString *query = [HDDBManager queryStringForTransactionsFromUserID:userID beforeTransitionID:transactionID];
-    [[HDDBManager sharedManager] queryDataFromDatabase:query completion:^(NSArray *results) {
+    [[HDDBManager sharedManager] queryTransactionDataFromDatabase:query completion:^(NSArray *results) {
         queryResults = [[NSArray alloc] initWithArray:results];
         for (HDTransactionObject *transaction in queryResults) {
             if (transaction.transactionDescription == ADD_IF_TRUE) {

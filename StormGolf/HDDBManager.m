@@ -17,9 +17,12 @@ typedef void (^CompletionBlock)(NSArray *results);
 
 @interface HDDBManager ()
 @property (nonatomic, strong) NSMutableArray *results;
+@property (nonatomic, assign) sqlite3 *sqlite3Database;
 @end
 
-@implementation HDDBManager
+@implementation HDDBManager {
+    BOOL _openDatabaseResult;
+}
 
 + (HDDBManager *)sharedManager {
     static HDDBManager *sharedManager = nil;
@@ -30,12 +33,20 @@ typedef void (^CompletionBlock)(NSArray *results);
     return sharedManager;
 }
 
+- (void)closeDatabase {
+    sqlite3_close(_sqlite3Database);
+}
+
 - (instancetype)initWithDatabaseFilename:(NSString *)filename {
     if (self = [super init]) {
+        
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         self.documentsDirectory = [paths firstObject];
         self.databaseFilename = filename;
         [self copyDatabaseIntoDocumentsDirectory];
+        
+        NSString *databasePath = [self.documentsDirectory stringByAppendingPathComponent:self.databaseFilename];
+        _openDatabaseResult = sqlite3_open([databasePath UTF8String], &_sqlite3Database);
     }
     return self;
 }
@@ -57,9 +68,6 @@ typedef void (^CompletionBlock)(NSArray *results);
 
 - (void)runQuery:(const char *)query isQueryExecutable:(BOOL)queryExecutable {
     
-    sqlite3 *sqlite3Database;
-    NSString *databasePath = [self.documentsDirectory stringByAppendingPathComponent:self.databaseFilename];
-    
     if (self.results != nil) {
         [self.results removeAllObjects];
         self.results = nil;
@@ -73,12 +81,11 @@ typedef void (^CompletionBlock)(NSArray *results);
     
     self.columnNames = [[NSMutableArray alloc] init];
     
-    BOOL openDatabaseResult = sqlite3_open([databasePath UTF8String], &sqlite3Database);
-    if(openDatabaseResult == SQLITE_OK) {
+    if(_openDatabaseResult == SQLITE_OK) {
 
         sqlite3_stmt *compiledStatement;
         
-        BOOL prepareStatementResult = sqlite3_prepare_v2(sqlite3Database, query, -1, &compiledStatement, NULL);
+        BOOL prepareStatementResult = sqlite3_prepare_v2(_sqlite3Database, query, -1, &compiledStatement, NULL);
         if (prepareStatementResult == SQLITE_OK) {
             
             if (!queryExecutable){
@@ -109,10 +116,10 @@ typedef void (^CompletionBlock)(NSArray *results);
                 
                 NSInteger executeQueryResults = sqlite3_step(compiledStatement);
                 if (executeQueryResults == SQLITE_DONE) {
-                    self.affectedRows = sqlite3_changes(sqlite3Database);
-                    self.lastInsertedRowID = sqlite3_last_insert_rowid(sqlite3Database);
+                    self.affectedRows = sqlite3_changes(_sqlite3Database);
+                    self.lastInsertedRowID = sqlite3_last_insert_rowid(_sqlite3Database);
                 } else {
-                    NSLog(@"DB Error: %s", sqlite3_errmsg(sqlite3Database));
+                    NSLog(@"DB Error: %s", sqlite3_errmsg(_sqlite3Database));
                 }
             }
             
@@ -121,10 +128,9 @@ typedef void (^CompletionBlock)(NSArray *results);
         }
         sqlite3_finalize(compiledStatement);
     }
-    sqlite3_close(sqlite3Database);
 }
 
-- (void)queryDataFromDatabase:(NSString *)query completion:(CompletionBlock)completion {
+- (void)queryUserDataFromDatabase:(NSString *)query completion:(CompletionBlock)completion {
     
     __block NSArray *results = nil;
     dispatch_queue_t queue = dispatch_queue_create("com.StormGolf.SerialQueue", DISPATCH_QUEUE_SERIAL);
@@ -133,6 +139,19 @@ typedef void (^CompletionBlock)(NSArray *results);
         results = [HDHelper userObjectsFromArray:self.results withColumnNames:self.columnNames];
             dispatch_async(dispatch_get_main_queue(), ^{
                 completion(results);
+        });
+    });
+}
+
+- (void)queryTransactionDataFromDatabase:(NSString *)query completion:(CompletionBlock)completion {
+    
+    __block NSArray *results = nil;
+    dispatch_queue_t queue = dispatch_queue_create("com.StormGolf.SerialQueue", DISPATCH_QUEUE_SERIAL);
+    dispatch_async(queue, ^{
+        [self runQuery:[query UTF8String] isQueryExecutable:NO];
+        results = [HDHelper transactionObjectsFromArray:self.results withColumnNames:self.columnNames];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completion(results);
         });
     });
 }

@@ -19,9 +19,12 @@ typedef void (^CompletionBlock)(NSArray *results);
 @property (nonatomic, copy) NSString *databaseFilename;
 - (instancetype)initWithDatabaseFilename:(NSString *)filename;
 - (void)copyDatabaseIntoDocumentsDirectory;
-- (void)queryDataFromDatabase:(NSString *)query
-                   completion:(CompletionBlock)completion;
+- (void)queryUserDataFromDatabase:(NSString *)query
+                       completion:(CompletionBlock)completion;
+- (void)queryTransactionDataFromDatabase:(NSString *)query
+                              completion:(CompletionBlock)completion;
 - (void)executeQuery:(NSString *)query;
+- (void)closeDatabase;
 
 + (NSString *)executableStringWithFirstName:(NSString *)firstname
                                    lastname:(NSString *)lastname

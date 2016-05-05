@@ -43,8 +43,10 @@ NSString * const HDTransactionsKey = @"Transactions";
     self.title = @"VIP Search";
     
     NSString *query = @"select * from userInfo";
-    NSArray *userInfo = [[NSArray alloc] initWithArray:[[HDDBManager sharedManager] loadUserDataFromDatabase:query]];
-    NSLog(@"%@",userInfo);
+    [[HDDBManager sharedManager] queryUserDataFromDatabase:query completion:^(NSArray *results) {
+        NSArray *queryResults = [[NSArray alloc] initWithArray:results];
+        NSLog(@"%@",queryResults);
+    }];
     
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"background"]];
     imageView.center = self.view.center;
