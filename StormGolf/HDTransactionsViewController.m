@@ -8,6 +8,7 @@
 
 #import "HDTransactionsViewController.h"
 #import "HDBasePresentationController.h"
+#import "HDTransactionsHeaderView.h"
 #import "HDDataGridTableViewCell.h"
 #import "HDPopoverViewController.h"
 #import "HDTransactionObject.h"
@@ -15,6 +16,7 @@
 #import "HDHelper.h"
 
 NSString * const HDTransactionTableViewReuseIdentifier = @"identifier";
+NSString * const HDTableViewReusableHeaderFooterIdentifier = @"headerFooter";
 
 @interface HDTransactionsViewController () <HDPopoverViewControllerDelegate>
 @property (nonatomic, strong) NSArray *currentTransactions;
@@ -31,17 +33,11 @@ NSString * const HDTransactionTableViewReuseIdentifier = @"identifier";
 }
 
 - (void)viewDidLoad {
-    
-    dispatch_queue_t queue = dispatch_queue_create("com.StormGolf.SerialQueue", DISPATCH_QUEUE_SERIAL);
-    dispatch_async(queue, ^{
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-           
-        });
-    });
-    
     [super viewDidLoad];
-    [self.tableView registerClass:[HDDataGridTableViewCell class] forCellReuseIdentifier:HDTransactionTableViewReuseIdentifier];
+    [self.tableView registerClass:[HDDataGridTableViewCell class]
+           forCellReuseIdentifier:HDTransactionTableViewReuseIdentifier];
+    [self.tableView registerClass:[HDTransactionsHeaderView class]
+forHeaderFooterViewReuseIdentifier:HDTableViewReusableHeaderFooterIdentifier];
     
     self.baseTransitioningDelegate = [HDBaseTransitioningDelegate new];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSearch
@@ -59,6 +55,7 @@ NSString * const HDTransactionTableViewReuseIdentifier = @"identifier";
 #endif
     [[HDDBManager sharedManager] queryTransactionDataFromDatabase:query completion:^(NSArray *results) {
         self.currentTransactions = [NSArray arrayWithArray:results];
+        [self.tableView reloadData];
         for (HDTransactionObject *transaction in self.currentTransactions) {
             NSString *startTime = [[HDHelper formatter] stringFromDate:transaction.transactionDate];
             NSLog(@"%@",startTime);
@@ -67,14 +64,14 @@ NSString * const HDTransactionTableViewReuseIdentifier = @"identifier";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.currentTransactions.count;
+    return 30;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HDDataGridTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HDTransactionTableViewReuseIdentifier forIndexPath:indexPath];
     cell.isTopCell = indexPath.row == 0;
     
-    HDTransactionObject *transaction = self.currentTransactions[indexPath.row];
+   // HDTransactionObject *transaction = self.currentTransactions[0];
     
 //    NSString *dateAsString = [[HDHelper formatter] stringFromDate:transaction.transactionDate];
 //    NSString *transactionDescription = transaction.transactionDescription;
@@ -84,6 +81,16 @@ NSString * const HDTransactionTableViewReuseIdentifier = @"identifier";
 //    const float itemCost = transaction.transactionPrice;
     
     return cell;
+}
+
+- (HDTransactionsHeaderView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    HDTransactionsHeaderView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:HDTableViewReusableHeaderFooterIdentifier];
+    view.contentView.backgroundColor = [UIColor clearColor];
+    return view;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return 40.0f;
 }
 
 - (void)_presentCalendarViewController {

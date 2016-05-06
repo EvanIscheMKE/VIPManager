@@ -18,6 +18,7 @@ typedef void (^CompletionBlock)(NSArray *results);
 @interface HDDBManager ()
 @property (nonatomic, strong) NSMutableArray *results;
 @property (nonatomic, assign) sqlite3 *sqlite3Database;
+@property (nonatomic, strong) dispatch_queue_t queue;
 @end
 
 @implementation HDDBManager {
@@ -39,6 +40,8 @@ typedef void (^CompletionBlock)(NSArray *results);
 
 - (instancetype)initWithDatabaseFilename:(NSString *)filename {
     if (self = [super init]) {
+        
+        self.queue = dispatch_queue_create("com.StormGolf.SerialQueue", DISPATCH_QUEUE_SERIAL);
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         self.documentsDirectory = [paths firstObject];
@@ -112,6 +115,7 @@ typedef void (^CompletionBlock)(NSArray *results);
                         [self.results addObject:dataRow];
                     }
                 }
+                
             } else {
                 
                 NSInteger executeQueryResults = sqlite3_step(compiledStatement);
@@ -133,11 +137,10 @@ typedef void (^CompletionBlock)(NSArray *results);
 - (void)queryUserDataFromDatabase:(NSString *)query completion:(CompletionBlock)completion {
     
     __block NSArray *results = nil;
-    dispatch_queue_t queue = dispatch_queue_create("com.StormGolf.SerialQueue", DISPATCH_QUEUE_SERIAL);
-    dispatch_async(queue, ^{
+    dispatch_async(self.queue, ^{
         [self runQuery:[query UTF8String] isQueryExecutable:NO];
-        results = [HDHelper userObjectsFromArray:self.results withColumnNames:self.columnNames];
             dispatch_async(dispatch_get_main_queue(), ^{
+                results = [HDHelper userObjectsFromArray:self.results withColumnNames:self.columnNames];
                 completion(results);
         });
     });
@@ -146,20 +149,19 @@ typedef void (^CompletionBlock)(NSArray *results);
 - (void)queryTransactionDataFromDatabase:(NSString *)query completion:(CompletionBlock)completion {
     
     __block NSArray *results = nil;
-    dispatch_queue_t queue = dispatch_queue_create("com.StormGolf.SerialQueue", DISPATCH_QUEUE_SERIAL);
-    dispatch_async(queue, ^{
+    dispatch_async(self.queue, ^{
         [self runQuery:[query UTF8String] isQueryExecutable:NO];
-        results = [HDHelper transactionObjectsFromArray:self.results withColumnNames:self.columnNames];
         dispatch_async(dispatch_get_main_queue(), ^{
+            results = [HDHelper transactionObjectsFromArray:self.results withColumnNames:self.columnNames];
             completion(results);
         });
     });
 }
 
 - (void)executeQuery:(NSString *)query {
-    dispatch_queue_t queue = dispatch_queue_create("com.StormGolf.SerialQueue", DISPATCH_QUEUE_SERIAL);
-    dispatch_async(queue, ^{
-        [self runQuery:[query UTF8String] isQueryExecutable:YES];
+     [self runQuery:[query UTF8String] isQueryExecutable:YES];
+    dispatch_async(self.queue, ^{
+
     });
 }
 

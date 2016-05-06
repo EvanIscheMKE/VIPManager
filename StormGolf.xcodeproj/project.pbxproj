@@ -40,6 +40,7 @@
 		38721A4A1CCACD43007B9FE3 /* UIColor+ColorAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 38721A491CCACD43007B9FE3 /* UIColor+ColorAdditions.m */; };
 		387CBEBF1CD0746900B5B342 /* HDBasePresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387CBEBE1CD0746900B5B342 /* HDBasePresentationController.m */; };
 		38AE1EB81CDABE9200847B67 /* stormgolfdatabase.sql in Resources */ = {isa = PBXBuildFile; fileRef = 38AE1EB71CDABE9200847B67 /* stormgolfdatabase.sql */; };
+		38B7FBD11CDCEC970038F49A /* HDTransactionsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B7FBD01CDCEC970038F49A /* HDTransactionsHeaderView.m */; };
 		38BDC2F41CCD4C9F00E8B77D /* HDItemManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BDC2F31CCD4C9F00E8B77D /* HDItemManager.m */; };
 		38EE1DAD1CDB0E06009ABB87 /* HDDataGridTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */; };
 		38F711361CD6721D008C9DC5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F711351CD6721D008C9DC5 /* libsqlite3.tbd */; };
@@ -122,6 +123,8 @@
 		387CBEBD1CD0746900B5B342 /* HDBasePresentationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDBasePresentationController.h; sourceTree = "<group>"; };
 		387CBEBE1CD0746900B5B342 /* HDBasePresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDBasePresentationController.m; sourceTree = "<group>"; };
 		38AE1EB71CDABE9200847B67 /* stormgolfdatabase.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = stormgolfdatabase.sql; sourceTree = "<group>"; };
+		38B7FBCF1CDCEC970038F49A /* HDTransactionsHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDTransactionsHeaderView.h; sourceTree = "<group>"; };
+		38B7FBD01CDCEC970038F49A /* HDTransactionsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDTransactionsHeaderView.m; sourceTree = "<group>"; };
 		38BDC2F21CCD4C9F00E8B77D /* HDItemManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDItemManager.h; sourceTree = "<group>"; };
 		38BDC2F31CCD4C9F00E8B77D /* HDItemManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDItemManager.m; sourceTree = "<group>"; };
 		38EE1DAB1CDB0E06009ABB87 /* HDDataGridTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDDataGridTableViewCell.h; sourceTree = "<group>"; };
@@ -296,6 +299,8 @@
 			children = (
 				38EE1DAB1CDB0E06009ABB87 /* HDDataGridTableViewCell.h */,
 				38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */,
+				38B7FBCF1CDCEC970038F49A /* HDTransactionsHeaderView.h */,
+				38B7FBD01CDCEC970038F49A /* HDTransactionsHeaderView.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -450,6 +455,7 @@
 				38721A211CCABDA7007B9FE3 /* main.m in Sources */,
 				382220691CD26EFA003A446A /* HDTransactionsViewController.m in Sources */,
 				381A1CB21CDA831D00445AB6 /* UIView+FSExtension.m in Sources */,
+				38B7FBD11CDCEC970038F49A /* HDTransactionsHeaderView.m in Sources */,
 				381A1CA41CDA831D00445AB6 /* FSCalendar+IBExtension.m in Sources */,
 				381A1CB01CDA831D00445AB6 /* NSDate+FSExtension.m in Sources */,
 			);

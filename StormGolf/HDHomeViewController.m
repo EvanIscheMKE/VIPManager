@@ -39,6 +39,8 @@ NSString * const HDTransactionsKey = @"Transactions";
 
 - (void)viewDidLoad {
     
+    NSLog(@"%@",NSStringFromCGRect(self.view.bounds));
+    
     self.navigationController.navigationBarHidden = TRUE;
     self.title = @"VIP Search";
     

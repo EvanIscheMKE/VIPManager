@@ -26,16 +26,20 @@
     [super viewDidLoad];
     
     NSString *query1 = [HDDBManager executableStringWithFirstName:@"Evan" lastname:@"Ische" email:@"EvanIsche@icloud.com"];
-    [[HDDBManager sharedManager] executeQuery:query1];
-    
     NSString *query2 = [HDDBManager executableStringWithUserName:@"Evan Ische"
                                                            price:60.0
                                                      description:@"VIP Member"
                                                           userID:15];
-    [[HDDBManager sharedManager] executeQuery:query2];
-    
+    [[HDDBManager sharedManager] executeQuery:query1];
     if ([HDDBManager sharedManager].affectedRows != 0) {
-        NSLog(@"Query was executed successfully. Affected rows = %ld", (long)[HDDBManager sharedManager].affectedRows);
+        NSLog(@"Query 1 was executed successfully. Affected rows = %ld", (long)[HDDBManager sharedManager].affectedRows);
+    } else {
+        NSLog(@"Could not execute the query.");
+    }
+    
+    [[HDDBManager sharedManager] executeQuery:query2];
+    if ([HDDBManager sharedManager].affectedRows != 0) {
+        NSLog(@"Query 2 was executed successfully. Affected rows = %ld", (long)[HDDBManager sharedManager].affectedRows);
     } else {
         NSLog(@"Could not execute the query.");
     }
