@@ -46,7 +46,6 @@ forHeaderFooterViewReuseIdentifier:HDTableViewReusableHeaderFooterIdentifier];
     
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSCalendarIdentifierGregorian];
     NSUInteger unixTodayMorning = [[calendar dateBySettingHour:0 minute:0 second:0 ofDate:NSDate.date options:0] timeIntervalSince1970];
-    
 
     NSString *query = [HDDBManager queryStringFromUnixStartDate:unixTodayMorning
                                                  finishDate:[NSDate.date timeIntervalSince1970]];
@@ -71,14 +70,16 @@ forHeaderFooterViewReuseIdentifier:HDTableViewReusableHeaderFooterIdentifier];
     HDDataGridTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HDTransactionTableViewReuseIdentifier forIndexPath:indexPath];
     cell.isTopCell = indexPath.row == 0;
     
-   // HDTransactionObject *transaction = self.currentTransactions[0];
+    HDTransactionObject *transaction = self.currentTransactions[indexPath.row];
+    NSString *dateAsString = [[HDHelper formatter] stringFromDate:transaction.transactionDate];
+    NSString *transactionDescription = transaction.transactionDescription;
     
-//    NSString *dateAsString = [[HDHelper formatter] stringFromDate:transaction.transactionDate];
-//    NSString *transactionDescription = transaction.transactionDescription;
-//    
-//    const float startingBalance = [HDHelper currentUser:transaction.userID balanceForTransactionID:transaction.transactionID];
+//    __block float startingBalance = 0.0f;
 //    const float endingBalance = startingBalance - transaction.transactionPrice;
 //    const float itemCost = transaction.transactionPrice;
+//    [HDHelper currentUser:transaction.userID balanceForTransactionID:transaction.transactionID results:^(float currentBalance) {
+//        startingBalance = currentBalance;
+//    }];
     
     return cell;
 }
@@ -103,6 +104,14 @@ forHeaderFooterViewReuseIdentifier:HDTableViewReusableHeaderFooterIdentifier];
     [ self presentViewController:navigationController
                         animated:YES
                       completion:nil ];
+}
+
+#pragma mark - <UIScrollViewDelegate>
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView.contentOffset.y < 0) {
+        scrollView.contentOffset = CGPointZero;
+    }
 }
 
 #pragma mark - <HDPopoverViewControllerDelegate>

@@ -41,7 +41,9 @@ typedef void (^CompletionBlock)(NSArray *results);
 - (instancetype)initWithDatabaseFilename:(NSString *)filename {
     if (self = [super init]) {
         
-        self.queue = dispatch_queue_create("com.StormGolf.SerialQueue", DISPATCH_QUEUE_SERIAL);
+        NSLog([[self class] isSQLiteThreadSafe] ? @"YES" : @"NO");
+        
+        self.queue = dispatch_queue_create("com.EvanIsche.StormGolf", DISPATCH_QUEUE_SERIAL);
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         self.documentsDirectory = [paths firstObject];
@@ -139,17 +141,22 @@ typedef void (^CompletionBlock)(NSArray *results);
     __block NSArray *results = nil;
     dispatch_async(self.queue, ^{
         [self runQuery:[query UTF8String] isQueryExecutable:NO];
-            dispatch_async(dispatch_get_main_queue(), ^{
+            dispatch_sync(dispatch_get_main_queue(), ^{
                 results = [HDHelper userObjectsFromArray:self.results withColumnNames:self.columnNames];
                 completion(results);
         });
     });
 }
 
++ (BOOL)isSQLiteThreadSafe {
+    // make sure to read the sqlite headers on this guy!
+    return sqlite3_threadsafe() == 2;
+}
+
 - (void)queryTransactionDataFromDatabase:(NSString *)query completion:(CompletionBlock)completion {
     
     __block NSArray *results = nil;
-    dispatch_async(self.queue, ^{
+    dispatch_sync(self.queue, ^{
         [self runQuery:[query UTF8String] isQueryExecutable:NO];
         dispatch_async(dispatch_get_main_queue(), ^{
             results = [HDHelper transactionObjectsFromArray:self.results withColumnNames:self.columnNames];
@@ -159,9 +166,8 @@ typedef void (^CompletionBlock)(NSArray *results);
 }
 
 - (void)executeQuery:(NSString *)query {
-     [self runQuery:[query UTF8String] isQueryExecutable:YES];
-    dispatch_async(self.queue, ^{
-
+    dispatch_sync(self.queue, ^{
+        [self runQuery:[query UTF8String] isQueryExecutable:YES];
     });
 }
 

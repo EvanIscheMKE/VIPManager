@@ -9,14 +9,13 @@
 #import "HDDataGridTableViewCell.h"
 #import "UIColor+ColorAdditions.h"
 
-
-static const CGFloat MEMBER_NAME_SCREEN_PERCENTAGE = .24414062;
-static const CGFloat STARTING_BALANCE_SCREEN_PERCENTAGE = .078125;
-static const CGFloat ENDING_BALANCE_SCREEN_PERCENTAGE  = .078125;
-static const CGFloat ITEM_COST_SCREEN_PERCENTAGE = .078125;
-static const CGFloat ADMIN_NAME_SCREEN_PERCENTAGE = .078125;
+static const CGFloat MEMBER_NAME_SCREEN_PERCENTAGE = .21;
+static const CGFloat STARTING_BALANCE_SCREEN_PERCENTAGE = .09916016;
+static const CGFloat ENDING_BALANCE_SCREEN_PERCENTAGE  = .09916016;
+static const CGFloat ITEM_COST_SCREEN_PERCENTAGE = .09916016;
+static const CGFloat ADMIN_NAME_SCREEN_PERCENTAGE = .09916016;
 static const CGFloat TRANSITION_DATE_SCREEN_PERCENTAGE = .22460938;
-static const CGFloat TRANSITION_DESCRIPTION_SCREEN_PERCENTAGE = .21875;
+static const CGFloat TRANSITION_DESCRIPTION_SCREEN_PERCENTAGE = .16875;
 
 @implementation HDDataGridTableViewCell {
     NSArray *_values;
@@ -44,8 +43,10 @@ static const CGFloat TRANSITION_DESCRIPTION_SCREEN_PERCENTAGE = .21875;
             
             switch (i) {
                 case 0:
-                    label.text = @"  EVAN ISCHE";
-                    label.textAlignment = NSTextAlignmentLeft;
+                    label.text = @"EVAN ISCHE";
+                    break;
+                case 4:
+                    label.text = @"ADMIN";
                     break;
                 case 5:
                     label.text = @"2016-05-04 18:36:41";
@@ -94,29 +95,21 @@ static const CGFloat TRANSITION_DESCRIPTION_SCREEN_PERCENTAGE = .21875;
     CGContextSetStrokeColorWithColor(UIGraphicsGetCurrentContext(), [UIColor flatPeterRiverColor].CGColor);
     CGContextSetLineWidth(UIGraphicsGetCurrentContext(), 1.0);
     
-    /* Member Name */
-    CGContextMoveToPoint(UIGraphicsGetCurrentContext(), 250.0f, 0.0f);
-    CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), 250.0, CGRectGetHeight(self.contentView.bounds));
+    NSArray *values = @[@(MEMBER_NAME_SCREEN_PERCENTAGE),
+                        @(STARTING_BALANCE_SCREEN_PERCENTAGE),
+                        @(ENDING_BALANCE_SCREEN_PERCENTAGE),
+                        @(ITEM_COST_SCREEN_PERCENTAGE),
+                        @(ADMIN_NAME_SCREEN_PERCENTAGE),
+                        @(TRANSITION_DATE_SCREEN_PERCENTAGE),
+                        @(TRANSITION_DESCRIPTION_SCREEN_PERCENTAGE)];
     
-    /* Starting Balance */
-    CGContextMoveToPoint(UIGraphicsGetCurrentContext(), 330.0f, 0.0f);
-    CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), 330.0, CGRectGetHeight(self.contentView.bounds));
-    
-    /* Ending Balance */
-    CGContextMoveToPoint(UIGraphicsGetCurrentContext(), 410.0f, 0.0f);
-    CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), 410.0, CGRectGetHeight(self.contentView.bounds));
-    
-    /* Item Cost */
-    CGContextMoveToPoint(UIGraphicsGetCurrentContext(), 490.0f, 0.0f);
-    CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), 490.0, CGRectGetHeight(self.contentView.bounds));
-    
-    /* Admin */
-    CGContextMoveToPoint(UIGraphicsGetCurrentContext(), 570.0f, 0.0f);
-    CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), 570.0, CGRectGetHeight(self.contentView.bounds));
-    
-    /* Date */
-    CGContextMoveToPoint(UIGraphicsGetCurrentContext(), 800.0f, 0.0f);
-    CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), 800.0, CGRectGetHeight(self.contentView.bounds));
+    CGFloat previousWidth = 0.0f;
+    for (NSUInteger i = 0; i < values.count; i++) {
+        const CGFloat width = [[values objectAtIndex:i] floatValue] * CGRectGetWidth(self.bounds);
+        CGContextMoveToPoint(UIGraphicsGetCurrentContext(), previousWidth, 0.0f);
+        CGContextAddLineToPoint(UIGraphicsGetCurrentContext(), previousWidth, CGRectGetHeight(self.bounds));
+        previousWidth += width;
+    }
     
     if (self.isTopCell) {
         CGContextMoveToPoint(UIGraphicsGetCurrentContext(), 0.0f, 1.0f);

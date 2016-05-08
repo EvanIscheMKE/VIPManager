@@ -11,7 +11,7 @@
 #import "HDItemManagerViewController.h"
 #import "HDTransactionsViewController.h"
 #import "HDNewMemberViewController.h"
-
+#import "UIColor+ColorAdditions.h"
 
 @interface HDAppDelegate ()
 
@@ -59,9 +59,11 @@
     /* Global appearance */
     [[UITabBar appearance] setTranslucent:NO];
     [[UITabBar appearance] setBarTintColor:[UIColor whiteColor]];
+    [[UITabBar appearance] setTintColor:[UIColor flatSTRedColor]];
     
     [[UINavigationBar appearance] setTranslucent:NO];
     [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
+    [[UINavigationBar appearance] setTintColor:[UIColor flatSTRedColor]];
     
     return YES;
 }
