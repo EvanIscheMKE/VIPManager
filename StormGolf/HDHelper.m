@@ -73,6 +73,21 @@
     return formatter;
 }
 
++ (NSString *)stringFromNumber:(double)number {
+    return [[[self class] numberFormatter] stringFromNumber:[NSNumber numberWithDouble:number]];
+}
+
++ (NSNumberFormatter *)numberFormatter {
+    static NSNumberFormatter *formatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        formatter = [[NSNumberFormatter alloc] init];
+        formatter.roundingIncrement = [NSNumber numberWithDouble:0.01];
+        formatter.numberStyle = NSNumberFormatterDecimalStyle;
+    });
+    return formatter;
+}
+
 + (void)currentUserBalanceWithUserID:(NSUInteger)userID results:(ResultsBlock)resultsBlock {
     
     /* Starting Balance for all Members */

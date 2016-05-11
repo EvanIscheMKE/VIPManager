@@ -8,6 +8,7 @@
 
 #import "HDDataGridTableViewCell.h"
 #import "UIColor+ColorAdditions.h"
+#import "HDHelper.h"
 
 static const CGFloat MEMBER_NAME_SCREEN_PERCENTAGE = .21;
 static const CGFloat STARTING_BALANCE_SCREEN_PERCENTAGE = .09916016;
@@ -34,6 +35,9 @@ static const CGFloat TRANSITION_DESCRIPTION_SCREEN_PERCENTAGE = .16875;
                     @(TRANSITION_DESCRIPTION_SCREEN_PERCENTAGE)];
         
    
+        NSDateFormatter *formatter = [HDHelper formatter];
+        formatter.dateStyle = NSDateFormatterMediumStyle;
+        formatter.timeStyle = NSDateFormatterMediumStyle;
         for (NSUInteger i = 0; i < _values.count; i++) {
             UILabel *label = [[UILabel alloc] init];
             label.textColor = [UIColor blackColor];
@@ -49,7 +53,7 @@ static const CGFloat TRANSITION_DESCRIPTION_SCREEN_PERCENTAGE = .16875;
                     label.text = @"ADMIN";
                     break;
                 case 5:
-                    label.text = @"2016-05-04 18:36:41";
+                    label.text = [formatter stringFromDate:[NSDate date]];
                     break;
                 case 6:
                     label.text = @"VIP Member";
@@ -124,6 +128,36 @@ static const CGFloat TRANSITION_DESCRIPTION_SCREEN_PERCENTAGE = .16875;
                             CGRectGetHeight(self.contentView.bounds));
     
     CGContextStrokePath(UIGraphicsGetCurrentContext());
+}
+
+#pragma mark - Setters
+
+- (void)setMemberName:(NSString *)memberName {
+    [(UILabel *)self.subviews[0] setText:memberName];
+}
+
+- (void)setStartingBalance:(NSString *)startingBalance {
+    [(UILabel *)self.subviews[1] setText:startingBalance];
+}
+
+- (void)setEndingBalance:(NSString *)endingBalance {
+     [(UILabel *)self.subviews[2] setText:endingBalance];
+}
+
+- (void)setItemCost:(NSString *)itemCost {
+     [(UILabel *)self.subviews[3] setText:itemCost];
+}
+
+- (void)setCashierName:(NSString *)cashierName {
+    [(UILabel *)self.subviews[4] setText:cashierName];
+}
+
+- (void)setTransactionDate:(NSString *)transactionDate {
+    [(UILabel *)self.subviews[5] setText:transactionDate];
+}
+
+- (void)setItemDescription:(NSString *)itemDescription {
+     [(UILabel *)self.subviews[6] setText:itemDescription];
 }
 
 @end

@@ -21,4 +21,6 @@ balanceForTransactionID:(NSUInteger)transactionID
 + (NSArray *)transactionObjectsFromArray:(NSArray *)rawTransactionData
                          withColumnNames:(NSArray *)columns;
 + (NSDateFormatter *)formatter;
++ (NSDate *)dateFromString:(NSString *)string;
++ (NSString *)stringFromNumber:(double)number;
 @end

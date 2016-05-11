@@ -42,6 +42,8 @@
 		38AE1EB81CDABE9200847B67 /* stormgolfdatabase.sql in Resources */ = {isa = PBXBuildFile; fileRef = 38AE1EB71CDABE9200847B67 /* stormgolfdatabase.sql */; };
 		38B7FBD11CDCEC970038F49A /* HDTransactionsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B7FBD01CDCEC970038F49A /* HDTransactionsHeaderView.m */; };
 		38BDC2F41CCD4C9F00E8B77D /* HDItemManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BDC2F31CCD4C9F00E8B77D /* HDItemManager.m */; };
+		38EB90101CE3691800F261C1 /* HDSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EB900F1CE3691800F261C1 /* HDSearchBar.m */; };
+		38EB90131CE36F7F00F261C1 /* HDSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EB90121CE36F7F00F261C1 /* HDSearchViewController.m */; };
 		38EE1DAD1CDB0E06009ABB87 /* HDDataGridTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */; };
 		38F711361CD6721D008C9DC5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F711351CD6721D008C9DC5 /* libsqlite3.tbd */; };
 		38F711381CD67229008C9DC5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F711371CD67229008C9DC5 /* QuartzCore.framework */; };
@@ -127,6 +129,10 @@
 		38B7FBD01CDCEC970038F49A /* HDTransactionsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDTransactionsHeaderView.m; sourceTree = "<group>"; };
 		38BDC2F21CCD4C9F00E8B77D /* HDItemManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDItemManager.h; sourceTree = "<group>"; };
 		38BDC2F31CCD4C9F00E8B77D /* HDItemManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDItemManager.m; sourceTree = "<group>"; };
+		38EB900E1CE3691800F261C1 /* HDSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDSearchBar.h; sourceTree = "<group>"; };
+		38EB900F1CE3691800F261C1 /* HDSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDSearchBar.m; sourceTree = "<group>"; };
+		38EB90111CE36F7F00F261C1 /* HDSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDSearchViewController.h; sourceTree = "<group>"; };
+		38EB90121CE36F7F00F261C1 /* HDSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDSearchViewController.m; sourceTree = "<group>"; };
 		38EE1DAB1CDB0E06009ABB87 /* HDDataGridTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDDataGridTableViewCell.h; sourceTree = "<group>"; };
 		38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDDataGridTableViewCell.m; sourceTree = "<group>"; };
 		38F711351CD6721D008C9DC5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -263,6 +269,8 @@
 				3822206B1CD27EF8003A446A /* HDNewMemberViewController.m */,
 				382220611CD12B2F003A446A /* HDPopoverViewController.h */,
 				382220621CD12B2F003A446A /* HDPopoverViewController.m */,
+				38EB90111CE36F7F00F261C1 /* HDSearchViewController.h */,
+				38EB90121CE36F7F00F261C1 /* HDSearchViewController.m */,
 				38F711391CD6727A008C9DC5 /* Presentation Controller */,
 			);
 			name = Controller;
@@ -301,6 +309,8 @@
 				38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */,
 				38B7FBCF1CDCEC970038F49A /* HDTransactionsHeaderView.h */,
 				38B7FBD01CDCEC970038F49A /* HDTransactionsHeaderView.m */,
+				38EB900E1CE3691800F261C1 /* HDSearchBar.h */,
+				38EB900F1CE3691800F261C1 /* HDSearchBar.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -457,7 +467,9 @@
 				381A1CB21CDA831D00445AB6 /* UIView+FSExtension.m in Sources */,
 				38B7FBD11CDCEC970038F49A /* HDTransactionsHeaderView.m in Sources */,
 				381A1CA41CDA831D00445AB6 /* FSCalendar+IBExtension.m in Sources */,
+				38EB90131CE36F7F00F261C1 /* HDSearchViewController.m in Sources */,
 				381A1CB01CDA831D00445AB6 /* NSDate+FSExtension.m in Sources */,
+				38EB90101CE3691800F261C1 /* HDSearchBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

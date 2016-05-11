@@ -13,7 +13,7 @@
 #import "HDNewMemberViewController.h"
 #import "UIColor+ColorAdditions.h"
 
-@interface HDAppDelegate ()
+@interface HDAppDelegate () <UISplitViewControllerDelegate>
 
 @end
 
@@ -21,10 +21,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
+    /* */
     HDHomeViewController *controller1 = [[HDHomeViewController alloc] init];
     controller1.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMore tag:1];
     
-    HDItemManagerViewController *controller2 = [[HDItemManagerViewController alloc] init];
+    UISplitViewController *controller2 = [[UISplitViewController alloc] init];
     controller2.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:2];
     
     HDTransactionsViewController *controller3 = [[HDTransactionsViewController alloc] init];
@@ -36,19 +37,25 @@
     HDHomeViewController *controller5 = [[HDHomeViewController alloc] init];
     controller5.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:5];
     
+    controller2.delegate = self;
+    controller2.viewControllers = @[[[UINavigationController alloc] initWithRootViewController:[HDItemManagerViewController new]],
+                                    [[UINavigationController alloc] initWithRootViewController:[UIViewController new]]];
+    
+    /* */
     UINavigationController *navigationController1 = [[UINavigationController alloc] initWithRootViewController:controller1];
-    UINavigationController *navigationController2 = [[UINavigationController alloc] initWithRootViewController:controller2];
     UINavigationController *navigationController3 = [[UINavigationController alloc] initWithRootViewController:controller3];
     UINavigationController *navigationController4 = [[UINavigationController alloc] initWithRootViewController:controller4];
     UINavigationController *navigationController5 = [[UINavigationController alloc] initWithRootViewController:controller5];
     
+    /* */
     NSMutableArray *controllers = [@[] mutableCopy];
     [controllers addObject:navigationController1];
-    [controllers addObject:navigationController2];
+    [controllers addObject:controller2];
     [controllers addObject:navigationController3];
     [controllers addObject:navigationController4];
     [controllers addObject:navigationController5];
     
+    /* */
     UITabBarController *tabbarController = [[UITabBarController alloc] init];
     [tabbarController setViewControllers:controllers];
     

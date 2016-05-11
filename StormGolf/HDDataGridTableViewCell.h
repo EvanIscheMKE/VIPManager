@@ -10,4 +10,11 @@
 
 @interface HDDataGridTableViewCell : UITableViewCell
 @property (nonatomic, assign) BOOL isTopCell;
+@property (nonatomic, copy) NSString *startingBalance;
+@property (nonatomic, copy) NSString *endingBalance;
+@property (nonatomic, copy) NSString *itemCost;
+@property (nonatomic, copy) NSString *itemDescription;
+@property (nonatomic, copy) NSString *transactionDate;
+@property (nonatomic, copy) NSString *memberName;
+@property (nonatomic, copy) NSString *cashierName;
 @end

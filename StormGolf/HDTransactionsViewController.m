@@ -67,19 +67,23 @@ forHeaderFooterViewReuseIdentifier:HDTableViewReusableHeaderFooterIdentifier];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     HDDataGridTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HDTransactionTableViewReuseIdentifier forIndexPath:indexPath];
     cell.isTopCell = indexPath.row == 0;
     
     HDTransactionObject *transaction = self.currentTransactions[indexPath.row];
-    NSString *dateAsString = [[HDHelper formatter] stringFromDate:transaction.transactionDate];
-    NSString *transactionDescription = transaction.transactionDescription;
-    
+  
 //    __block float startingBalance = 0.0f;
-//    const float endingBalance = startingBalance - transaction.transactionPrice;
-//    const float itemCost = transaction.transactionPrice;
 //    [HDHelper currentUser:transaction.userID balanceForTransactionID:transaction.transactionID results:^(float currentBalance) {
 //        startingBalance = currentBalance;
 //    }];
+    
+    //const float endingBalance = startingBalance - transaction.transactionPrice;
+    
+    cell.itemCost = [HDHelper stringFromNumber:transaction.transactionPrice];
+    cell.transactionDate = [[HDHelper formatter] stringFromDate:transaction.transactionDate];
+    cell.itemDescription = transaction.transactionDescription;
+    cell.memberName = transaction.username;
     
     return cell;
 }
