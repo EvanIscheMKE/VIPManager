@@ -7,6 +7,7 @@
 //
 
 #import "HDNewMemberViewController.h"
+#import "HDItemManager.h"
 #import "HDDBManager.h"
 
 @interface HDNewMemberViewController () <UITextFieldDelegate>
@@ -24,27 +25,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    for (int i = 0; i < 50; i++) {
-        NSString *query1 = [HDDBManager executableStringWithFirstName:@"Evan" lastname:@"Ische" email:@"EvanIsche@icloud.com"];
-        NSString *query2 = [HDDBManager executableStringWithUserName:@"Evan Ische"
-                                                               price:60.0
-                                                         description:@"VIP Member"
-                                                              userID:15];
-        [[HDDBManager sharedManager] executeQuery:query1];
-        if ([HDDBManager sharedManager].affectedRows != 0) {
-            NSLog(@"Query 1 was executed successfully. Affected rows = %ld", (long)[HDDBManager sharedManager].affectedRows);
-        } else {
-            NSLog(@"Could not execute the query.");
-        }
-        
-        [[HDDBManager sharedManager] executeQuery:query2];
-        if ([HDDBManager sharedManager].affectedRows != 0) {
-            NSLog(@"Query 2 was executed successfully. Affected rows = %ld", (long)[HDDBManager sharedManager].affectedRows);
-        } else {
-            NSLog(@"Could not execute the query.");
-        }
-    }
     
     self.view.backgroundColor = [UIColor whiteColor];
     

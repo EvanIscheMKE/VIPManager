@@ -40,9 +40,6 @@ typedef void (^CompletionBlock)(NSArray *results);
 
 - (instancetype)initWithDatabaseFilename:(NSString *)filename {
     if (self = [super init]) {
-        
-        NSLog([[self class] isSQLiteThreadSafe] ? @"YES" : @"NO");
-        
         self.queue = dispatch_queue_create("com.EvanIsche.StormGolf", DISPATCH_QUEUE_SERIAL);
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -139,9 +136,9 @@ typedef void (^CompletionBlock)(NSArray *results);
 - (void)queryUserDataFromDatabase:(NSString *)query completion:(CompletionBlock)completion {
     
     __block NSArray *results = nil;
-    dispatch_async(self.queue, ^{
+    dispatch_sync(self.queue, ^{
         [self runQuery:[query UTF8String] isQueryExecutable:NO];
-            dispatch_sync(dispatch_get_main_queue(), ^{
+            dispatch_async(dispatch_get_main_queue(), ^{
                 results = [HDHelper userObjectsFromArray:self.results withColumnNames:self.columnNames];
                 completion(results);
         });
@@ -149,7 +146,6 @@ typedef void (^CompletionBlock)(NSArray *results);
 }
 
 + (BOOL)isSQLiteThreadSafe {
-    // make sure to read the sqlite headers on this guy!
     return sqlite3_threadsafe() == 2;
 }
 
@@ -172,6 +168,13 @@ typedef void (^CompletionBlock)(NSArray *results);
 }
 
 #pragma mark - Classy 
+
++ (NSString *)queryStringForFirstName:(NSString *)firstName lastName:(NSString *)lastName {
+    if (!lastName) {
+        return [NSString stringWithFormat:@"select * from userInfo WHERE firstname LIKE '%%%@%%' OR lastname LIKE '%%%@%%'",firstName,firstName];
+    }
+    return [NSString stringWithFormat:@"select * from userInfo WHERE firstname LIKE '%%%@%%' AND lastname LIKE '%%%@%%'",firstName,lastName];
+}
 
 + (NSString *)queryStringForTransactionsFromUserID:(NSUInteger)userID {
     return [NSString stringWithFormat:@"select * from trans where userID=%zd",userID];

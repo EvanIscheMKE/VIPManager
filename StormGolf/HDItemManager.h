@@ -10,7 +10,7 @@
 
 @interface HDItem : NSObject <NSCoding>
 @property (nonatomic, copy) NSString *itemDescription;
-@property (nonatomic, assign) NSUInteger itemCost;
+@property (nonatomic, assign) double itemCost;
 @end
 
 @interface HDItemManager : NSObject

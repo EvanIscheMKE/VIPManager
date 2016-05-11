@@ -10,6 +10,13 @@
 
 @implementation HDUserObject
 
+- (NSString *)fullname {
+    if (self.firstName && self.lastName) {
+        return [NSString stringWithFormat:@"%@ %@",self.firstName, self.lastName];
+    }
+    return nil;
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"LASTNAME:%@, FIRSTNAME:%@, EMAIL:%@", self.lastName, self.firstName, self.email];
 }

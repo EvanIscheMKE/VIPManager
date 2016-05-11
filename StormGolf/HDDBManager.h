@@ -26,6 +26,11 @@ typedef void (^CompletionBlock)(NSArray *results);
 - (void)executeQuery:(NSString *)query;
 - (void)closeDatabase;
 
+
++ (NSString *)queryStringForLastName:(NSString *)lastName;
++ (NSString *)queryStringForFirstName:(NSString *)firstName;
++ (NSString *)queryStringForFirstName:(NSString *)firstName
+                             lastName:(NSString *)lastName;
 + (NSString *)executableStringWithFirstName:(NSString *)firstname
                                    lastname:(NSString *)lastname
                                       email:(NSString *)email;

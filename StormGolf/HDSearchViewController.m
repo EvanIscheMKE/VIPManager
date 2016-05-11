@@ -23,8 +23,6 @@
         self.customSearchBar.tintColor = textColor;
         self.customSearchBar.barTintColor = tintColor;
         self.customSearchBar.showsCancelButton = YES;
-        self.customSearchBar.showsBookmarkButton = NO;
-        self.customSearchBar.delegate = self;
     }
     return self;
 }

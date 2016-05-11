@@ -133,31 +133,31 @@ static const CGFloat TRANSITION_DESCRIPTION_SCREEN_PERCENTAGE = .16875;
 #pragma mark - Setters
 
 - (void)setMemberName:(NSString *)memberName {
-    [(UILabel *)self.subviews[0] setText:memberName];
+    [(UILabel *)self.contentView.subviews[0] setText:memberName];
 }
 
 - (void)setStartingBalance:(NSString *)startingBalance {
-    [(UILabel *)self.subviews[1] setText:startingBalance];
+    [(UILabel *)self.contentView.subviews[1] setText:startingBalance];
 }
 
 - (void)setEndingBalance:(NSString *)endingBalance {
-     [(UILabel *)self.subviews[2] setText:endingBalance];
+     [(UILabel *)self.contentView.subviews[2] setText:endingBalance];
 }
 
 - (void)setItemCost:(NSString *)itemCost {
-     [(UILabel *)self.subviews[3] setText:itemCost];
+     [(UILabel *)self.contentView.subviews[3] setText:itemCost];
 }
 
 - (void)setCashierName:(NSString *)cashierName {
-    [(UILabel *)self.subviews[4] setText:cashierName];
+    [(UILabel *)self.contentView.subviews[4] setText:cashierName];
 }
 
 - (void)setTransactionDate:(NSString *)transactionDate {
-    [(UILabel *)self.subviews[5] setText:transactionDate];
+    [(UILabel *)self.contentView.subviews[5] setText:transactionDate];
 }
 
 - (void)setItemDescription:(NSString *)itemDescription {
-     [(UILabel *)self.subviews[6] setText:itemDescription];
+     [(UILabel *)self.contentView.subviews[6] setText:itemDescription];
 }
 
 @end

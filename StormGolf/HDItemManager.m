@@ -14,7 +14,7 @@ NSString * const HDCostKey = @"cost";
 
 @implementation HDItem
 
-- (instancetype)initWithDescription:(NSString *)description cost:(NSUInteger)cost {
+- (instancetype)initWithDescription:(NSString *)description cost:(double)cost {
     if (self = [super init]) {
         self.itemDescription = description;
         self.itemCost = cost;
@@ -22,19 +22,21 @@ NSString * const HDCostKey = @"cost";
     return self;
 }
 
-#pragma mark - Encoder
+#pragma mark - Decoder
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     if (self = [super init]) {
-       self.itemCost = (unsigned)[aDecoder decodeIntegerForKey:HDCostKey];
+       self.itemCost = [aDecoder decodeDoubleForKey:HDCostKey];
        self.itemDescription = [aDecoder decodeObjectForKey:HDDescriptionKey];
     }
     return self;
 }
 
+#pragma mark - Encoder
+
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:self.itemDescription forKey:HDDescriptionKey];
-    [aCoder encodeInteger:self.itemCost forKey:HDCostKey];
+    [aCoder encodeDouble:self.itemCost forKey:HDCostKey];
 }
 
 @end
@@ -46,7 +48,6 @@ NSString * const HDCostKey = @"cost";
 @implementation HDItemManager
 
 + (HDItemManager *)sharedManager {
-    
     static HDItemManager *sharedManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -93,7 +94,7 @@ NSString * const HDCostKey = @"cost";
         NSString *path = [[NSBundle mainBundle] pathForResource:@"items" ofType:@"plist"];
         NSArray *itemsAsDictionary = [[NSArray alloc] initWithContentsOfFile:path];
         for (NSDictionary *itemDictionary in itemsAsDictionary) {
-            HDItem *item = [[HDItem alloc] initWithDescription:itemDictionary[HDDescriptionKey] cost:[itemDictionary[HDCostKey] integerValue]];
+            HDItem *item = [[HDItem alloc] initWithDescription:itemDictionary[HDDescriptionKey] cost:[itemDictionary[HDCostKey] doubleValue]];
             [items addObject:item];
         }
         [self _save:items];

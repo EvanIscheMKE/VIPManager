@@ -12,28 +12,30 @@
 #import "HDBasePresentationController.h"
 #import "HDItemManagerViewController.h"
 #import "HDSearchViewController.h"
+#import "HDUserObject.h"
 #import "HDSearchBar.h"
 #import "HDDBManager.h"
 
 const CGFloat TEXTFIELD_HEIGHT = 70.0f;
-const CGFloat TEXTFIELD_PADDING = 30.0f;
 
 NSString * const HDNewMemberKey = @"New Member";
 NSString * const HDItemManagerKey = @"Item Manager";
 NSString * const HDAccountManagerKey = @"Account Manager";
 NSString * const HDTransactionsKey = @"Transactions";
 
+NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseIdentifier";
 @interface HDHomeViewController () < UITableViewDelegate,
                                      UITableViewDataSource,
                                      UISearchBarDelegate >
 @property (nonatomic, strong) HDSearchViewController *searchController;
-@property (nonatomic, strong) UITextField *textField;
+@property (nonatomic, strong) HDSearchBar *searchBar;
 @property (nonatomic, strong) UITableView *tableView;
 @end
 
 @implementation HDHomeViewController {
     BOOL _shouldShowSearchResults;
     CGRect _previousTextFieldFrame;
+    NSArray *_queryResults;
 }
 
 - (void)dealloc {
@@ -61,31 +63,29 @@ NSString * const HDTransactionsKey = @"Transactions";
     self.searchController.searchBar.delegate = self;
     
     self.tableView = [[UITableView alloc] initWithFrame:CGRectOffset(self.view.bounds, 0.0f, statusBarHeight)];
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"test"];
+    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:HDTableViewCellReuseIdentifier];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.tableView.tableHeaderView = self.searchController.customSearchBar;
     self.tableView.hidden = YES;
     [self.view addSubview:self.tableView];
     
     const CGRect bounds = CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.view.bounds)/1.5f, TEXTFIELD_HEIGHT);
-    self.searchController.customSearchBar.frame = bounds;
-    self.searchController.customSearchBar.center = self.view.center;
-    self.searchController.customSearchBar.layer.cornerRadius = 5.0f;
-    self.searchController.customSearchBar.layer.masksToBounds = YES;
-    [self.view addSubview:self.searchController.customSearchBar];
+    self.searchBar = [[HDSearchBar alloc] initWithFrame:bounds textColor:[UIColor flatPeterRiverColor]];
+    self.searchBar.barTintColor = [UIColor whiteColor];
+    self.searchBar.tintColor = [UIColor flatPeterRiverColor];
+    self.searchBar.placeholder = self.searchController.searchBar.placeholder;
+    self.searchBar.center = self.view.center;
+    self.searchBar.layer.cornerRadius = 5.0f;
+    self.searchBar.layer.masksToBounds = YES;
+    [self.view addSubview:self.searchBar];
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(_keyboardWillShow:)
-                                                 name:UIKeyboardWillShowNotification object:nil];
+                                             selector:@selector(_keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(_keyboardWillHide:)
-                                                 name:UIKeyboardWillHideNotification object:nil];
+                                             selector:@selector(_keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
     [super viewDidLoad];
-}
-
-- (NSAttributedString *)_attributedPlaceholderString:(NSString *)string {
-    return [[NSAttributedString alloc] initWithString:string attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:22.0f]}];
 }
 
 #pragma mark - <UISearchBarDelegate>
@@ -96,7 +96,19 @@ NSString * const HDTransactionsKey = @"Transactions";
         return;
     }
     
-    [self.tableView reloadData];
+    NSString *firstName, *lastName;
+    NSArray *nameParts = [searchText componentsSeparatedByString:@" "];
+    firstName = nameParts.firstObject;
+    if (nameParts.count == 2) {
+        lastName = [nameParts objectAtIndex:1];
+    }
+    
+    NSString *queryString = [HDDBManager queryStringForFirstName:firstName
+                                                        lastName:lastName];
+    [[HDDBManager sharedManager] queryUserDataFromDatabase:queryString completion:^(NSArray *results) {
+        _queryResults = results;
+        [self.tableView reloadData];
+    }];
 }
 
 - (void)searchBarTextDidBeginEditing:(HDSearchBar *)searchBar {
@@ -107,6 +119,7 @@ NSString * const HDTransactionsKey = @"Transactions";
 - (void)searchBarCancelButtonClicked:(HDSearchBar *)searchBar {
     _shouldShowSearchResults = NO;
     [self.tableView reloadData];
+    [self.searchController.searchBar resignFirstResponder];
 }
 
 - (void)searchBarSearchButtonClicked:(HDSearchBar *)searchBar {
@@ -120,47 +133,58 @@ NSString * const HDTransactionsKey = @"Transactions";
 #pragma mark - UITableViewDelegate/UITableViewDatasource
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"test" forIndexPath:indexPath];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HDTableViewCellReuseIdentifier
+                                                            forIndexPath:indexPath];
+    
+    HDUserObject *user = _queryResults[indexPath.row];
+    cell.textLabel.text = user.fullname;
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     if ( _shouldShowSearchResults) {
-        return 5;
+        return _queryResults.count;
     }
-    return 10;
+    return 0;
 }
 
 #pragma mark - <Actions>
 
 - (IBAction)_keyboardWillShow:(NSNotification *)notification {
     
-     _previousTextFieldFrame = self.searchController.customSearchBar.frame;
+     _previousTextFieldFrame = self.searchBar.frame;
     
+    [self.searchController.customSearchBar becomeFirstResponder];
+
     NSDictionary *userInfoDictionary = [notification userInfo];
     NSTimeInterval duration = [userInfoDictionary[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     [UIView animateWithDuration:duration
                      animations:^{
-                         CGRect frame = self.searchController.customSearchBar.frame;
+                         CGRect frame = self.searchBar.frame;
                          frame.origin.x = 0.0f;
                          frame.origin.y = 20.0f;
                          frame.size.width = CGRectGetWidth(self.view.bounds);
-                         self.searchController.customSearchBar.frame = frame;
-                         self.searchController.customSearchBar.layer.masksToBounds = NO;
+                         self.searchBar.frame = frame;
+                         self.searchBar.layer.masksToBounds = NO;
                      } completion:^(BOOL finished) {
-                         self.tableView.tableHeaderView = self.searchController.customSearchBar;
                          self.tableView.hidden = NO;
+                         self.searchBar.hidden = YES;
                      }];
 }
 
 - (IBAction)_keyboardWillHide:(NSNotification *)notification {
     
+    _queryResults = nil;
+    
+    self.searchBar.hidden = NO;
+    self.tableView.hidden = YES;
+    
     NSDictionary *userInfoDictionary = [notification userInfo];
     NSTimeInterval duration = [userInfoDictionary[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
     [UIView animateWithDuration:duration
                      animations:^{
-                         self.searchController.customSearchBar.frame = _previousTextFieldFrame;
-                         self.searchController.customSearchBar.layer.cornerRadius = 5.0f;
+                         self.searchBar.frame = _previousTextFieldFrame;
+                         self.searchBar.layer.masksToBounds = YES;
                      } completion:nil];
 }
 

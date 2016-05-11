@@ -82,8 +82,7 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         formatter = [[NSNumberFormatter alloc] init];
-        formatter.roundingIncrement = [NSNumber numberWithDouble:0.01];
-        formatter.numberStyle = NSNumberFormatterDecimalStyle;
+        formatter.numberStyle = NSNumberFormatterCurrencyStyle;
     });
     return formatter;
 }

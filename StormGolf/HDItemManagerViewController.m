@@ -15,6 +15,7 @@ static NSString * const HDTableViewReuseIdentifier = @"HDTableViewReuseIdentifie
 
 - (void)viewDidLoad {
     
+    self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"Item Manager";
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
@@ -32,12 +33,13 @@ static NSString * const HDTableViewReuseIdentifier = @"HDTableViewReuseIdentifie
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HDTableViewReuseIdentifier forIndexPath:indexPath];
     cell.textLabel.text = [[HDItemManager sharedManager] itemAtIndex:indexPath.row].itemDescription;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%lu",[[HDItemManager sharedManager] itemAtIndex:indexPath.row].itemCost];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%f",[[HDItemManager sharedManager] itemAtIndex:indexPath.row].itemCost];
     return  cell;
 }
 
-- (IBAction)_addItem:(id)sender {
-    
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.tableView.frame = self.view.bounds;
 }
 
 @end

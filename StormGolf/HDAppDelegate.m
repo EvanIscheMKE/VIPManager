@@ -6,9 +6,12 @@
 //  Copyright © 2016 Evan William Ische. All rights reserved.
 //
 
+#import "HDItemManager.h"
+#import "HDDBManager.h"
 #import "HDAppDelegate.h"
 #import "HDHomeViewController.h"
 #import "HDItemManagerViewController.h"
+#import "HDItemManagerDetailViewController.h"
 #import "HDTransactionsViewController.h"
 #import "HDNewMemberViewController.h"
 #import "UIColor+ColorAdditions.h"
@@ -38,8 +41,11 @@
     controller5.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:5];
     
     controller2.delegate = self;
+    controller2.extendedLayoutIncludesOpaqueBars = YES;
+    controller2.minimumPrimaryColumnWidth = CGRectGetMidX([[UIScreen mainScreen] bounds]) * .9;
+    controller2.maximumPrimaryColumnWidth = CGRectGetMidX([[UIScreen mainScreen] bounds]) * .9;
     controller2.viewControllers = @[[[UINavigationController alloc] initWithRootViewController:[HDItemManagerViewController new]],
-                                    [[UINavigationController alloc] initWithRootViewController:[UIViewController new]]];
+                                    [[UINavigationController alloc] initWithRootViewController:[HDItemManagerDetailViewController new]]];
     
     /* */
     UINavigationController *navigationController1 = [[UINavigationController alloc] initWithRootViewController:controller1];
@@ -72,7 +78,67 @@
     [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setTintColor:[UIColor flatSTRedColor]];
     
+    [UILabel appearanceWhenContainedInInstancesOfClasses:@[[UIView class]]].textColor = [UIColor flatPeterRiverColor];
+    
+    
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"first"]) {
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"first"];
+        [self _populateWithSampleData];
+    }
+    
     return YES;
+}
+
+- (void)_populateWithSampleData {
+    /* populate App With Test Data */
+    NSString* path = [[NSBundle mainBundle] pathForResource:@"FullNames"
+                                                     ofType:@"txt"];
+    
+    NSError *error = nil;
+    NSString* content = [NSString stringWithContentsOfFile:path
+                                                  encoding:NSUTF8StringEncoding
+                                                     error:&error];
+    
+    NSArray *names = [content componentsSeparatedByString:@"\n"];
+    
+    NSUInteger userID = 0;
+    for (NSString *fullname in names) {
+        
+        NSString *firstname = [fullname componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].firstObject;
+        NSString *lastname = [fullname componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].lastObject;
+        NSString *email = [NSString stringWithFormat:@"%@%@.icloud.com",firstname,lastname];
+        
+        NSString *query1 = [HDDBManager executableStringWithFirstName:firstname
+                                                             lastname:lastname
+                                                                email:email];
+        [[HDDBManager sharedManager] executeQuery:query1];
+        if ([HDDBManager sharedManager].affectedRows != 0) {
+            NSLog(@"Query 1 was executed successfully. Affected rows = %ld", (long)[HDDBManager sharedManager].affectedRows);
+        } else {
+            NSLog(@"Could not execute the query.");
+        }
+        
+        NSString *query = [HDDBManager executableStringWithUserName:[NSString stringWithFormat:@"%@ %@",firstname,lastname]
+                                                              price:75.00
+                                                        description:@"VIP Member"
+                                                             userID:userID];
+        [[HDDBManager sharedManager] executeQuery:query];
+        for (NSUInteger i = 0; i < (arc4random() % 4); i++) {
+            NSUInteger count = [[HDItemManager sharedManager] count];
+            NSUInteger index = arc4random() % count;
+            NSString *query = [HDDBManager executableStringWithUserName:[NSString stringWithFormat:@"%@ %@",firstname,lastname]
+                                                                  price:[[HDItemManager sharedManager] itemAtIndex:index].itemCost
+                                                            description:[[HDItemManager sharedManager] itemAtIndex:index].itemDescription
+                                                                 userID:userID];
+            [[HDDBManager sharedManager] executeQuery:query];
+            if ([HDDBManager sharedManager].affectedRows != 0) {
+                NSLog(@"Query 1 was executed successfully. Affected rows = %ld", (long)[HDDBManager sharedManager].affectedRows);
+            } else {
+                NSLog(@"Could not execute the query.");
+            }
+        }
+        userID++;
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
