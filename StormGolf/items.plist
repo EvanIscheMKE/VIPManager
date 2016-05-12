@@ -30,7 +30,7 @@
 		<key>description</key>
 		<string>VIP Card</string>
 		<key>cost</key>
-		<real>75</real>
+		<integer>75</integer>
 	</dict>
 	<dict>
 		<key>description</key>

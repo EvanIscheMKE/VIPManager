@@ -78,9 +78,6 @@
     [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
     [[UINavigationBar appearance] setTintColor:[UIColor flatSTRedColor]];
     
-    [UILabel appearanceWhenContainedInInstancesOfClasses:@[[UIView class]]].textColor = [UIColor flatPeterRiverColor];
-    
-    
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"first"]) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"first"];
         [self _populateWithSampleData];
@@ -101,7 +98,7 @@
     
     NSArray *names = [content componentsSeparatedByString:@"\n"];
     
-    NSUInteger userID = 0;
+    NSUInteger userID = 1;
     for (NSString *fullname in names) {
         
         NSString *firstname = [fullname componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].firstObject;
@@ -120,16 +117,17 @@
         
         NSString *query = [HDDBManager executableStringWithUserName:[NSString stringWithFormat:@"%@ %@",firstname,lastname]
                                                               price:75.00
-                                                        description:@"VIP Member"
-                                                             userID:userID];
+                                                        description:@"Created Account"
+                                                             userID:userID
+                                                              admin:@"ADMIN"];
         [[HDDBManager sharedManager] executeQuery:query];
         for (NSUInteger i = 0; i < (arc4random() % 4); i++) {
-            NSUInteger count = [[HDItemManager sharedManager] count];
-            NSUInteger index = arc4random() % count;
+            NSUInteger index = arc4random() % [[HDItemManager sharedManager] count];
             NSString *query = [HDDBManager executableStringWithUserName:[NSString stringWithFormat:@"%@ %@",firstname,lastname]
                                                                   price:[[HDItemManager sharedManager] itemAtIndex:index].itemCost
                                                             description:[[HDItemManager sharedManager] itemAtIndex:index].itemDescription
-                                                                 userID:userID];
+                                                                 userID:userID
+                                                                  admin:@"ADMIN"];
             [[HDDBManager sharedManager] executeQuery:query];
             if ([HDDBManager sharedManager].affectedRows != 0) {
                 NSLog(@"Query 1 was executed successfully. Affected rows = %ld", (long)[HDDBManager sharedManager].affectedRows);

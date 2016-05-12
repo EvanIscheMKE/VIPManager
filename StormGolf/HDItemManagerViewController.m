@@ -7,23 +7,20 @@
 //
 
 #import "HDItemManagerViewController.h"
+#import "HDItemManagerTableViewCell.h"
 #import "HDItemManager.h"
+#import "UIColor+ColorAdditions.h"
+#import "HDHelper.h"
 
 static NSString * const HDTableViewReuseIdentifier = @"HDTableViewReuseIdentifier";
 
 @implementation HDItemManagerViewController
 
 - (void)viewDidLoad {
-    
+    [super viewDidLoad];
+    [self.tableView registerClass:[HDItemManagerTableViewCell class] forCellReuseIdentifier:HDTableViewReuseIdentifier];
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"Item Manager";
-    
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                                           target:self
-                                                                                           action:@selector(_addItem:)];
-    
-    [super viewDidLoad];
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:HDTableViewReuseIdentifier];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -31,9 +28,10 @@ static NSString * const HDTableViewReuseIdentifier = @"HDTableViewReuseIdentifie
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HDTableViewReuseIdentifier forIndexPath:indexPath];
+    HDItemManagerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HDTableViewReuseIdentifier forIndexPath:indexPath];
     cell.textLabel.text = [[HDItemManager sharedManager] itemAtIndex:indexPath.row].itemDescription;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%f",[[HDItemManager sharedManager] itemAtIndex:indexPath.row].itemCost];
+    cell.detailTextLabel.text = [HDHelper stringFromNumber:[[HDItemManager sharedManager] itemAtIndex:indexPath.row].itemCost];
+    cell.detailTextLabel.textColor = [UIColor flatPeterRiverColor];
     return  cell;
 }
 

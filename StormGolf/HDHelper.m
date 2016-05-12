@@ -42,16 +42,18 @@
     NSInteger indexOfUserID = [columns indexOfObject:@"userID"];
     NSInteger indexOfDescription = [columns indexOfObject:@"item"];
     NSInteger indexOfTransactionID = [columns indexOfObject:@"transactionID"];
+    NSInteger indexOfAdmin = [columns indexOfObject:@"admin"];
     
     NSMutableArray *temporaryArray = [NSMutableArray arrayWithCapacity:rawTransactionData.count];
     for (NSArray *transactionInfo in rawTransactionData) {
         HDTransactionObject *transaction = [HDTransactionObject new];
-        transaction.transactionID = [transactionInfo[indexOfTransactionID] integerValue];
-        transaction.transactionDate = [NSDate dateWithTimeIntervalSince1970:[transactionInfo[indexOfDate] integerValue]];
-        transaction.transactionDescription = transactionInfo[indexOfDescription];
-        transaction.transactionPrice = [transactionInfo[indexOfPrice] floatValue];
+        transaction.iD = [transactionInfo[indexOfTransactionID] integerValue];
+        transaction.date = [NSDate dateWithTimeIntervalSince1970:[transactionInfo[indexOfDate] integerValue]];
+        transaction.title = transactionInfo[indexOfDescription];
+        transaction.cost = [transactionInfo[indexOfPrice] floatValue];
         transaction.userID = [transactionInfo[indexOfUserID] integerValue];
         transaction.username = transactionInfo[indexOfUsername];
+        transaction.admin = transactionInfo[indexOfAdmin];
         [temporaryArray addObject:transaction];
     }
     return temporaryArray;
@@ -85,59 +87,6 @@
         formatter.numberStyle = NSNumberFormatterCurrencyStyle;
     });
     return formatter;
-}
-
-+ (void)currentUserBalanceWithUserID:(NSUInteger)userID results:(ResultsBlock)resultsBlock {
-    
-    /* Starting Balance for all Members */
-    __block float currentBalance = 00.00;
-    
-    NSString * const ADD_IF_TRUE = @"VIP Card";
-    
-    /* Perform query */
-    __block NSArray *queryResults = nil;
-    NSString *query = [HDDBManager queryStringForTransactionsFromUserID:userID];
-    [[HDDBManager sharedManager] queryTransactionDataFromDatabase:query completion:^(NSArray *results) {
-        queryResults = [[NSArray alloc] initWithArray:results];
-        for (HDTransactionObject *transaction in queryResults) {
-            if (transaction.transactionDescription == ADD_IF_TRUE) {
-                // Add cost
-                currentBalance += transaction.transactionPrice;
-            } else {
-                // Subtract cost
-                currentBalance -= transaction.transactionPrice;
-            }
-        }
-        resultsBlock(currentBalance);
-    }];
-}
-
-
-+ (void)currentUser:(NSUInteger)userID
-balanceForTransactionID:(NSUInteger)transactionID
-            results:(ResultsBlock)resultsBlock {
-    
-    /* Starting Balance for all Members */
-    __block float currentBalance = 00.00;
-    
-    NSString * const ADD_IF_TRUE = @"VIP Card";
-    
-    /* Perform query */
-    __block NSArray *queryResults = nil;
-    NSString *query = [HDDBManager queryStringForTransactionsFromUserID:userID beforeTransitionID:transactionID];
-    [[HDDBManager sharedManager] queryTransactionDataFromDatabase:query completion:^(NSArray *results) {
-        queryResults = [[NSArray alloc] initWithArray:results];
-        for (HDTransactionObject *transaction in queryResults) {
-            if (transaction.transactionDescription == ADD_IF_TRUE) {
-                // Add cost
-                currentBalance += transaction.transactionPrice;
-            } else {
-                // Subtract cost
-                currentBalance -= transaction.transactionPrice;
-            }
-        }
-        resultsBlock(currentBalance);
-    }];
 }
 
 @end

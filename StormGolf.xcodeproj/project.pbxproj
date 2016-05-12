@@ -39,12 +39,13 @@
 		38721A3A1CCABDA7007B9FE3 /* StormGolfTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38721A391CCABDA7007B9FE3 /* StormGolfTests.m */; };
 		38721A4A1CCACD43007B9FE3 /* UIColor+ColorAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 38721A491CCACD43007B9FE3 /* UIColor+ColorAdditions.m */; };
 		387CBEBF1CD0746900B5B342 /* HDBasePresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387CBEBE1CD0746900B5B342 /* HDBasePresentationController.m */; };
-		38AE1EB81CDABE9200847B67 /* stormgolfdatabase.sql in Resources */ = {isa = PBXBuildFile; fileRef = 38AE1EB71CDABE9200847B67 /* stormgolfdatabase.sql */; };
 		38B7FBD11CDCEC970038F49A /* HDTransactionsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B7FBD01CDCEC970038F49A /* HDTransactionsHeaderView.m */; };
 		38BDC2F41CCD4C9F00E8B77D /* HDItemManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BDC2F31CCD4C9F00E8B77D /* HDItemManager.m */; };
 		38D4B0541CE39E2700BF7311 /* HDItemManagerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4B0531CE39E2700BF7311 /* HDItemManagerDetailViewController.m */; };
 		38D4B0591CE3D9A800BF7311 /* HDHomeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4B0581CE3D9A800BF7311 /* HDHomeDetailViewController.m */; };
 		38D4B05B1CE3DDAF00BF7311 /* FullNames.txt in Resources */ = {isa = PBXBuildFile; fileRef = 38D4B05A1CE3DDAF00BF7311 /* FullNames.txt */; };
+		38D4B0611CE3F56400BF7311 /* HDItemManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4B0601CE3F56400BF7311 /* HDItemManagerTableViewCell.m */; };
+		38D4B0631CE403C700BF7311 /* stormdb.sql in Resources */ = {isa = PBXBuildFile; fileRef = 38D4B0621CE403C700BF7311 /* stormdb.sql */; };
 		38EB90101CE3691800F261C1 /* HDSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EB900F1CE3691800F261C1 /* HDSearchBar.m */; };
 		38EB90131CE36F7F00F261C1 /* HDSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EB90121CE36F7F00F261C1 /* HDSearchViewController.m */; };
 		38EE1DAD1CDB0E06009ABB87 /* HDDataGridTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */; };
@@ -127,7 +128,6 @@
 		38721A491CCACD43007B9FE3 /* UIColor+ColorAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ColorAdditions.m"; sourceTree = "<group>"; };
 		387CBEBD1CD0746900B5B342 /* HDBasePresentationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDBasePresentationController.h; sourceTree = "<group>"; };
 		387CBEBE1CD0746900B5B342 /* HDBasePresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDBasePresentationController.m; sourceTree = "<group>"; };
-		38AE1EB71CDABE9200847B67 /* stormgolfdatabase.sql */ = {isa = PBXFileReference; lastKnownFileType = file; path = stormgolfdatabase.sql; sourceTree = "<group>"; };
 		38B7FBCF1CDCEC970038F49A /* HDTransactionsHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDTransactionsHeaderView.h; sourceTree = "<group>"; };
 		38B7FBD01CDCEC970038F49A /* HDTransactionsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDTransactionsHeaderView.m; sourceTree = "<group>"; };
 		38BDC2F21CCD4C9F00E8B77D /* HDItemManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDItemManager.h; sourceTree = "<group>"; };
@@ -137,6 +137,9 @@
 		38D4B0571CE3D9A800BF7311 /* HDHomeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDHomeDetailViewController.h; sourceTree = "<group>"; };
 		38D4B0581CE3D9A800BF7311 /* HDHomeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDHomeDetailViewController.m; sourceTree = "<group>"; };
 		38D4B05A1CE3DDAF00BF7311 /* FullNames.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FullNames.txt; sourceTree = "<group>"; };
+		38D4B05F1CE3F56400BF7311 /* HDItemManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDItemManagerTableViewCell.h; sourceTree = "<group>"; };
+		38D4B0601CE3F56400BF7311 /* HDItemManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDItemManagerTableViewCell.m; sourceTree = "<group>"; };
+		38D4B0621CE403C700BF7311 /* stormdb.sql */ = {isa = PBXFileReference; lastKnownFileType = file; name = stormdb.sql; path = ../stormdb.sql; sourceTree = "<group>"; };
 		38EB900E1CE3691800F261C1 /* HDSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDSearchBar.h; sourceTree = "<group>"; };
 		38EB900F1CE3691800F261C1 /* HDSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDSearchBar.m; sourceTree = "<group>"; };
 		38EB90111CE36F7F00F261C1 /* HDSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDSearchViewController.h; sourceTree = "<group>"; };
@@ -247,7 +250,7 @@
 			isa = PBXGroup;
 			children = (
 				381A1C821CDA831D00445AB6 /* FSCalendar */,
-				38AE1EB71CDABE9200847B67 /* stormgolfdatabase.sql */,
+				38D4B0621CE403C700BF7311 /* stormdb.sql */,
 				38D4B05A1CE3DDAF00BF7311 /* FullNames.txt */,
 				38721A301CCABDA7007B9FE3 /* Info.plist */,
 				38721A201CCABDA7007B9FE3 /* main.m */,
@@ -356,6 +359,8 @@
 				38B7FBD01CDCEC970038F49A /* HDTransactionsHeaderView.m */,
 				38EB900E1CE3691800F261C1 /* HDSearchBar.h */,
 				38EB900F1CE3691800F261C1 /* HDSearchBar.m */,
+				38D4B05F1CE3F56400BF7311 /* HDItemManagerTableViewCell.h */,
+				38D4B0601CE3F56400BF7311 /* HDItemManagerTableViewCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -460,12 +465,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38D4B0631CE403C700BF7311 /* stormdb.sql in Resources */,
 				38721A2F1CCABDA7007B9FE3 /* LaunchScreen.storyboard in Resources */,
 				38721A2C1CCABDA7007B9FE3 /* Assets.xcassets in Resources */,
 				38D4B05B1CE3DDAF00BF7311 /* FullNames.txt in Resources */,
 				381A1CAF1CDA831D00445AB6 /* Info.plist in Resources */,
 				3822206E1CD3D147003A446A /* items.plist in Resources */,
-				38AE1EB81CDABE9200847B67 /* stormgolfdatabase.sql in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -483,6 +488,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38D4B0611CE3F56400BF7311 /* HDItemManagerTableViewCell.m in Sources */,
 				381A1CA31CDA831D00445AB6 /* CALayer+FSExtension.m in Sources */,
 				381A1CAB1CDA831D00445AB6 /* FSCalendarEventIndicator.m in Sources */,
 				38721A271CCABDA7007B9FE3 /* HDHomeViewController.m in Sources */,

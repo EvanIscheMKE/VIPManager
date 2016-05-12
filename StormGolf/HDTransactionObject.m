@@ -11,12 +11,16 @@
 @implementation HDTransactionObject
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"TRANSACTIONID:%zd, USERID:%zd, COST:%f, TIMESTAMP:%@, USERNAME:%@, DESCRIPTION:%@ ",self.transactionID,
+    return [NSString stringWithFormat:@"TRANSACTIONID:%zd, USERID:%zd, COST:%f, TIMESTAMP:%@, USERNAME:%@, DESCRIPTION:%@ ",self.iD,
             self.userID,
-            self.transactionPrice,
-            self.transactionDate,
+            self.cost,
+            self.date,
             self.username,
-            self.transactionDescription];
+            self.title];
+}
+
+- (BOOL)addition {
+    return [self.title isEqualToString:@"VIP Card"] || [self.title isEqualToString:@"Created Account"];
 }
 
 @end

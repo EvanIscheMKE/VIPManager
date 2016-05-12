@@ -7,6 +7,7 @@
 //
 
 #import "HDSearchBar.h"
+#import "UIColor+ColorAdditions.h"
 
 @interface HDSearchBar ()
 @property (nonatomic, strong) UIColor *preferredTextColor;
@@ -40,10 +41,11 @@
 }
 
 - (void)drawRect:(CGRect)rect {
+    
     UITextField *textField = self.subviews.firstObject.subviews[[self indexOfSearchFieldInSubviews]];
     textField.frame = CGRectInset(self.bounds, 5.0f, 5.0f);
     textField.backgroundColor = self.barTintColor;
-    textField.textColor = _preferredTextColor;
+    textField.textColor = self.preferredTextColor;
 }
 
 

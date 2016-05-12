@@ -9,6 +9,7 @@
 @import Foundation;
 
 typedef void (^CompletionBlock)(NSArray *results);
+typedef void (^ResultsBlock)(float startingBalance);
 
 @interface HDDBManager : NSObject
 + (HDDBManager *)sharedManager;
@@ -25,22 +26,23 @@ typedef void (^CompletionBlock)(NSArray *results);
                               completion:(CompletionBlock)completion;
 - (void)executeQuery:(NSString *)query;
 - (void)closeDatabase;
+- (void)currentUser:(NSInteger)userID
+balanceForTransactionID:(NSInteger)transactionID
+            results:(ResultsBlock)resultsBlock;
 
-
-+ (NSString *)queryStringForLastName:(NSString *)lastName;
-+ (NSString *)queryStringForFirstName:(NSString *)firstName;
 + (NSString *)queryStringForFirstName:(NSString *)firstName
                              lastName:(NSString *)lastName;
 + (NSString *)executableStringWithFirstName:(NSString *)firstname
                                    lastname:(NSString *)lastname
                                       email:(NSString *)email;
 + (NSString *)executableStringWithUserName:(NSString *)username
-                                     price:(float)price
+                                     price:(double)price
                                description:(NSString *)description
-                                    userID:(NSInteger)userID;
-+ (NSString *)queryStringFromUnixStartDate:(NSUInteger)startDate
-                                finishDate:(NSUInteger)finishDate;
-+ (NSString *)queryStringForTransactionsFromUserID:(NSUInteger)userID;
-+ (NSString *)queryStringForTransactionsFromUserID:(NSUInteger)userID
-                                beforeTransitionID:(NSUInteger)transitionID;
+                                    userID:(NSInteger)userID
+                                     admin:(NSString *)admin;
++ (NSString *)queryStringFromUnixStartDate:(NSInteger)startDate
+                                finishDate:(NSInteger)finishDate;
++ (NSString *)queryStringForTransactionsFromUserID:(NSInteger)userID;
++ (NSString *)queryStringForTransactionsFromUserID:(NSInteger)userID
+                                beforeTransitionID:(NSInteger)transitionID;
 @end

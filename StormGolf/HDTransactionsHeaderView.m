@@ -107,11 +107,11 @@ static const CGFloat TRANSITION_DESCRIPTION_SCREEN_PERCENTAGE = .16875;
         case 1:
             return @"Starting";
         case 2:
-            return @"Ending\nBalance";
+            return @"Ending";
         case 3:
             return @"Cost";
         case 4:
-            return @"Cashier\nName";
+            return @"Cashier";
         case 5:
             return @"Transaction Date";
         case 6:

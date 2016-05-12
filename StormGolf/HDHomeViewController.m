@@ -45,6 +45,8 @@ NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseIdentifi
 
 - (void)viewDidLoad {
     
+    NSLog(@"%@",NSStringFromCGRect(self.view.bounds));
+    
     self.navigationController.navigationBarHidden = TRUE;
     self.view.backgroundColor = [UIColor whiteColor];
     

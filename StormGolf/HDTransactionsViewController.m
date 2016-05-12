@@ -49,16 +49,20 @@ forHeaderFooterViewReuseIdentifier:HDTableViewReusableHeaderFooterIdentifier];
 
     NSString *query = [HDDBManager queryStringFromUnixStartDate:unixTodayMorning
                                                  finishDate:[NSDate.date timeIntervalSince1970]];
+    
 #if DEBUG
-    query = @"select * from trans";
+    query = @"select * from transactions";
 #endif
+    
     [[HDDBManager sharedManager] queryTransactionDataFromDatabase:query completion:^(NSArray *results) {
-        self.currentTransactions = [NSArray arrayWithArray:results];
+         self.currentTransactions = [NSArray arrayWithArray:results];
         [self.tableView reloadData];
+#if DEBUG
         for (HDTransactionObject *transaction in self.currentTransactions) {
-            NSString *startTime = [[HDHelper formatter] stringFromDate:transaction.transactionDate];
-            NSLog(@"%@",startTime);
+            NSString *startTime = [[HDHelper formatter] stringFromDate:transaction.date];
+           // NSLog(@"%@",startTime);
         }
+#endif
     }];
 }
 
@@ -72,19 +76,21 @@ forHeaderFooterViewReuseIdentifier:HDTableViewReusableHeaderFooterIdentifier];
     cell.isTopCell = indexPath.row == 0;
     
     HDTransactionObject *transaction = self.currentTransactions[indexPath.row];
-  
-//    __block float startingBalance = 0.0f;
-//    [HDHelper currentUser:transaction.userID balanceForTransactionID:transaction.transactionID results:^(float currentBalance) {
-//        startingBalance = currentBalance;
-//    }];
-    
-    //const float endingBalance = startingBalance - transaction.transactionPrice;
-    
-    cell.itemCost = [HDHelper stringFromNumber:transaction.transactionPrice];
-    cell.transactionDate = [[HDHelper formatter] stringFromDate:transaction.transactionDate];
-    cell.itemDescription = transaction.transactionDescription;
-    cell.memberName = transaction.username;
-    
+    [[HDDBManager sharedManager] currentUser:transaction.userID balanceForTransactionID:transaction.iD results:^(float starting) {
+        
+        const CGFloat endingBalance = transaction.addition ? starting + transaction.cost : starting - transaction.cost;
+        if ([tableView cellForRowAtIndexPath:indexPath]) {
+            
+            cell.startingBalance = [HDHelper stringFromNumber:starting];
+            cell.endingBalance = [HDHelper stringFromNumber:endingBalance];
+            cell.itemCost = [HDHelper stringFromNumber:transaction.cost];
+            cell.transactionDate = [[HDHelper formatter] stringFromDate:transaction.date];
+            cell.itemDescription = transaction.title;
+            cell.memberName = transaction.username;
+            cell.cashierName = transaction.admin;
+            
+        }
+    }];
     return cell;
 }
 
@@ -130,7 +136,7 @@ updatedQueryStartDate:(NSDate *)start
         self.currentTransactions = [NSArray arrayWithArray:results];
         [self.tableView reloadData];
         for (HDTransactionObject *transaction in self.currentTransactions) {
-            NSString *startTime = [[HDHelper formatter] stringFromDate:transaction.transactionDate];
+            NSString *startTime = [[HDHelper formatter] stringFromDate:transaction.date];
             NSLog(@"%@",startTime);
         }
     }];

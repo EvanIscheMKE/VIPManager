@@ -8,14 +8,9 @@
 
 @import Foundation;
 
-typedef void (^ResultsBlock)(float currentBalance);
+typedef void (^ResultsBlock)(float startingBalance);
 
 @interface HDHelper : NSObject
-+ (void)currentUserBalanceWithUserID:(NSUInteger)userID
-                             results:(ResultsBlock)resultsBlock;
-+ (void)currentUser:(NSUInteger)userID
-balanceForTransactionID:(NSUInteger)transactionID
-            results:(ResultsBlock)resultsBlock;
 + (NSArray *)userObjectsFromArray:(NSArray *)rawUserData
                   withColumnNames:(NSArray *)columns;
 + (NSArray *)transactionObjectsFromArray:(NSArray *)rawTransactionData

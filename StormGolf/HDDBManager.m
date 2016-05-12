@@ -8,10 +8,11 @@
 
 @import UIKit;
 #import <sqlite3.h>
+#import "HDTransactionObject.h"
 #import "HDDBManager.h"
 #import "HDHelper.h"
 
-static NSString * const HDDatabaseKey = @"stormgolfdatabase.sql";
+static NSString * const HDDatabaseKey = @"stormdb.sql";
 
 typedef void (^CompletionBlock)(NSArray *results);
 
@@ -167,6 +168,61 @@ typedef void (^CompletionBlock)(NSArray *results);
     });
 }
 
+- (void)currentUser:(NSInteger)userID
+balanceForTransactionID:(NSInteger)transactionID
+            results:(ResultsBlock)resultsBlock {
+    
+    /* Starting Balance for all Members */
+    __block float startingBalance = 00.00;
+    dispatch_sync(self.queue, ^{
+     
+        NSLog(@"%zd",userID);
+        
+        NSString *query = [HDDBManager queryStringForTransactionsFromUserID:userID beforeTransitionID:transactionID];
+        
+        [self runQuery:[query UTF8String] isQueryExecutable:NO];
+        
+        for (HDTransactionObject *transaction in [HDHelper transactionObjectsFromArray:self.results withColumnNames:self.columnNames]) {
+            if (transaction.addition) {
+                // Add cost
+                startingBalance += transaction.cost;
+            } else {
+                // Subtract cost
+                startingBalance -= transaction.cost;
+            }
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            resultsBlock(startingBalance);
+        });
+    });
+}
+
+- (void)currentUserBalanceWithUserID:(NSInteger)userID results:(ResultsBlock)resultsBlock {
+    
+    /* Starting Balance for all Members */
+    __block float currentBalance = 00.00;
+    
+    dispatch_sync(self.queue, ^{
+        
+        NSString *query = [HDDBManager queryStringForTransactionsFromUserID:userID];
+        
+        [self runQuery:[query UTF8String] isQueryExecutable:NO];
+        
+        for (HDTransactionObject *transaction in [HDHelper transactionObjectsFromArray:self.results withColumnNames:self.columnNames]) {
+            if (transaction.addition) {
+                // Add cost
+                currentBalance += transaction.cost;
+            } else {
+                // Subtract cost
+                currentBalance -= transaction.cost;
+            }
+        }
+        dispatch_async(dispatch_get_main_queue(), ^{
+            resultsBlock(currentBalance);
+        });
+    });
+}
+
 #pragma mark - Classy 
 
 + (NSString *)queryStringForFirstName:(NSString *)firstName lastName:(NSString *)lastName {
@@ -176,18 +232,18 @@ typedef void (^CompletionBlock)(NSArray *results);
     return [NSString stringWithFormat:@"select * from userInfo WHERE firstname LIKE '%%%@%%' AND lastname LIKE '%%%@%%'",firstName,lastName];
 }
 
-+ (NSString *)queryStringForTransactionsFromUserID:(NSUInteger)userID {
-    return [NSString stringWithFormat:@"select * from trans where userID=%zd",userID];
++ (NSString *)queryStringForTransactionsFromUserID:(NSInteger)userID {
+    return [NSString stringWithFormat:@"select * from transactions where userID=%zd",userID];
 }
 
-+ (NSString *)queryStringForTransactionsFromUserID:(NSUInteger)userID
-                                beforeTransitionID:(NSUInteger)transitionID {
-    return [NSString stringWithFormat:@"select * from trans where userID=%zd AND transitionID<%zd",userID, transitionID];
++ (NSString *)queryStringForTransactionsFromUserID:(NSInteger)userID
+                                beforeTransitionID:(NSInteger)transitionID {
+    return [NSString stringWithFormat:@"select * from transactions where userID=%zd AND transactionID<%zd",userID,transitionID];
 }
 
-+ (NSString *)queryStringFromUnixStartDate:(NSUInteger)startDate
-                                finishDate:(NSUInteger)finishDate {
-   return [NSString stringWithFormat:@"select * from trans where createdAt >= %zd AND createdAt <= %zd", startDate, finishDate];
++ (NSString *)queryStringFromUnixStartDate:(NSInteger)startDate
+                                finishDate:(NSInteger)finishDate {
+   return [NSString stringWithFormat:@"select * from transactions where createdAt >= %zd AND createdAt <= %zd", startDate, finishDate];
 }
 
 + (NSString *)executableStringWithFirstName:(NSString *)firstname
@@ -197,10 +253,11 @@ typedef void (^CompletionBlock)(NSArray *results);
 }
 
 + (NSString *)executableStringWithUserName:(NSString *)username
-                                     price:(float)price
+                                     price:(double)price
                                description:(NSString *)description
-                                    userID:(NSInteger)userID {
-    return [NSString stringWithFormat:@"insert into trans ('username', 'price', 'item', 'userID') values('%@', %f, '%@', %zd)", username, price, description, userID];
+                                    userID:(NSInteger)userID
+                                     admin:(NSString *)admin {
+    return [NSString stringWithFormat:@"insert into transactions ('username', 'price', 'item', 'userID', 'admin') values('%@', %f, '%@', %zd, '%@')", username, price, description, userID, admin];
 }
 
 @end

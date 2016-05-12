@@ -41,24 +41,8 @@ static const CGFloat TRANSITION_DESCRIPTION_SCREEN_PERCENTAGE = .16875;
         for (NSUInteger i = 0; i < _values.count; i++) {
             UILabel *label = [[UILabel alloc] init];
             label.textColor = [UIColor blackColor];
-            label.text = @"$20.00";
             label.textAlignment = NSTextAlignmentCenter;
             [self.contentView addSubview:label];
-            
-            switch (i) {
-                case 0:
-                    label.text = @"EVAN ISCHE";
-                    break;
-                case 4:
-                    label.text = @"ADMIN";
-                    break;
-                case 5:
-                    label.text = [formatter stringFromDate:[NSDate date]];
-                    break;
-                case 6:
-                    label.text = @"VIP Member";
-                    break;
-            }
         }
     }
     return self;
