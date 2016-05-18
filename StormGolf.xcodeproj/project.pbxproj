@@ -26,7 +26,6 @@
 		382220631CD12B2F003A446A /* HDPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 382220621CD12B2F003A446A /* HDPopoverViewController.m */; };
 		382220661CD16837003A446A /* HDItemManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 382220651CD16837003A446A /* HDItemManagerViewController.m */; };
 		382220691CD26EFA003A446A /* HDTransactionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 382220681CD26EFA003A446A /* HDTransactionsViewController.m */; };
-		3822206C1CD27EF8003A446A /* HDNewMemberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3822206B1CD27EF8003A446A /* HDNewMemberViewController.m */; };
 		3822206E1CD3D147003A446A /* items.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3822206D1CD3D147003A446A /* items.plist */; };
 		382845681CD95543002420E4 /* HDHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 382845671CD95543002420E4 /* HDHelper.m */; };
 		3828456B1CD955B0002420E4 /* HDUserObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3828456A1CD955B0002420E4 /* HDUserObject.m */; };
@@ -41,13 +40,13 @@
 		387CBEBF1CD0746900B5B342 /* HDBasePresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 387CBEBE1CD0746900B5B342 /* HDBasePresentationController.m */; };
 		38B7FBD11CDCEC970038F49A /* HDTransactionsHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38B7FBD01CDCEC970038F49A /* HDTransactionsHeaderView.m */; };
 		38BDC2F41CCD4C9F00E8B77D /* HDItemManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BDC2F31CCD4C9F00E8B77D /* HDItemManager.m */; };
-		38D4B0541CE39E2700BF7311 /* HDItemManagerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4B0531CE39E2700BF7311 /* HDItemManagerDetailViewController.m */; };
-		38D4B0591CE3D9A800BF7311 /* HDHomeDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4B0581CE3D9A800BF7311 /* HDHomeDetailViewController.m */; };
 		38D4B05B1CE3DDAF00BF7311 /* FullNames.txt in Resources */ = {isa = PBXBuildFile; fileRef = 38D4B05A1CE3DDAF00BF7311 /* FullNames.txt */; };
 		38D4B0611CE3F56400BF7311 /* HDItemManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4B0601CE3F56400BF7311 /* HDItemManagerTableViewCell.m */; };
 		38D4B0631CE403C700BF7311 /* stormdb.sql in Resources */ = {isa = PBXBuildFile; fileRef = 38D4B0621CE403C700BF7311 /* stormdb.sql */; };
-		38EB90101CE3691800F261C1 /* HDSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EB900F1CE3691800F261C1 /* HDSearchBar.m */; };
-		38EB90131CE36F7F00F261C1 /* HDSearchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EB90121CE36F7F00F261C1 /* HDSearchViewController.m */; };
+		38ED49F91CEB8EAC00720A6F /* HDUserPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED49F81CEB8EAC00720A6F /* HDUserPresentationController.m */; };
+		38ED49FD1CEB919000720A6F /* HDUserTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED49FC1CEB919000720A6F /* HDUserTableViewController.m */; };
+		38ED4A001CEBB4E400720A6F /* UIImage+ImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED49FF1CEBB4E400720A6F /* UIImage+ImageAdditions.m */; };
+		38ED4A031CEBBE1600720A6F /* HDUserSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED4A021CEBBE1600720A6F /* HDUserSearchTableViewCell.m */; };
 		38EE1DAD1CDB0E06009ABB87 /* HDDataGridTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */; };
 		38F711361CD6721D008C9DC5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F711351CD6721D008C9DC5 /* libsqlite3.tbd */; };
 		38F711381CD67229008C9DC5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F711371CD67229008C9DC5 /* QuartzCore.framework */; };
@@ -103,8 +102,6 @@
 		382220651CD16837003A446A /* HDItemManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDItemManagerViewController.m; sourceTree = "<group>"; };
 		382220671CD26EFA003A446A /* HDTransactionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDTransactionsViewController.h; sourceTree = "<group>"; };
 		382220681CD26EFA003A446A /* HDTransactionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDTransactionsViewController.m; sourceTree = "<group>"; };
-		3822206A1CD27EF8003A446A /* HDNewMemberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDNewMemberViewController.h; sourceTree = "<group>"; };
-		3822206B1CD27EF8003A446A /* HDNewMemberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDNewMemberViewController.m; sourceTree = "<group>"; };
 		3822206D1CD3D147003A446A /* items.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = items.plist; sourceTree = "<group>"; };
 		382845661CD95543002420E4 /* HDHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDHelper.h; sourceTree = "<group>"; };
 		382845671CD95543002420E4 /* HDHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDHelper.m; sourceTree = "<group>"; };
@@ -132,18 +129,18 @@
 		38B7FBD01CDCEC970038F49A /* HDTransactionsHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDTransactionsHeaderView.m; sourceTree = "<group>"; };
 		38BDC2F21CCD4C9F00E8B77D /* HDItemManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDItemManager.h; sourceTree = "<group>"; };
 		38BDC2F31CCD4C9F00E8B77D /* HDItemManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDItemManager.m; sourceTree = "<group>"; };
-		38D4B0521CE39E2700BF7311 /* HDItemManagerDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDItemManagerDetailViewController.h; sourceTree = "<group>"; };
-		38D4B0531CE39E2700BF7311 /* HDItemManagerDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDItemManagerDetailViewController.m; sourceTree = "<group>"; };
-		38D4B0571CE3D9A800BF7311 /* HDHomeDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDHomeDetailViewController.h; sourceTree = "<group>"; };
-		38D4B0581CE3D9A800BF7311 /* HDHomeDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDHomeDetailViewController.m; sourceTree = "<group>"; };
 		38D4B05A1CE3DDAF00BF7311 /* FullNames.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FullNames.txt; sourceTree = "<group>"; };
 		38D4B05F1CE3F56400BF7311 /* HDItemManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDItemManagerTableViewCell.h; sourceTree = "<group>"; };
 		38D4B0601CE3F56400BF7311 /* HDItemManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDItemManagerTableViewCell.m; sourceTree = "<group>"; };
 		38D4B0621CE403C700BF7311 /* stormdb.sql */ = {isa = PBXFileReference; lastKnownFileType = file; name = stormdb.sql; path = ../stormdb.sql; sourceTree = "<group>"; };
-		38EB900E1CE3691800F261C1 /* HDSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDSearchBar.h; sourceTree = "<group>"; };
-		38EB900F1CE3691800F261C1 /* HDSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDSearchBar.m; sourceTree = "<group>"; };
-		38EB90111CE36F7F00F261C1 /* HDSearchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDSearchViewController.h; sourceTree = "<group>"; };
-		38EB90121CE36F7F00F261C1 /* HDSearchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDSearchViewController.m; sourceTree = "<group>"; };
+		38ED49F71CEB8EAC00720A6F /* HDUserPresentationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDUserPresentationController.h; sourceTree = "<group>"; };
+		38ED49F81CEB8EAC00720A6F /* HDUserPresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDUserPresentationController.m; sourceTree = "<group>"; };
+		38ED49FB1CEB919000720A6F /* HDUserTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDUserTableViewController.h; sourceTree = "<group>"; };
+		38ED49FC1CEB919000720A6F /* HDUserTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDUserTableViewController.m; sourceTree = "<group>"; };
+		38ED49FE1CEBB4E400720A6F /* UIImage+ImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageAdditions.h"; sourceTree = "<group>"; };
+		38ED49FF1CEBB4E400720A6F /* UIImage+ImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageAdditions.m"; sourceTree = "<group>"; };
+		38ED4A011CEBBE1600720A6F /* HDUserSearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDUserSearchTableViewCell.h; sourceTree = "<group>"; };
+		38ED4A021CEBBE1600720A6F /* HDUserSearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDUserSearchTableViewCell.m; sourceTree = "<group>"; };
 		38EE1DAB1CDB0E06009ABB87 /* HDDataGridTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDDataGridTableViewCell.h; sourceTree = "<group>"; };
 		38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDDataGridTableViewCell.m; sourceTree = "<group>"; };
 		38F711351CD6721D008C9DC5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -274,7 +271,6 @@
 				38D4B0561CE3BEBC00BF7311 /* User Search */,
 				38D4B0551CE39E2D00BF7311 /* Item Manager */,
 				38D4B05C1CE3F33100BF7311 /* Transactions */,
-				38D4B05E1CE3F36700BF7311 /* New Member */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -301,6 +297,8 @@
 			children = (
 				38721A481CCACD43007B9FE3 /* UIColor+ColorAdditions.h */,
 				38721A491CCACD43007B9FE3 /* UIColor+ColorAdditions.m */,
+				38ED49FE1CEBB4E400720A6F /* UIImage+ImageAdditions.h */,
+				38ED49FF1CEBB4E400720A6F /* UIImage+ImageAdditions.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -310,8 +308,6 @@
 			children = (
 				382220641CD16837003A446A /* HDItemManagerViewController.h */,
 				382220651CD16837003A446A /* HDItemManagerViewController.m */,
-				38D4B0521CE39E2700BF7311 /* HDItemManagerDetailViewController.h */,
-				38D4B0531CE39E2700BF7311 /* HDItemManagerDetailViewController.m */,
 			);
 			name = "Item Manager";
 			sourceTree = "<group>";
@@ -321,10 +317,7 @@
 			children = (
 				38721A251CCABDA7007B9FE3 /* HDHomeViewController.h */,
 				38721A261CCABDA7007B9FE3 /* HDHomeViewController.m */,
-				38D4B0571CE3D9A800BF7311 /* HDHomeDetailViewController.h */,
-				38D4B0581CE3D9A800BF7311 /* HDHomeDetailViewController.m */,
-				38EB90111CE36F7F00F261C1 /* HDSearchViewController.h */,
-				38EB90121CE36F7F00F261C1 /* HDSearchViewController.m */,
+				38ED49FA1CEB914600720A6F /* User Detail */,
 			);
 			name = "User Search";
 			sourceTree = "<group>";
@@ -341,13 +334,15 @@
 			name = Transactions;
 			sourceTree = "<group>";
 		};
-		38D4B05E1CE3F36700BF7311 /* New Member */ = {
+		38ED49FA1CEB914600720A6F /* User Detail */ = {
 			isa = PBXGroup;
 			children = (
-				3822206A1CD27EF8003A446A /* HDNewMemberViewController.h */,
-				3822206B1CD27EF8003A446A /* HDNewMemberViewController.m */,
+				38ED49F71CEB8EAC00720A6F /* HDUserPresentationController.h */,
+				38ED49F81CEB8EAC00720A6F /* HDUserPresentationController.m */,
+				38ED49FB1CEB919000720A6F /* HDUserTableViewController.h */,
+				38ED49FC1CEB919000720A6F /* HDUserTableViewController.m */,
 			);
-			name = "New Member";
+			name = "User Detail";
 			sourceTree = "<group>";
 		};
 		38EE1DAE1CDB0E98009ABB87 /* View */ = {
@@ -357,10 +352,10 @@
 				38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */,
 				38B7FBCF1CDCEC970038F49A /* HDTransactionsHeaderView.h */,
 				38B7FBD01CDCEC970038F49A /* HDTransactionsHeaderView.m */,
-				38EB900E1CE3691800F261C1 /* HDSearchBar.h */,
-				38EB900F1CE3691800F261C1 /* HDSearchBar.m */,
 				38D4B05F1CE3F56400BF7311 /* HDItemManagerTableViewCell.h */,
 				38D4B0601CE3F56400BF7311 /* HDItemManagerTableViewCell.m */,
+				38ED4A011CEBBE1600720A6F /* HDUserSearchTableViewCell.h */,
+				38ED4A021CEBBE1600720A6F /* HDUserSearchTableViewCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -492,12 +487,16 @@
 				381A1CA31CDA831D00445AB6 /* CALayer+FSExtension.m in Sources */,
 				381A1CAB1CDA831D00445AB6 /* FSCalendarEventIndicator.m in Sources */,
 				38721A271CCABDA7007B9FE3 /* HDHomeViewController.m in Sources */,
+				38ED49F91CEB8EAC00720A6F /* HDUserPresentationController.m in Sources */,
 				3828456E1CD97F3A002420E4 /* HDTransactionObject.m in Sources */,
 				381A1CB11CDA831D00445AB6 /* NSString+FSExtension.m in Sources */,
+				38ED4A031CEBBE1600720A6F /* HDUserSearchTableViewCell.m in Sources */,
 				381A1CAC1CDA831D00445AB6 /* FSCalendarFlowLayout.m in Sources */,
 				38721A4A1CCACD43007B9FE3 /* UIColor+ColorAdditions.m in Sources */,
 				382220631CD12B2F003A446A /* HDPopoverViewController.m in Sources */,
 				381A1CAA1CDA831D00445AB6 /* FSCalendarConstance.m in Sources */,
+				38ED4A001CEBB4E400720A6F /* UIImage+ImageAdditions.m in Sources */,
+				38ED49FD1CEB919000720A6F /* HDUserTableViewController.m in Sources */,
 				38721A241CCABDA7007B9FE3 /* HDAppDelegate.m in Sources */,
 				381A1CA81CDA831D00445AB6 /* FSCalendarCell.m in Sources */,
 				38EE1DAD1CDB0E06009ABB87 /* HDDataGridTableViewCell.m in Sources */,
@@ -509,8 +508,6 @@
 				382220661CD16837003A446A /* HDItemManagerViewController.m in Sources */,
 				387CBEBF1CD0746900B5B342 /* HDBasePresentationController.m in Sources */,
 				381A1CAE1CDA831D00445AB6 /* FSCalendarStickyHeader.m in Sources */,
-				38D4B0541CE39E2700BF7311 /* HDItemManagerDetailViewController.m in Sources */,
-				3822206C1CD27EF8003A446A /* HDNewMemberViewController.m in Sources */,
 				382845681CD95543002420E4 /* HDHelper.m in Sources */,
 				381A1CA61CDA831D00445AB6 /* FSCalendarAnimator.m in Sources */,
 				381A1CA91CDA831D00445AB6 /* FSCalendarCollectionView.m in Sources */,
@@ -520,10 +517,7 @@
 				381A1CB21CDA831D00445AB6 /* UIView+FSExtension.m in Sources */,
 				38B7FBD11CDCEC970038F49A /* HDTransactionsHeaderView.m in Sources */,
 				381A1CA41CDA831D00445AB6 /* FSCalendar+IBExtension.m in Sources */,
-				38EB90131CE36F7F00F261C1 /* HDSearchViewController.m in Sources */,
-				38D4B0591CE3D9A800BF7311 /* HDHomeDetailViewController.m in Sources */,
 				381A1CB01CDA831D00445AB6 /* NSDate+FSExtension.m in Sources */,
-				38EB90101CE3691800F261C1 /* HDSearchBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

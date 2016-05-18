@@ -26,6 +26,8 @@ typedef void (^ResultsBlock)(float startingBalance);
                               completion:(CompletionBlock)completion;
 - (void)executeQuery:(NSString *)query;
 - (void)closeDatabase;
+- (void)currentUserBalanceWithUserID:(NSInteger)userID
+                             results:(ResultsBlock)resultsBlock;
 - (void)currentUser:(NSInteger)userID
 balanceForTransactionID:(NSInteger)transactionID
             results:(ResultsBlock)resultsBlock;

@@ -119,6 +119,12 @@
     self.navigationController.navigationBar.layer.mask = maskLayer;
 }
 
+#pragma mark - <FSCalendarDataSource>
+
+- (NSDate *)maximumDateForCalendar:(FSCalendar *)calendar {
+    return NSDate.date;
+}
+
 #pragma mark - <FSCalendarDelegate>
 
 - (void)calendar:(FSCalendar *)calendar didSelectDate:(NSDate *)date {

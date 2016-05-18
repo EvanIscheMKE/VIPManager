@@ -11,13 +11,10 @@
 #import "HDAppDelegate.h"
 #import "HDHomeViewController.h"
 #import "HDItemManagerViewController.h"
-#import "HDItemManagerDetailViewController.h"
 #import "HDTransactionsViewController.h"
-#import "HDNewMemberViewController.h"
 #import "UIColor+ColorAdditions.h"
 
-@interface HDAppDelegate () <UISplitViewControllerDelegate>
-
+@interface HDAppDelegate ()
 @end
 
 @implementation HDAppDelegate
@@ -25,44 +22,32 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     /* */
-    HDHomeViewController *controller1 = [[HDHomeViewController alloc] init];
-    controller1.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemMore tag:1];
+    application.statusBarHidden = YES;
     
-    UISplitViewController *controller2 = [[UISplitViewController alloc] init];
+    /* */
+    HDHomeViewController *controller1 = [[HDHomeViewController alloc] init];
+    controller1.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemContacts tag:1];
+    
+    HDItemManagerViewController *controller2 = [[HDItemManagerViewController  alloc] init];
     controller2.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:2];
     
     HDTransactionsViewController *controller3 = [[HDTransactionsViewController alloc] init];
-    controller3.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:3];
-    
-    HDNewMemberViewController *controller4 = [[HDNewMemberViewController alloc] init];
-    controller4.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:4];
-    
-    HDHomeViewController *controller5 = [[HDHomeViewController alloc] init];
-    controller5.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:5];
-    
-    controller2.delegate = self;
-    controller2.extendedLayoutIncludesOpaqueBars = YES;
-    controller2.minimumPrimaryColumnWidth = CGRectGetMidX([[UIScreen mainScreen] bounds]) * .9;
-    controller2.maximumPrimaryColumnWidth = CGRectGetMidX([[UIScreen mainScreen] bounds]) * .9;
-    controller2.viewControllers = @[[[UINavigationController alloc] initWithRootViewController:[HDItemManagerViewController new]],
-                                    [[UINavigationController alloc] initWithRootViewController:[HDItemManagerDetailViewController new]]];
+    controller3.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemHistory tag:3];
     
     /* */
     UINavigationController *navigationController1 = [[UINavigationController alloc] initWithRootViewController:controller1];
+    UINavigationController *navigationController2 = [[UINavigationController alloc] initWithRootViewController:controller2];
     UINavigationController *navigationController3 = [[UINavigationController alloc] initWithRootViewController:controller3];
-    UINavigationController *navigationController4 = [[UINavigationController alloc] initWithRootViewController:controller4];
-    UINavigationController *navigationController5 = [[UINavigationController alloc] initWithRootViewController:controller5];
     
     /* */
     NSMutableArray *controllers = [@[] mutableCopy];
     [controllers addObject:navigationController1];
-    [controllers addObject:controller2];
+    [controllers addObject:navigationController2];
     [controllers addObject:navigationController3];
-    [controllers addObject:navigationController4];
-    [controllers addObject:navigationController5];
     
     /* */
     UITabBarController *tabbarController = [[UITabBarController alloc] init];
+    tabbarController.tabBar.itemPositioning = UITabBarItemPositioningAutomatic;
     [tabbarController setViewControllers:controllers];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
@@ -103,7 +88,7 @@
         
         NSString *firstname = [fullname componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].firstObject;
         NSString *lastname = [fullname componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]].lastObject;
-        NSString *email = [NSString stringWithFormat:@"%@%@.icloud.com",firstname,lastname];
+        NSString *email = [NSString stringWithFormat:@"%@%@@icloud.com",firstname,lastname];
         
         NSString *query1 = [HDDBManager executableStringWithFirstName:firstname
                                                              lastname:lastname
@@ -115,12 +100,12 @@
             NSLog(@"Could not execute the query.");
         }
         
-        NSString *query = [HDDBManager executableStringWithUserName:[NSString stringWithFormat:@"%@ %@",firstname,lastname]
+        NSString *query2 = [HDDBManager executableStringWithUserName:[NSString stringWithFormat:@"%@ %@",firstname,lastname]
                                                               price:75.00
                                                         description:@"Created Account"
                                                              userID:userID
                                                               admin:@"ADMIN"];
-        [[HDDBManager sharedManager] executeQuery:query];
+        [[HDDBManager sharedManager] executeQuery:query2];
         for (NSUInteger i = 0; i < (arc4random() % 4); i++) {
             NSUInteger index = arc4random() % [[HDItemManager sharedManager] count];
             NSString *query = [HDDBManager executableStringWithUserName:[NSString stringWithFormat:@"%@ %@",firstname,lastname]

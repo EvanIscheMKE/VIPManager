@@ -12,6 +12,7 @@
 #import "HDDataGridTableViewCell.h"
 #import "HDPopoverViewController.h"
 #import "HDTransactionObject.h"
+#import "UIColor+ColorAdditions.h"
 #import "HDDBManager.h"
 #import "HDHelper.h"
 
@@ -86,7 +87,7 @@ forHeaderFooterViewReuseIdentifier:HDTableViewReusableHeaderFooterIdentifier];
             cell.itemCost = [HDHelper stringFromNumber:transaction.cost];
             cell.transactionDate = [[HDHelper formatter] stringFromDate:transaction.date];
             cell.itemDescription = transaction.title;
-            cell.memberName = transaction.username;
+            cell.memberName = [NSString stringWithFormat:@"  %@",transaction.username];
             cell.cashierName = transaction.admin;
             
         }

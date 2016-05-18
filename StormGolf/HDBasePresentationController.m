@@ -11,8 +11,8 @@
 @implementation HDBaseTransitioningDelegate
 
 - (HDBasePresentationController *)presentationControllerForPresentedViewController:(UIViewController *)presented
-                                                      presentingViewController:(UIViewController *)presenting
-                                                          sourceViewController:(UIViewController *)source {
+                                                          presentingViewController:(UIViewController *)presenting
+                                                              sourceViewController:(UIViewController *)source {
     HDBasePresentationController *presentationController = [[HDBasePresentationController alloc] initWithPresentedViewController:presented
                                                                                                         presentingViewController:presenting];
     return presentationController;
@@ -90,17 +90,17 @@
 @end
 
 @implementation HDBasePresentationController {
-    UIView *_chromeView;
+    UIVisualEffectView *_blurryView;
 }
 
 - (instancetype)initWithPresentedViewController:(UIViewController *)presentedViewController
                        presentingViewController:(UIViewController *)presentingViewController {
     if (self = [super initWithPresentedViewController:presentedViewController presentingViewController:presentingViewController]) {
         
-        _chromeView = [[UIView alloc] init];
-        _chromeView.backgroundColor = [UIColor colorWithWhite:0.0f alpha:0.4f];
-        _chromeView.alpha = 0.0f;
-        [_chromeView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_chromeViewTapped:)]];
+        UIBlurEffect *lightBlur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+        _blurryView = [[UIVisualEffectView alloc] initWithEffect:lightBlur];
+        _blurryView.hidden = YES;
+        [_blurryView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(_chromeViewTapped:)]];
         
     }
     return self;
@@ -126,39 +126,23 @@
 }
 
 - (void)presentationTransitionWillBegin {
-    _chromeView.frame = self.containerView.bounds;
-    _chromeView.alpha = 0.0f;
-    [self.containerView insertSubview:_chromeView atIndex:0];
-    if (self.presentedViewController.transitionCoordinator) {
-        [[self.presentedViewController transitionCoordinator] animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>  _Nonnull context) {
-            _chromeView.alpha = 1.0f;
-        } completion:nil];
-    } else {
-        _chromeView.alpha = 1.0f;
-    }
+    _blurryView.hidden = NO;
+    _blurryView.frame = self.containerView.bounds;
+    [self.containerView insertSubview:_blurryView atIndex:0];
 }
 
 - (void)dismissalTransitionWillBegin {
-    if([[self presentedViewController] transitionCoordinator]) {
-        [[[self presentedViewController] transitionCoordinator]
-         animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext>
-                                      context) {
-             _chromeView.alpha = 0.0f;
-         } completion:nil];
-    }
-    else {
-        _chromeView.alpha = 1.0f;
-    }
+    _blurryView.hidden = YES;
 }
 
 - (void)dismissalTransitionDidEnd:(BOOL)completed {
     if (completed) {
-        [_chromeView removeFromSuperview];
+        [_blurryView removeFromSuperview];
     }
 }
 
 - (void)containerViewWillLayoutSubviews {
-    _chromeView.frame = self.containerView.bounds;
+    _blurryView.frame = self.containerView.bounds;
     self.presentedView.frame = [self frameOfPresentedViewInContainerView];
 }
 

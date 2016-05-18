@@ -41,7 +41,7 @@ static const CGFloat TRANSITION_DESCRIPTION_SCREEN_PERCENTAGE = .16875;
         for (NSUInteger i = 0; i < _values.count; i++) {
             UILabel *label = [[UILabel alloc] init];
             label.textColor = [UIColor blackColor];
-            label.textAlignment = NSTextAlignmentCenter;
+            label.textAlignment = i == 0 ? NSTextAlignmentLeft : NSTextAlignmentCenter;
             [self.contentView addSubview:label];
         }
     }

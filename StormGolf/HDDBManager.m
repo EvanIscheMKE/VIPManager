@@ -227,9 +227,9 @@ balanceForTransactionID:(NSInteger)transactionID
 
 + (NSString *)queryStringForFirstName:(NSString *)firstName lastName:(NSString *)lastName {
     if (!lastName) {
-        return [NSString stringWithFormat:@"select * from userInfo WHERE firstname LIKE '%%%@%%' OR lastname LIKE '%%%@%%'",firstName,firstName];
+        return [NSString stringWithFormat:@"select * from userInfo WHERE firstname LIKE '%%%@%%' OR lastname LIKE '%%%@%%' LIMIT 18",firstName,firstName];
     }
-    return [NSString stringWithFormat:@"select * from userInfo WHERE firstname LIKE '%%%@%%' AND lastname LIKE '%%%@%%'",firstName,lastName];
+    return [NSString stringWithFormat:@"select * from userInfo WHERE firstname LIKE '%%%@%%' AND lastname LIKE '%%%@%%' LIMIT 18",firstName,lastName];
 }
 
 + (NSString *)queryStringForTransactionsFromUserID:(NSInteger)userID {

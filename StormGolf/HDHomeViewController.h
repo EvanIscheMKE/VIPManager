@@ -6,10 +6,12 @@
 //  Copyright © 2016 Evan William Ische. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
+
+@interface HDSearchBar : UITextField
+@property (nonatomic, strong, readonly) UIButton *rightActionButton;
+@end
 
 @interface HDHomeViewController : UIViewController
-
-
 @end
 
