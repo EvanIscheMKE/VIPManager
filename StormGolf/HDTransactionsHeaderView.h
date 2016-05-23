@@ -6,10 +6,7 @@
 //  Copyright © 2016 Evan William Ische. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
-@interface HDTableViewGridView : UIView
-@end
+@import UIKit;
 
 @interface HDTransactionsHeaderView : UITableViewHeaderFooterView
 @end

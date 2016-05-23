@@ -7,22 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		381A1CA31CDA831D00445AB6 /* CALayer+FSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 381A1C841CDA831D00445AB6 /* CALayer+FSExtension.m */; };
-		381A1CA41CDA831D00445AB6 /* FSCalendar+IBExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 381A1C861CDA831D00445AB6 /* FSCalendar+IBExtension.m */; };
-		381A1CA51CDA831D00445AB6 /* FSCalendar.m in Sources */ = {isa = PBXBuildFile; fileRef = 381A1C881CDA831D00445AB6 /* FSCalendar.m */; };
-		381A1CA61CDA831D00445AB6 /* FSCalendarAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 381A1C8A1CDA831D00445AB6 /* FSCalendarAnimator.m */; };
-		381A1CA71CDA831D00445AB6 /* FSCalendarAppearance.m in Sources */ = {isa = PBXBuildFile; fileRef = 381A1C8C1CDA831D00445AB6 /* FSCalendarAppearance.m */; };
-		381A1CA81CDA831D00445AB6 /* FSCalendarCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 381A1C8E1CDA831D00445AB6 /* FSCalendarCell.m */; };
-		381A1CA91CDA831D00445AB6 /* FSCalendarCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 381A1C901CDA831D00445AB6 /* FSCalendarCollectionView.m */; };
-		381A1CAA1CDA831D00445AB6 /* FSCalendarConstance.m in Sources */ = {isa = PBXBuildFile; fileRef = 381A1C921CDA831D00445AB6 /* FSCalendarConstance.m */; };
-		381A1CAB1CDA831D00445AB6 /* FSCalendarEventIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 381A1C951CDA831D00445AB6 /* FSCalendarEventIndicator.m */; };
-		381A1CAC1CDA831D00445AB6 /* FSCalendarFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 381A1C971CDA831D00445AB6 /* FSCalendarFlowLayout.m */; };
-		381A1CAD1CDA831D00445AB6 /* FSCalendarHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 381A1C991CDA831D00445AB6 /* FSCalendarHeader.m */; };
-		381A1CAE1CDA831D00445AB6 /* FSCalendarStickyHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 381A1C9B1CDA831D00445AB6 /* FSCalendarStickyHeader.m */; };
-		381A1CAF1CDA831D00445AB6 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 381A1C9C1CDA831D00445AB6 /* Info.plist */; };
-		381A1CB01CDA831D00445AB6 /* NSDate+FSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 381A1C9E1CDA831D00445AB6 /* NSDate+FSExtension.m */; };
-		381A1CB11CDA831D00445AB6 /* NSString+FSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 381A1CA01CDA831D00445AB6 /* NSString+FSExtension.m */; };
-		381A1CB21CDA831D00445AB6 /* UIView+FSExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 381A1CA21CDA831D00445AB6 /* UIView+FSExtension.m */; };
 		382220631CD12B2F003A446A /* HDPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 382220621CD12B2F003A446A /* HDPopoverViewController.m */; };
 		382220661CD16837003A446A /* HDItemManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 382220651CD16837003A446A /* HDItemManagerViewController.m */; };
 		382220691CD26EFA003A446A /* HDTransactionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 382220681CD26EFA003A446A /* HDTransactionsViewController.m */; };
@@ -43,10 +27,13 @@
 		38D4B05B1CE3DDAF00BF7311 /* FullNames.txt in Resources */ = {isa = PBXBuildFile; fileRef = 38D4B05A1CE3DDAF00BF7311 /* FullNames.txt */; };
 		38D4B0611CE3F56400BF7311 /* HDItemManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4B0601CE3F56400BF7311 /* HDItemManagerTableViewCell.m */; };
 		38D4B0631CE403C700BF7311 /* stormdb.sql in Resources */ = {isa = PBXBuildFile; fileRef = 38D4B0621CE403C700BF7311 /* stormdb.sql */; };
-		38ED49F91CEB8EAC00720A6F /* HDUserPresentationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED49F81CEB8EAC00720A6F /* HDUserPresentationController.m */; };
-		38ED49FD1CEB919000720A6F /* HDUserTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED49FC1CEB919000720A6F /* HDUserTableViewController.m */; };
 		38ED4A001CEBB4E400720A6F /* UIImage+ImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED49FF1CEBB4E400720A6F /* UIImage+ImageAdditions.m */; };
 		38ED4A031CEBBE1600720A6F /* HDUserSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED4A021CEBBE1600720A6F /* HDUserSearchTableViewCell.m */; };
+		38ED4A061CEBF32600720A6F /* HDItemManagerPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED4A051CEBF32600720A6F /* HDItemManagerPopoverViewController.m */; };
+		38ED4A091CEF911F00720A6F /* NSString+StringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED4A081CEF911F00720A6F /* NSString+StringAdditions.m */; };
+		38ED4A0C1CEF9BD300720A6F /* HDTransactionPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED4A0B1CEF9BD300720A6F /* HDTransactionPopoverViewController.m */; };
+		38ED4A111CF37C6700720A6F /* HDSalesDataGridTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED4A101CF37C6700720A6F /* HDSalesDataGridTableViewCell.m */; };
+		38ED4A161CF37CD700720A6F /* HDSalesHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED4A151CF37CD700720A6F /* HDSalesHeaderView.m */; };
 		38EE1DAD1CDB0E06009ABB87 /* HDDataGridTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */; };
 		38F711361CD6721D008C9DC5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F711351CD6721D008C9DC5 /* libsqlite3.tbd */; };
 		38F711381CD67229008C9DC5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F711371CD67229008C9DC5 /* QuartzCore.framework */; };
@@ -64,38 +51,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		381A1C831CDA831D00445AB6 /* CALayer+FSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "CALayer+FSExtension.h"; sourceTree = "<group>"; };
-		381A1C841CDA831D00445AB6 /* CALayer+FSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CALayer+FSExtension.m"; sourceTree = "<group>"; };
-		381A1C851CDA831D00445AB6 /* FSCalendar+IBExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "FSCalendar+IBExtension.h"; sourceTree = "<group>"; };
-		381A1C861CDA831D00445AB6 /* FSCalendar+IBExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "FSCalendar+IBExtension.m"; sourceTree = "<group>"; };
-		381A1C871CDA831D00445AB6 /* FSCalendar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendar.h; sourceTree = "<group>"; };
-		381A1C881CDA831D00445AB6 /* FSCalendar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendar.m; sourceTree = "<group>"; };
-		381A1C891CDA831D00445AB6 /* FSCalendarAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarAnimator.h; sourceTree = "<group>"; };
-		381A1C8A1CDA831D00445AB6 /* FSCalendarAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarAnimator.m; sourceTree = "<group>"; };
-		381A1C8B1CDA831D00445AB6 /* FSCalendarAppearance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarAppearance.h; sourceTree = "<group>"; };
-		381A1C8C1CDA831D00445AB6 /* FSCalendarAppearance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarAppearance.m; sourceTree = "<group>"; };
-		381A1C8D1CDA831D00445AB6 /* FSCalendarCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarCell.h; sourceTree = "<group>"; };
-		381A1C8E1CDA831D00445AB6 /* FSCalendarCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarCell.m; sourceTree = "<group>"; };
-		381A1C8F1CDA831D00445AB6 /* FSCalendarCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarCollectionView.h; sourceTree = "<group>"; };
-		381A1C901CDA831D00445AB6 /* FSCalendarCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarCollectionView.m; sourceTree = "<group>"; };
-		381A1C911CDA831D00445AB6 /* FSCalendarConstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarConstance.h; sourceTree = "<group>"; };
-		381A1C921CDA831D00445AB6 /* FSCalendarConstance.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarConstance.m; sourceTree = "<group>"; };
-		381A1C931CDA831D00445AB6 /* FSCalendarDynamicHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarDynamicHeader.h; sourceTree = "<group>"; };
-		381A1C941CDA831D00445AB6 /* FSCalendarEventIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarEventIndicator.h; sourceTree = "<group>"; };
-		381A1C951CDA831D00445AB6 /* FSCalendarEventIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarEventIndicator.m; sourceTree = "<group>"; };
-		381A1C961CDA831D00445AB6 /* FSCalendarFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarFlowLayout.h; sourceTree = "<group>"; };
-		381A1C971CDA831D00445AB6 /* FSCalendarFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarFlowLayout.m; sourceTree = "<group>"; };
-		381A1C981CDA831D00445AB6 /* FSCalendarHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarHeader.h; sourceTree = "<group>"; };
-		381A1C991CDA831D00445AB6 /* FSCalendarHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarHeader.m; sourceTree = "<group>"; };
-		381A1C9A1CDA831D00445AB6 /* FSCalendarStickyHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FSCalendarStickyHeader.h; sourceTree = "<group>"; };
-		381A1C9B1CDA831D00445AB6 /* FSCalendarStickyHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FSCalendarStickyHeader.m; sourceTree = "<group>"; };
-		381A1C9C1CDA831D00445AB6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		381A1C9D1CDA831D00445AB6 /* NSDate+FSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+FSExtension.h"; sourceTree = "<group>"; };
-		381A1C9E1CDA831D00445AB6 /* NSDate+FSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+FSExtension.m"; sourceTree = "<group>"; };
-		381A1C9F1CDA831D00445AB6 /* NSString+FSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+FSExtension.h"; sourceTree = "<group>"; };
-		381A1CA01CDA831D00445AB6 /* NSString+FSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+FSExtension.m"; sourceTree = "<group>"; };
-		381A1CA11CDA831D00445AB6 /* UIView+FSExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+FSExtension.h"; sourceTree = "<group>"; };
-		381A1CA21CDA831D00445AB6 /* UIView+FSExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+FSExtension.m"; sourceTree = "<group>"; };
 		382220611CD12B2F003A446A /* HDPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDPopoverViewController.h; sourceTree = "<group>"; };
 		382220621CD12B2F003A446A /* HDPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDPopoverViewController.m; sourceTree = "<group>"; };
 		382220641CD16837003A446A /* HDItemManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDItemManagerViewController.h; sourceTree = "<group>"; };
@@ -133,14 +88,20 @@
 		38D4B05F1CE3F56400BF7311 /* HDItemManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDItemManagerTableViewCell.h; sourceTree = "<group>"; };
 		38D4B0601CE3F56400BF7311 /* HDItemManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDItemManagerTableViewCell.m; sourceTree = "<group>"; };
 		38D4B0621CE403C700BF7311 /* stormdb.sql */ = {isa = PBXFileReference; lastKnownFileType = file; name = stormdb.sql; path = ../stormdb.sql; sourceTree = "<group>"; };
-		38ED49F71CEB8EAC00720A6F /* HDUserPresentationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDUserPresentationController.h; sourceTree = "<group>"; };
-		38ED49F81CEB8EAC00720A6F /* HDUserPresentationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDUserPresentationController.m; sourceTree = "<group>"; };
-		38ED49FB1CEB919000720A6F /* HDUserTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDUserTableViewController.h; sourceTree = "<group>"; };
-		38ED49FC1CEB919000720A6F /* HDUserTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDUserTableViewController.m; sourceTree = "<group>"; };
 		38ED49FE1CEBB4E400720A6F /* UIImage+ImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageAdditions.h"; sourceTree = "<group>"; };
 		38ED49FF1CEBB4E400720A6F /* UIImage+ImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageAdditions.m"; sourceTree = "<group>"; };
 		38ED4A011CEBBE1600720A6F /* HDUserSearchTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDUserSearchTableViewCell.h; sourceTree = "<group>"; };
 		38ED4A021CEBBE1600720A6F /* HDUserSearchTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDUserSearchTableViewCell.m; sourceTree = "<group>"; };
+		38ED4A041CEBF32600720A6F /* HDItemManagerPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDItemManagerPopoverViewController.h; sourceTree = "<group>"; };
+		38ED4A051CEBF32600720A6F /* HDItemManagerPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDItemManagerPopoverViewController.m; sourceTree = "<group>"; };
+		38ED4A071CEF911F00720A6F /* NSString+StringAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+StringAdditions.h"; sourceTree = "<group>"; };
+		38ED4A081CEF911F00720A6F /* NSString+StringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringAdditions.m"; sourceTree = "<group>"; };
+		38ED4A0A1CEF9BD300720A6F /* HDTransactionPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDTransactionPopoverViewController.h; sourceTree = "<group>"; };
+		38ED4A0B1CEF9BD300720A6F /* HDTransactionPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDTransactionPopoverViewController.m; sourceTree = "<group>"; };
+		38ED4A0F1CF37C6700720A6F /* HDSalesDataGridTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDSalesDataGridTableViewCell.h; sourceTree = "<group>"; };
+		38ED4A101CF37C6700720A6F /* HDSalesDataGridTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDSalesDataGridTableViewCell.m; sourceTree = "<group>"; };
+		38ED4A141CF37CD700720A6F /* HDSalesHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDSalesHeaderView.h; sourceTree = "<group>"; };
+		38ED4A151CF37CD700720A6F /* HDSalesHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDSalesHeaderView.m; sourceTree = "<group>"; };
 		38EE1DAB1CDB0E06009ABB87 /* HDDataGridTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDDataGridTableViewCell.h; sourceTree = "<group>"; };
 		38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDDataGridTableViewCell.m; sourceTree = "<group>"; };
 		38F711351CD6721D008C9DC5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -169,45 +130,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		381A1C821CDA831D00445AB6 /* FSCalendar */ = {
-			isa = PBXGroup;
-			children = (
-				381A1C831CDA831D00445AB6 /* CALayer+FSExtension.h */,
-				381A1C841CDA831D00445AB6 /* CALayer+FSExtension.m */,
-				381A1C851CDA831D00445AB6 /* FSCalendar+IBExtension.h */,
-				381A1C861CDA831D00445AB6 /* FSCalendar+IBExtension.m */,
-				381A1C871CDA831D00445AB6 /* FSCalendar.h */,
-				381A1C881CDA831D00445AB6 /* FSCalendar.m */,
-				381A1C891CDA831D00445AB6 /* FSCalendarAnimator.h */,
-				381A1C8A1CDA831D00445AB6 /* FSCalendarAnimator.m */,
-				381A1C8B1CDA831D00445AB6 /* FSCalendarAppearance.h */,
-				381A1C8C1CDA831D00445AB6 /* FSCalendarAppearance.m */,
-				381A1C8D1CDA831D00445AB6 /* FSCalendarCell.h */,
-				381A1C8E1CDA831D00445AB6 /* FSCalendarCell.m */,
-				381A1C8F1CDA831D00445AB6 /* FSCalendarCollectionView.h */,
-				381A1C901CDA831D00445AB6 /* FSCalendarCollectionView.m */,
-				381A1C911CDA831D00445AB6 /* FSCalendarConstance.h */,
-				381A1C921CDA831D00445AB6 /* FSCalendarConstance.m */,
-				381A1C931CDA831D00445AB6 /* FSCalendarDynamicHeader.h */,
-				381A1C941CDA831D00445AB6 /* FSCalendarEventIndicator.h */,
-				381A1C951CDA831D00445AB6 /* FSCalendarEventIndicator.m */,
-				381A1C961CDA831D00445AB6 /* FSCalendarFlowLayout.h */,
-				381A1C971CDA831D00445AB6 /* FSCalendarFlowLayout.m */,
-				381A1C981CDA831D00445AB6 /* FSCalendarHeader.h */,
-				381A1C991CDA831D00445AB6 /* FSCalendarHeader.m */,
-				381A1C9A1CDA831D00445AB6 /* FSCalendarStickyHeader.h */,
-				381A1C9B1CDA831D00445AB6 /* FSCalendarStickyHeader.m */,
-				381A1C9C1CDA831D00445AB6 /* Info.plist */,
-				381A1C9D1CDA831D00445AB6 /* NSDate+FSExtension.h */,
-				381A1C9E1CDA831D00445AB6 /* NSDate+FSExtension.m */,
-				381A1C9F1CDA831D00445AB6 /* NSString+FSExtension.h */,
-				381A1CA01CDA831D00445AB6 /* NSString+FSExtension.m */,
-				381A1CA11CDA831D00445AB6 /* UIView+FSExtension.h */,
-				381A1CA21CDA831D00445AB6 /* UIView+FSExtension.m */,
-			);
-			path = FSCalendar;
-			sourceTree = "<group>";
-		};
 		38721A131CCABDA7007B9FE3 = {
 			isa = PBXGroup;
 			children = (
@@ -246,7 +168,6 @@
 		38721A1F1CCABDA7007B9FE3 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				381A1C821CDA831D00445AB6 /* FSCalendar */,
 				38D4B0621CE403C700BF7311 /* stormdb.sql */,
 				38D4B05A1CE3DDAF00BF7311 /* FullNames.txt */,
 				38721A301CCABDA7007B9FE3 /* Info.plist */,
@@ -299,6 +220,8 @@
 				38721A491CCACD43007B9FE3 /* UIColor+ColorAdditions.m */,
 				38ED49FE1CEBB4E400720A6F /* UIImage+ImageAdditions.h */,
 				38ED49FF1CEBB4E400720A6F /* UIImage+ImageAdditions.m */,
+				38ED4A071CEF911F00720A6F /* NSString+StringAdditions.h */,
+				38ED4A081CEF911F00720A6F /* NSString+StringAdditions.m */,
 			);
 			name = Category;
 			sourceTree = "<group>";
@@ -308,6 +231,8 @@
 			children = (
 				382220641CD16837003A446A /* HDItemManagerViewController.h */,
 				382220651CD16837003A446A /* HDItemManagerViewController.m */,
+				38ED4A041CEBF32600720A6F /* HDItemManagerPopoverViewController.h */,
+				38ED4A051CEBF32600720A6F /* HDItemManagerPopoverViewController.m */,
 			);
 			name = "Item Manager";
 			sourceTree = "<group>";
@@ -317,7 +242,6 @@
 			children = (
 				38721A251CCABDA7007B9FE3 /* HDHomeViewController.h */,
 				38721A261CCABDA7007B9FE3 /* HDHomeViewController.m */,
-				38ED49FA1CEB914600720A6F /* User Detail */,
 			);
 			name = "User Search";
 			sourceTree = "<group>";
@@ -326,36 +250,45 @@
 			isa = PBXGroup;
 			children = (
 				38F711391CD6727A008C9DC5 /* Presentation Controller */,
-				382220611CD12B2F003A446A /* HDPopoverViewController.h */,
-				382220621CD12B2F003A446A /* HDPopoverViewController.m */,
+				38ED4A0A1CEF9BD300720A6F /* HDTransactionPopoverViewController.h */,
+				38ED4A0B1CEF9BD300720A6F /* HDTransactionPopoverViewController.m */,
 				382220671CD26EFA003A446A /* HDTransactionsViewController.h */,
 				382220681CD26EFA003A446A /* HDTransactionsViewController.m */,
 			);
 			name = Transactions;
 			sourceTree = "<group>";
 		};
-		38ED49FA1CEB914600720A6F /* User Detail */ = {
+		38ED4A121CF37C8300720A6F /* Table View Cells */ = {
 			isa = PBXGroup;
 			children = (
-				38ED49F71CEB8EAC00720A6F /* HDUserPresentationController.h */,
-				38ED49F81CEB8EAC00720A6F /* HDUserPresentationController.m */,
-				38ED49FB1CEB919000720A6F /* HDUserTableViewController.h */,
-				38ED49FC1CEB919000720A6F /* HDUserTableViewController.m */,
+				38D4B05F1CE3F56400BF7311 /* HDItemManagerTableViewCell.h */,
+				38D4B0601CE3F56400BF7311 /* HDItemManagerTableViewCell.m */,
+				38ED4A011CEBBE1600720A6F /* HDUserSearchTableViewCell.h */,
+				38ED4A021CEBBE1600720A6F /* HDUserSearchTableViewCell.m */,
+				38EE1DAB1CDB0E06009ABB87 /* HDDataGridTableViewCell.h */,
+				38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */,
+				38ED4A0F1CF37C6700720A6F /* HDSalesDataGridTableViewCell.h */,
+				38ED4A101CF37C6700720A6F /* HDSalesDataGridTableViewCell.m */,
 			);
-			name = "User Detail";
+			name = "Table View Cells";
+			sourceTree = "<group>";
+		};
+		38ED4A131CF37CB900720A6F /* Table Header View */ = {
+			isa = PBXGroup;
+			children = (
+				38B7FBCF1CDCEC970038F49A /* HDTransactionsHeaderView.h */,
+				38B7FBD01CDCEC970038F49A /* HDTransactionsHeaderView.m */,
+				38ED4A141CF37CD700720A6F /* HDSalesHeaderView.h */,
+				38ED4A151CF37CD700720A6F /* HDSalesHeaderView.m */,
+			);
+			name = "Table Header View";
 			sourceTree = "<group>";
 		};
 		38EE1DAE1CDB0E98009ABB87 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				38EE1DAB1CDB0E06009ABB87 /* HDDataGridTableViewCell.h */,
-				38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */,
-				38B7FBCF1CDCEC970038F49A /* HDTransactionsHeaderView.h */,
-				38B7FBD01CDCEC970038F49A /* HDTransactionsHeaderView.m */,
-				38D4B05F1CE3F56400BF7311 /* HDItemManagerTableViewCell.h */,
-				38D4B0601CE3F56400BF7311 /* HDItemManagerTableViewCell.m */,
-				38ED4A011CEBBE1600720A6F /* HDUserSearchTableViewCell.h */,
-				38ED4A021CEBBE1600720A6F /* HDUserSearchTableViewCell.m */,
+				38ED4A131CF37CB900720A6F /* Table Header View */,
+				38ED4A121CF37C8300720A6F /* Table View Cells */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -373,6 +306,8 @@
 		38F711391CD6727A008C9DC5 /* Presentation Controller */ = {
 			isa = PBXGroup;
 			children = (
+				382220611CD12B2F003A446A /* HDPopoverViewController.h */,
+				382220621CD12B2F003A446A /* HDPopoverViewController.m */,
 				387CBEBD1CD0746900B5B342 /* HDBasePresentationController.h */,
 				387CBEBE1CD0746900B5B342 /* HDBasePresentationController.m */,
 			);
@@ -464,7 +399,6 @@
 				38721A2F1CCABDA7007B9FE3 /* LaunchScreen.storyboard in Resources */,
 				38721A2C1CCABDA7007B9FE3 /* Assets.xcassets in Resources */,
 				38D4B05B1CE3DDAF00BF7311 /* FullNames.txt in Resources */,
-				381A1CAF1CDA831D00445AB6 /* Info.plist in Resources */,
 				3822206E1CD3D147003A446A /* items.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -484,40 +418,28 @@
 			buildActionMask = 2147483647;
 			files = (
 				38D4B0611CE3F56400BF7311 /* HDItemManagerTableViewCell.m in Sources */,
-				381A1CA31CDA831D00445AB6 /* CALayer+FSExtension.m in Sources */,
-				381A1CAB1CDA831D00445AB6 /* FSCalendarEventIndicator.m in Sources */,
 				38721A271CCABDA7007B9FE3 /* HDHomeViewController.m in Sources */,
-				38ED49F91CEB8EAC00720A6F /* HDUserPresentationController.m in Sources */,
 				3828456E1CD97F3A002420E4 /* HDTransactionObject.m in Sources */,
-				381A1CB11CDA831D00445AB6 /* NSString+FSExtension.m in Sources */,
 				38ED4A031CEBBE1600720A6F /* HDUserSearchTableViewCell.m in Sources */,
-				381A1CAC1CDA831D00445AB6 /* FSCalendarFlowLayout.m in Sources */,
 				38721A4A1CCACD43007B9FE3 /* UIColor+ColorAdditions.m in Sources */,
 				382220631CD12B2F003A446A /* HDPopoverViewController.m in Sources */,
-				381A1CAA1CDA831D00445AB6 /* FSCalendarConstance.m in Sources */,
 				38ED4A001CEBB4E400720A6F /* UIImage+ImageAdditions.m in Sources */,
-				38ED49FD1CEB919000720A6F /* HDUserTableViewController.m in Sources */,
 				38721A241CCABDA7007B9FE3 /* HDAppDelegate.m in Sources */,
-				381A1CA81CDA831D00445AB6 /* FSCalendarCell.m in Sources */,
+				38ED4A111CF37C6700720A6F /* HDSalesDataGridTableViewCell.m in Sources */,
 				38EE1DAD1CDB0E06009ABB87 /* HDDataGridTableViewCell.m in Sources */,
 				38F7113C1CD673AB008C9DC5 /* HDDBManager.m in Sources */,
+				38ED4A091CEF911F00720A6F /* NSString+StringAdditions.m in Sources */,
 				3828456B1CD955B0002420E4 /* HDUserObject.m in Sources */,
-				381A1CA71CDA831D00445AB6 /* FSCalendarAppearance.m in Sources */,
 				38BDC2F41CCD4C9F00E8B77D /* HDItemManager.m in Sources */,
-				381A1CA51CDA831D00445AB6 /* FSCalendar.m in Sources */,
 				382220661CD16837003A446A /* HDItemManagerViewController.m in Sources */,
 				387CBEBF1CD0746900B5B342 /* HDBasePresentationController.m in Sources */,
-				381A1CAE1CDA831D00445AB6 /* FSCalendarStickyHeader.m in Sources */,
 				382845681CD95543002420E4 /* HDHelper.m in Sources */,
-				381A1CA61CDA831D00445AB6 /* FSCalendarAnimator.m in Sources */,
-				381A1CA91CDA831D00445AB6 /* FSCalendarCollectionView.m in Sources */,
-				381A1CAD1CDA831D00445AB6 /* FSCalendarHeader.m in Sources */,
+				38ED4A061CEBF32600720A6F /* HDItemManagerPopoverViewController.m in Sources */,
 				38721A211CCABDA7007B9FE3 /* main.m in Sources */,
+				38ED4A161CF37CD700720A6F /* HDSalesHeaderView.m in Sources */,
 				382220691CD26EFA003A446A /* HDTransactionsViewController.m in Sources */,
-				381A1CB21CDA831D00445AB6 /* UIView+FSExtension.m in Sources */,
+				38ED4A0C1CEF9BD300720A6F /* HDTransactionPopoverViewController.m in Sources */,
 				38B7FBD11CDCEC970038F49A /* HDTransactionsHeaderView.m in Sources */,
-				381A1CA41CDA831D00445AB6 /* FSCalendar+IBExtension.m in Sources */,
-				381A1CB01CDA831D00445AB6 /* NSDate+FSExtension.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

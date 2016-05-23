@@ -25,39 +25,20 @@
     application.statusBarHidden = YES;
     
     /* */
-    HDHomeViewController *controller1 = [[HDHomeViewController alloc] init];
-    controller1.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemContacts tag:1];
-    
-    HDItemManagerViewController *controller2 = [[HDItemManagerViewController  alloc] init];
-    controller2.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemSearch tag:2];
-    
-    HDTransactionsViewController *controller3 = [[HDTransactionsViewController alloc] init];
-    controller3.tabBarItem = [[UITabBarItem alloc] initWithTabBarSystemItem:UITabBarSystemItemHistory tag:3];
-    
-    /* */
-    UINavigationController *navigationController1 = [[UINavigationController alloc] initWithRootViewController:controller1];
-    UINavigationController *navigationController2 = [[UINavigationController alloc] initWithRootViewController:controller2];
-    UINavigationController *navigationController3 = [[UINavigationController alloc] initWithRootViewController:controller3];
-    
-    /* */
-    NSMutableArray *controllers = [@[] mutableCopy];
-    [controllers addObject:navigationController1];
-    [controllers addObject:navigationController2];
-    [controllers addObject:navigationController3];
-    
-    /* */
-    UITabBarController *tabbarController = [[UITabBarController alloc] init];
-    tabbarController.tabBar.itemPositioning = UITabBarItemPositioningAutomatic;
-    [tabbarController setViewControllers:controllers];
+    HDHomeViewController *controller = [[HDHomeViewController alloc] init];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+    navigationController.navigationBarHidden = YES;
+    navigationController.toolbarHidden = NO;
+    controller.toolbarItems = [self _toolBarItems];
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.rootViewController = tabbarController;
+    self.window.rootViewController = navigationController;
     [self.window makeKeyAndVisible];
     
     /* Global appearance */
-    [[UITabBar appearance] setTranslucent:NO];
-    [[UITabBar appearance] setBarTintColor:[UIColor whiteColor]];
-    [[UITabBar appearance] setTintColor:[UIColor flatSTRedColor]];
+    [[UIToolbar appearance] setTranslucent:NO];
+    [[UIToolbar appearance] setBarTintColor:[UIColor whiteColor]];
+    [[UIToolbar appearance] setTintColor:[UIColor blackColor]];
     
     [[UINavigationBar appearance] setTranslucent:NO];
     [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
@@ -69,6 +50,109 @@
     }
     
     return YES;
+}
+
+#pragma mark - Private
+
+- (UINavigationController *)_navigationController {
+    return (UINavigationController *)self.window.rootViewController;
+}
+
+- (HDHomeViewController *)_controller {
+     return [(UINavigationController *)self.window.rootViewController viewControllers].firstObject;
+}
+
+- (BOOL)_controllerHasChildrenViewController {
+    return [self _controller].childViewControllers.count > 0;
+}
+
+- (NSArray *)_toolBarItems {
+    
+    UIBarButtonItem *fixedSpaceSmall = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedSpaceSmall.width = 20.0f;
+    
+    UIBarButtonItem *fixedSpaceMedium = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedSpaceMedium.width = 50.0f;
+    
+    UIBarButtonItem *fixedSpaceLarge = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    fixedSpaceLarge.width = 100.0f;
+    
+    NSArray *toolBarItems = @[
+                              fixedSpaceMedium,
+                              [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Search"]
+                                                               style:UIBarButtonItemStylePlain
+                                                              target:self
+                                                              action:@selector(_dismissToPresentingViewController:)],
+                              fixedSpaceLarge,
+                              [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
+                                                                            target:self
+                                                                            action:@selector(_presentItemManagerViewController:)],
+                              fixedSpaceLarge,
+                              [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay
+                                                                            target:self
+                                                                            action:@selector(_presentTransactionViewController:)],
+                              [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                            target:nil
+                                                                            action:nil],
+                              [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRedo
+                                                                            target:self
+                                                                            action:@selector(_present:)], fixedSpaceSmall];
+    return toolBarItems;
+}
+
+- (IBAction)_dismissToPresentingViewController:(id)sender {
+    if ([self _controllerHasChildrenViewController]) {
+        [self _removeChildViewController];
+    }
+}
+
+- (IBAction)_presentItemManagerViewController:(id)sender {
+    
+    if ([self _controllerHasChildrenViewController]) {
+        [self _removeChildViewController];
+        [self _itemManagerViewController];
+    } else {
+        [self _itemManagerViewController];
+    }
+}
+
+- (void)_itemManagerViewController {
+    
+    HDItemManagerViewController *controller = [[HDItemManagerViewController  alloc] init];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+    
+    [[self _controller] addChildViewController:navigationController];
+    [[self _controller].view addSubview:navigationController.view];
+    [navigationController didMoveToParentViewController:[self _controller]];
+}
+
+- (IBAction)_presentTransactionViewController:(id)sender {
+    
+    if ([self _controllerHasChildrenViewController]) {
+        [self _removeChildViewController];
+        [self _transactionViewController];
+    } else {
+        [self _transactionViewController];
+    }
+}
+
+- (void)_transactionViewController {
+    
+    HDTransactionsViewController *controller = [[HDTransactionsViewController alloc] init];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+  
+    [[self _controller] addChildViewController:navigationController];
+    [[self _controller].view addSubview:navigationController.view];
+    [navigationController didMoveToParentViewController:[self _controller]];
+}
+
+- (void)_removeChildViewController {
+    /* There should always be only one child in the stack, but in case another one creeps in, destroy all them, bitches. */
+    for (UIViewController *viewController in [self _controller].childViewControllers) {
+        [viewController willMoveToParentViewController:nil];
+        [viewController.view removeFromSuperview];
+        [viewController removeFromParentViewController];
+    }
 }
 
 - (void)_populateWithSampleData {
@@ -104,7 +188,7 @@
                                                               price:75.00
                                                         description:@"Created Account"
                                                              userID:userID
-                                                              admin:@"ADMIN"];
+                                                              admin:@"Admin"];
         [[HDDBManager sharedManager] executeQuery:query2];
         for (NSUInteger i = 0; i < (arc4random() % 4); i++) {
             NSUInteger index = arc4random() % [[HDItemManager sharedManager] count];
@@ -122,28 +206,6 @@
         }
         userID++;
     }
-}
-
-- (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
-
-- (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
-
-- (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
-
-- (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
-
-- (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
 @end

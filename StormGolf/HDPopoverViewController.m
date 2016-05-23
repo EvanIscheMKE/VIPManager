@@ -9,7 +9,7 @@
 #import "HDPopoverViewController.h"
 #import "UIColor+ColorAdditions.h"
 
-@interface HDPopoverViewController ()<FSCalendarDataSource, FSCalendarDelegate>
+@interface HDPopoverViewController ()
 @end
 
 @implementation HDPopoverViewController {
@@ -31,34 +31,34 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    for (int i = 0; i < 2; i++) {
-        FSCalendar *calendar = [[FSCalendar alloc] initWithFrame:CGRectZero];
-        calendar.tag = i;
-        calendar.dataSource = self;
-        calendar.delegate = self;
-        calendar.appearance.caseOptions = FSCalendarCaseOptionsHeaderUsesUpperCase|FSCalendarCaseOptionsWeekdayUsesUpperCase;
-        calendar.backgroundColor = [UIColor whiteColor];
-        [self.view addSubview:calendar];
-        
-        switch (i) {
-            case 0:
-                self.startCalendar = calendar;
-                self.startCalendar.appearance.todaySelectionColor = [UIColor flatPeterRiverColor];
-                self.startCalendar.appearance.todayColor = [self.startCalendar.appearance.todaySelectionColor colorWithAlphaComponent:.6f];
-                self.startCalendar.appearance.headerTitleColor = self.startCalendar.appearance.todaySelectionColor;
-                self.startCalendar.appearance.weekdayTextColor = self.startCalendar.appearance.todaySelectionColor;
-                self.startCalendar.appearance.selectionColor = self.startCalendar.appearance.todaySelectionColor;
-                break;
-            default:
-                self.finishCalendar = calendar;
-                self.finishCalendar.appearance.headerTitleColor = [UIColor flatSTRedColor];
-                self.finishCalendar.appearance.todayColor = [self.finishCalendar.appearance.headerTitleColor colorWithAlphaComponent:.6f];
-                self.finishCalendar.appearance.weekdayTextColor = self.finishCalendar.appearance.headerTitleColor;
-                self.finishCalendar.appearance.todaySelectionColor = self.finishCalendar.appearance.headerTitleColor;
-                self.finishCalendar.appearance.selectionColor = self.finishCalendar.appearance.headerTitleColor;
-                break;
-        }
-    }
+//    for (int i = 0; i < 2; i++) {
+//        FSCalendar *calendar = [[FSCalendar alloc] initWithFrame:CGRectZero];
+//        calendar.tag = i;
+//        calendar.dataSource = self;
+//        calendar.delegate = self;
+//        calendar.appearance.caseOptions = FSCalendarCaseOptionsHeaderUsesUpperCase|FSCalendarCaseOptionsWeekdayUsesUpperCase;
+//        calendar.backgroundColor = [UIColor whiteColor];
+//        [self.view addSubview:calendar];
+//        
+//        switch (i) {
+//            case 0:
+//                self.startCalendar = calendar;
+//                self.startCalendar.appearance.todaySelectionColor = [UIColor flatPeterRiverColor];
+//                self.startCalendar.appearance.todayColor = [self.startCalendar.appearance.todaySelectionColor colorWithAlphaComponent:.6f];
+//                self.startCalendar.appearance.headerTitleColor = self.startCalendar.appearance.todaySelectionColor;
+//                self.startCalendar.appearance.weekdayTextColor = self.startCalendar.appearance.todaySelectionColor;
+//                self.startCalendar.appearance.selectionColor = self.startCalendar.appearance.todaySelectionColor;
+//                break;
+//            default:
+//                self.finishCalendar = calendar;
+//                self.finishCalendar.appearance.headerTitleColor = [UIColor flatSTRedColor];
+//                self.finishCalendar.appearance.todayColor = [self.finishCalendar.appearance.headerTitleColor colorWithAlphaComponent:.6f];
+//                self.finishCalendar.appearance.weekdayTextColor = self.finishCalendar.appearance.headerTitleColor;
+//                self.finishCalendar.appearance.todaySelectionColor = self.finishCalendar.appearance.headerTitleColor;
+//                self.finishCalendar.appearance.selectionColor = self.finishCalendar.appearance.headerTitleColor;
+//                break;
+//        }
+//    }
     
     self.view.layer.cornerRadius = 5.0f;
     self.view.layer.masksToBounds = true;
@@ -119,44 +119,44 @@
     self.navigationController.navigationBar.layer.mask = maskLayer;
 }
 
-#pragma mark - <FSCalendarDataSource>
-
-- (NSDate *)maximumDateForCalendar:(FSCalendar *)calendar {
-    return NSDate.date;
-}
-
-#pragma mark - <FSCalendarDelegate>
-
-- (void)calendar:(FSCalendar *)calendar didSelectDate:(NSDate *)date {
-    
-    if (calendar.tag == 0) {
-        if ([date compare:NSDate.date] == NSOrderedDescending) {
-            return;
-        }
-        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSCalendarIdentifierGregorian];
-        _startDate = [calendar dateBySettingHour:0 minute:0 second:0 ofDate:date options:0];
-    } else {
-        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSCalendarIdentifierGregorian];
-        NSDate *morningOfSelectedDate = [calendar dateBySettingHour:0 minute:0 second:0 ofDate:date options:0];
-        NSDate *morningOfTodaysDate = [calendar dateBySettingHour:0 minute:0 second:0 ofDate:NSDate.date options:0];
-        if ([morningOfSelectedDate compare:morningOfTodaysDate] == NSOrderedSame) {
-            _finishDate = NSDate.date;
-        } else {
-            _finishDate = date;
-        }
-    }
-    
-    if (self.delegate && [self.delegate respondsToSelector:@selector(popover:updatedQueryStartDate:finishDate:)]) {
-        [self.delegate popover:self updatedQueryStartDate:_startDate finishDate:_finishDate];
-    }
-    
-    // get current date/time
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
-    NSString *startTime = [dateFormatter stringFromDate:_startDate];
-    NSString *finishTime = [dateFormatter stringFromDate:_finishDate];
-    NSLog(startTime);
-    NSLog(finishTime);
-}
+//#pragma mark - <FSCalendarDataSource>
+//
+//- (NSDate *)maximumDateForCalendar:(FSCalendar *)calendar {
+//    return NSDate.date;
+//}
+//
+//#pragma mark - <FSCalendarDelegate>
+//
+//- (void)calendar:(FSCalendar *)calendar didSelectDate:(NSDate *)date {
+//    
+//    if (calendar.tag == 0) {
+//        if ([date compare:NSDate.date] == NSOrderedDescending) {
+//            return;
+//        }
+//        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSCalendarIdentifierGregorian];
+//        _startDate = [calendar dateBySettingHour:0 minute:0 second:0 ofDate:date options:0];
+//    } else {
+//        NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSCalendarIdentifierGregorian];
+//        NSDate *morningOfSelectedDate = [calendar dateBySettingHour:0 minute:0 second:0 ofDate:date options:0];
+//        NSDate *morningOfTodaysDate = [calendar dateBySettingHour:0 minute:0 second:0 ofDate:NSDate.date options:0];
+//        if ([morningOfSelectedDate compare:morningOfTodaysDate] == NSOrderedSame) {
+//            _finishDate = NSDate.date;
+//        } else {
+//            _finishDate = date;
+//        }
+//    }
+//    
+//    if (self.delegate && [self.delegate respondsToSelector:@selector(popover:updatedQueryStartDate:finishDate:)]) {
+//        [self.delegate popover:self updatedQueryStartDate:_startDate finishDate:_finishDate];
+//    }
+//    
+//    // get current date/time
+//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+//    [dateFormatter setTimeStyle:NSDateFormatterShortStyle];
+//    NSString *startTime = [dateFormatter stringFromDate:_startDate];
+//    NSString *finishTime = [dateFormatter stringFromDate:_finishDate];
+//    NSLog(startTime);
+//    NSLog(finishTime);
+//}
 
 @end

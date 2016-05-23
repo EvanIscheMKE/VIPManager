@@ -176,20 +176,11 @@ balanceForTransactionID:(NSInteger)transactionID
     __block float startingBalance = 00.00;
     dispatch_sync(self.queue, ^{
      
-        NSLog(@"%zd",userID);
-        
         NSString *query = [HDDBManager queryStringForTransactionsFromUserID:userID beforeTransitionID:transactionID];
         
         [self runQuery:[query UTF8String] isQueryExecutable:NO];
-        
         for (HDTransactionObject *transaction in [HDHelper transactionObjectsFromArray:self.results withColumnNames:self.columnNames]) {
-            if (transaction.addition) {
-                // Add cost
-                startingBalance += transaction.cost;
-            } else {
-                // Subtract cost
-                startingBalance -= transaction.cost;
-            }
+            startingBalance += transaction.cost;
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             resultsBlock(startingBalance);
@@ -201,21 +192,13 @@ balanceForTransactionID:(NSInteger)transactionID
     
     /* Starting Balance for all Members */
     __block float currentBalance = 00.00;
-    
     dispatch_sync(self.queue, ^{
         
         NSString *query = [HDDBManager queryStringForTransactionsFromUserID:userID];
         
         [self runQuery:[query UTF8String] isQueryExecutable:NO];
-        
         for (HDTransactionObject *transaction in [HDHelper transactionObjectsFromArray:self.results withColumnNames:self.columnNames]) {
-            if (transaction.addition) {
-                // Add cost
-                currentBalance += transaction.cost;
-            } else {
-                // Subtract cost
-                currentBalance -= transaction.cost;
-            }
+           currentBalance += transaction.cost;
         }
         dispatch_async(dispatch_get_main_queue(), ^{
             resultsBlock(currentBalance);

@@ -16,5 +16,4 @@
 @property (nonatomic, copy) NSString *admin;
 @property (nonatomic, copy) NSString *username;
 @property (nonatomic, copy) NSString *title;
-@property (nonatomic, assign, readonly) BOOL addition;
 @end

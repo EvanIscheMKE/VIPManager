@@ -17,6 +17,7 @@
 - (NSUInteger)count;
 - (void)addItem:(HDItem *)item;
 - (void)removeItem:(HDItem *)item;
+- (void)removeItemAtIndex:(NSInteger)index;
 - (HDItem *)itemAtIndex:(NSInteger)index;
 - (void)saveChanges;
 + (HDItemManager *)sharedManager;

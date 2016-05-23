@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface HDDataGridTableViewCell : UITableViewCell
-@property (nonatomic, assign) BOOL isTopCell;
 @property (nonatomic, copy) NSString *startingBalance;
 @property (nonatomic, copy) NSString *endingBalance;
 @property (nonatomic, copy) NSString *itemCost;

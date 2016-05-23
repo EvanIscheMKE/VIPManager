@@ -13,8 +13,6 @@
 #import "HDPopoverViewController.h"
 #import "HDBasePresentationController.h"
 #import "HDItemManagerViewController.h"
-#import "HDUserPresentationController.h"
-#import "HDUserTableViewController.h"
 #import "HDUserObject.h"
 #import "HDDBManager.h"
 #import "HDHelper.h"
@@ -37,13 +35,13 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
         self.layer.masksToBounds = YES;
         
         self.backgroundColor = [UIColor whiteColor];
-        self.attributedPlaceholder = [self attributedPlaceholderWithString:@"Search For Current VIP Card Member"];
+        self.attributedPlaceholder = [self _attributedPlaceholderWithString:@"Search For Current VIP Card Member"];
         self.keyboardType = UIKeyboardAppearanceDark;
         self.returnKeyType = UIReturnKeyDone;
-        self.leftView = [self leftViewWithHeight:CGRectGetHeight(frame)];
+        self.leftView = [self _leftViewWithHeight:CGRectGetHeight(frame)];
         self.leftViewMode = UITextFieldViewModeAlways;
         self.rightViewMode = self.leftViewMode;
-        self.rightView = [self rightButtonWithHeight:CGRectGetHeight(frame)];
+        self.rightView = [self _rightButtonWithHeight:CGRectGetHeight(frame)];
         self.clearButtonMode = UITextFieldViewModeWhileEditing;
     }
     return self;
@@ -53,15 +51,16 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
     return (UIButton *)self.rightView;
 }
 
-- (UIButton *)rightButtonWithHeight:(CGFloat)height {
+#pragma mark - Private
+
+- (UIButton *)_rightButtonWithHeight:(CGFloat)height {
     CGRect buttonFrame = CGRectMake(0.0, 0.0, height, height);
     UIButton *btn = [[UIButton alloc] initWithFrame:buttonFrame];
     [btn setImage:[UIImage additionSignImageWithSize:buttonFrame.size] forState:UIControlStateNormal];
     return btn;
 }
 
-- (UIView *)leftViewWithHeight:(CGFloat)height {
-    
+- (UIView *)_leftViewWithHeight:(CGFloat)height {
     CGRect containerFrame = CGRectMake(0.0, 0.0, height * 1.5f, height);
     UIView *container = [[UIView alloc] initWithFrame:containerFrame];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"golf-icon"]];
@@ -71,21 +70,18 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
     return container;
 }
 
-- (NSAttributedString *)attributedPlaceholderWithString:(NSString *)placeholder {
+- (NSAttributedString *)_attributedPlaceholderWithString:(NSString *)placeholder {
     NSDictionary *attributes = @{ NSFontAttributeName:[UIFont systemFontOfSize:20.0f],
                                   NSForegroundColorAttributeName:[UIColor blackColor] };
     return [[NSAttributedString alloc] initWithString:placeholder
                                            attributes:attributes];
 }
 
-
 @end
-
 
 @interface HDHomeViewController () < UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate >
 @property (nonatomic, strong) HDSearchBar *searchBar;
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) HDUserTransitioningDelegate *userTransitioningDelegate;
 @property (nonatomic, strong) NSMutableDictionary *userSearchDictionary;
 @end
 
@@ -102,7 +98,6 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
 
 - (void)viewDidLoad {
     
-    self.userTransitioningDelegate = [HDUserTransitioningDelegate new];
     self.userSearchDictionary = [NSMutableDictionary new];
     
     self.navigationController.navigationBarHidden = TRUE;
@@ -135,18 +130,11 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
 }
 
 - (void)_presentUserViewController {
-    self.transitioningDelegate = self.userTransitioningDelegate;
-    HDUserTableViewController *controller = [[HDUserTableViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
-    navigationController.modalPresentationStyle = UIModalPresentationCustom;
-    navigationController.transitioningDelegate = self.userTransitioningDelegate;
-    [ self presentViewController:navigationController
-                        animated:YES
-                      completion:nil ];
+  
 }
 
 - (void)firstname:(NSString **)firstname lastname:(NSString **)lastname {
-    NSArray *nameParts = [_currentSearchString componentsSeparatedByString:@" "];
+    NSArray *nameParts = [_currentSearchString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     *firstname = nameParts.firstObject;
     if (nameParts.count == 2) {
         *lastname = [nameParts objectAtIndex:1];

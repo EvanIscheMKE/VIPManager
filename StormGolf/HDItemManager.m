@@ -103,6 +103,11 @@ NSString * const HDCostKey = @"cost";
     return _items;
 }
 
+- (void)removeItemAtIndex:(NSInteger)index {
+    [self.items removeObjectAtIndex:index];
+    [self _save];
+}
+
 - (NSUInteger)count {
     return self.items.count;
 }
@@ -115,7 +120,7 @@ NSString * const HDCostKey = @"cost";
 
 - (void)_save:(NSMutableArray *)items {
     NSMutableArray *saveTheseItems = [NSMutableArray new];
-    for (HDItem *item in items == nil ? self.items : items) {
+    for (HDItem *item in (items == nil) ? self.items : items) {
          NSData *data = [NSKeyedArchiver archivedDataWithRootObject:item];
         [saveTheseItems addObject:data];
     }

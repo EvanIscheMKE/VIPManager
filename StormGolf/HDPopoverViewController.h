@@ -8,12 +8,11 @@
 
 @import UIKit;
 
-#import "FSCalendar.h"
 
 @protocol HDPopoverViewControllerDelegate;
 @interface HDPopoverViewController : UIViewController
-@property (nonatomic, weak) FSCalendar *startCalendar;
-@property (nonatomic, weak) FSCalendar *finishCalendar;
+//@property (nonatomic, weak) FSCalendar *startCalendar;
+//@property (nonatomic, weak) FSCalendar *finishCalendar;
 @property (nonatomic, weak) id<HDPopoverViewControllerDelegate> delegate;
 @end
 

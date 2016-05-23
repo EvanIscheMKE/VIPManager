@@ -6,25 +6,27 @@
 		<key>description</key>
 		<string>Small Bucket</string>
 		<key>cost</key>
-		<real>7</real>
+		<integer>-7</integer>
+		<key>remove</key>
+		<true/>
 	</dict>
 	<dict>
 		<key>description</key>
 		<string>Medium Bucket</string>
 		<key>cost</key>
-		<real>9</real>
+		<integer>-9</integer>
 	</dict>
 	<dict>
 		<key>description</key>
 		<string>Large Bucket</string>
 		<key>cost</key>
-		<integer>12</integer>
+		<integer>-12</integer>
 	</dict>
 	<dict>
 		<key>description</key>
 		<string>Jumbo Bucket</string>
 		<key>cost</key>
-		<integer>17</integer>
+		<integer>-17</integer>
 	</dict>
 	<dict>
 		<key>description</key>
@@ -36,43 +38,43 @@
 		<key>description</key>
 		<string>Beverage 1</string>
 		<key>cost</key>
-		<integer>1</integer>
+		<integer>-1</integer>
 	</dict>
 	<dict>
 		<key>description</key>
 		<string>Beverage 2</string>
 		<key>cost</key>
-		<real>1.75</real>
+		<real>-1.75</real>
 	</dict>
 	<dict>
 		<key>description</key>
 		<string>Beverage 3</string>
 		<key>cost</key>
-		<real>2.5</real>
+		<real>-2.5</real>
 	</dict>
 	<dict>
 		<key>description</key>
 		<string>Candy</string>
 		<key>cost</key>
-		<real>1.5</real>
+		<real>-1.5</real>
 	</dict>
 	<dict>
 		<key>description</key>
 		<string>Bottle Water</string>
 		<key>cost</key>
-		<integer>1</integer>
+		<integer>-1</integer>
 	</dict>
 	<dict>
 		<key>description</key>
 		<string>Tees</string>
 		<key>cost</key>
-		<real>0.5</real>
+		<real>-0.5</real>
 	</dict>
 	<dict>
 		<key>description</key>
 		<string>Glove</string>
 		<key>cost</key>
-		<integer>12</integer>
+		<integer>-12</integer>
 	</dict>
 </array>
 </plist>

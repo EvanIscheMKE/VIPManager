@@ -19,8 +19,4 @@
             self.title];
 }
 
-- (BOOL)addition {
-    return [self.title isEqualToString:@"VIP Card"] || [self.title isEqualToString:@"Created Account"];
-}
-
 @end

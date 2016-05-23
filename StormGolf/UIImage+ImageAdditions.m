@@ -18,7 +18,7 @@
     dispatch_once(&onceToken, ^{
         UIGraphicsBeginImageContextWithOptions(size, NO, 0);
         
-        const CGFloat inset = size.width / 3.25f;
+        const CGFloat inset = size.width / 3.15f;
         
         UIBezierPath *horizontal = [UIBezierPath bezierPath];
         [horizontal moveToPoint:CGPointMake(inset, size.height / 2.0f)];
