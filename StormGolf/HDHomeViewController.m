@@ -10,14 +10,14 @@
 #import "UIImage+ImageAdditions.h"
 #import "HDHomeViewController.h"
 #import "UIColor+ColorAdditions.h"
-#import "HDPopoverViewController.h"
-#import "HDBasePresentationController.h"
 #import "HDItemManagerViewController.h"
+#import "UIFont+FontAdditions.h"
+#import "UIFont+FontAdditions.h"
 #import "HDUserObject.h"
 #import "HDDBManager.h"
 #import "HDHelper.h"
 
-const CGFloat TEXTFIELD_HEIGHT = 70.0f;
+const CGFloat TEXTFIELD_HEIGHT = 64.0f;
 
 NSString * const HDNewMemberKey = @"New Member";
 NSString * const HDItemManagerKey = @"Item Manager";
@@ -34,8 +34,10 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
         self.layer.cornerRadius = 3.0f;
         self.layer.masksToBounds = YES;
         
+        self.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        self.font = [UIFont stormGolfFontOfSize:22.0f];
         self.backgroundColor = [UIColor whiteColor];
-        self.attributedPlaceholder = [self _attributedPlaceholderWithString:@"Search For Current VIP Card Member"];
+        self.attributedPlaceholder = [self _attributedPlaceholderWithString:@"Who's account are we looking for?"];
         self.keyboardType = UIKeyboardAppearanceDark;
         self.returnKeyType = UIReturnKeyDone;
         self.leftView = [self _leftViewWithHeight:CGRectGetHeight(frame)];
@@ -61,9 +63,9 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
 }
 
 - (UIView *)_leftViewWithHeight:(CGFloat)height {
-    CGRect containerFrame = CGRectMake(0.0, 0.0, height * 1.5f, height);
+    CGRect containerFrame = CGRectMake(0.0, 0.0, height * 1.25f, height);
     UIView *container = [[UIView alloc] initWithFrame:containerFrame];
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"golf-icon"]];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"SearchSmall"]];
     imageView.center = CGPointMake(CGRectGetMidX(container.bounds), CGRectGetMidY(container.bounds));
     [container addSubview:imageView];
     
@@ -71,8 +73,9 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
 }
 
 - (NSAttributedString *)_attributedPlaceholderWithString:(NSString *)placeholder {
-    NSDictionary *attributes = @{ NSFontAttributeName:[UIFont systemFontOfSize:20.0f],
+    NSDictionary *attributes = @{ NSFontAttributeName:[UIFont stormGolfFontOfSize:20.0f],
                                   NSForegroundColorAttributeName:[UIColor blackColor] };
+    NSLog(@"%@",attributes[NSFontAttributeName]);
     return [[NSAttributedString alloc] initWithString:placeholder
                                            attributes:attributes];
 }
@@ -91,20 +94,37 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
     NSArray *_queryResults;
 }
 
+- (instancetype)init {
+    if (self = [super init]) {
+        self.userSearchDictionary = [NSMutableDictionary new];
+    }
+    return self;
+}
+
 - (void)dealloc {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+    [self stopObservingNotifications];
+}
+
+- (void)loadView {
+    self.view = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stormWP2048"]];
+    [self.view addSubview:imageView];
+    
+    const CGRect searchBarFrame = CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.view.bounds)/1.15f, TEXTFIELD_HEIGHT);
+    self.searchBar = [[HDSearchBar alloc] initWithFrame:searchBarFrame];
+    self.searchBar.delegate = self;
+    self.searchBar.center = self.view.center;
+    [self.searchBar.rightActionButton addTarget:self
+                                         action:@selector(_presentUserViewController)
+                               forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:self.searchBar];
 }
 
 - (void)viewDidLoad {
     
-    self.userSearchDictionary = [NSMutableDictionary new];
-    
     self.navigationController.navigationBarHidden = TRUE;
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"stormWP2048"]];
-    [self.view addSubview:imageView];
     
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds];
     [self.tableView registerClass:[HDUserSearchTableViewCell class]
@@ -112,20 +132,10 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.hidden = YES;
+    self.tableView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:self.tableView];
     
-    const CGRect searchBarFrame = CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.view.bounds)/1.15f, TEXTFIELD_HEIGHT);
-    self.searchBar = [[HDSearchBar alloc] initWithFrame:searchBarFrame];
-    self.searchBar.delegate = self;
-    self.searchBar.center = self.view.center;
-    [self.searchBar.rightActionButton addTarget:self action:@selector(_presentUserViewController) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:self.searchBar];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(_keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(_keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
-    
+    [self beginObserveringNotifications];
     [super viewDidLoad];
 }
 
@@ -154,7 +164,6 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
     _currentSearchString = [textField.text stringByReplacingCharactersInRange:range withString:string];
     if ([_currentSearchString isEqualToString:@""]) {
         _queryResults = nil;
-        [_userSearchDictionary removeAllObjects];
         [self.tableView reloadData];
         return YES;
     }
@@ -171,20 +180,22 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
     NSString *queryString = [HDDBManager queryStringForFirstName:firstName lastName:lastName];
     [[HDDBManager sharedManager] queryUserDataFromDatabase:queryString completion:^(NSArray *results) {
         _queryResults = results;
-        [_userSearchDictionary setObject:_queryResults forKey:_currentSearchString];
+        [_userSearchDictionary setObject:results forKey:_currentSearchString];
         [self.tableView reloadData];
     }];
     return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-     _queryResults = nil;
     textField.text = nil;
     return [textField resignFirstResponder];
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
-    return [textField resignFirstResponder];
+    NSLog(@"%@",NSStringFromSelector(_cmd));
+    _queryResults = nil;
+    [self.tableView reloadData];
+    return YES;
 }
 
 #pragma mark - UITableViewDelegate/UITableViewDatasource
@@ -216,7 +227,7 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
 
 - (IBAction)_keyboardWillShow:(NSNotification *)notification {
     
-     _previousTextFieldFrame = self.searchBar.frame;
+    _previousTextFieldFrame = CGRectIntegral(self.searchBar.frame);
     
     self.searchBar.rightViewMode = UITextFieldViewModeNever;
 
@@ -226,7 +237,7 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
                      animations:^{
                          CGRect frame = self.searchBar.frame;
                          frame.origin.x = 0.0f;
-                         frame.origin.y = 20.0f;
+                         frame.origin.y = 0.0f;
                          frame.size.width = CGRectGetWidth(self.view.bounds);
                          self.searchBar.frame = frame;
                          self.searchBar.layer.masksToBounds = NO;
@@ -238,15 +249,13 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
 
 - (IBAction)_keyboardWillHide:(NSNotification *)notification {
     
-    _queryResults = nil;
+    self.tableView.hidden = YES;
+    self.searchBar.rightViewMode = UITextFieldViewModeAlways;
     
     const CGRect searchBarBounds = CGRectMake(0.0f, 0.0, CGRectGetWidth(self.view.bounds), TEXTFIELD_HEIGHT);
     self.searchBar.frame = searchBarBounds;
+    self.tableView.tableHeaderView = nil;
     [self.view addSubview:self.searchBar];
-    
-    self.searchBar.rightViewMode = UITextFieldViewModeAlways;
-    
-    self.tableView.hidden = YES;
     
     NSDictionary *userInfoDictionary = [notification userInfo];
     NSTimeInterval duration = [userInfoDictionary[UIKeyboardAnimationDurationUserInfoKey] doubleValue];
@@ -254,13 +263,37 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
                      animations:^{
                          self.searchBar.frame = _previousTextFieldFrame;
                          self.searchBar.layer.masksToBounds = YES;
-                     } completion:nil];
+                     } completion:^(BOOL completed){
+                         [_userSearchDictionary removeAllObjects];
+                         _queryResults = nil;
+                         [self.tableView reloadData];
+                     }];
 }
 
 - (NSMutableAttributedString *)highlightedString:(NSString *)string forRange:(NSRange)range color:(UIColor *)color {
+    
+    if (!string) {
+        return nil;
+    }
+    
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:string];
-    [attributedString addAttribute:NSBackgroundColorAttributeName value:[UIColor lightGrayColor] range:range];
+    [attributedString addAttribute:NSBackgroundColorAttributeName value:[UIColor flatSTYellowColor] range:range];
     return attributedString;
+}
+
+- (void)beginObserveringNotifications {
+    NSLog(@"BEGIN");
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(_keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(_keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+}
+
+- (void)stopObservingNotifications {
+    NSLog(@"STOP");
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+
 }
 
 @end

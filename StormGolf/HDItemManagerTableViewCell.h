@@ -6,8 +6,10 @@
 //  Copyright © 2016 Evan William Ische. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
-@interface HDItemManagerTableViewCell : UITableViewCell
-
+#import "HDDefaultDataGridCell.h"
+@interface HDItemManagerTableViewCell : HDDefaultDataGridCell
+@property (nonatomic, copy) NSString *itemTitle;
+@property (nonatomic, copy) NSString *itemCost;
 @end

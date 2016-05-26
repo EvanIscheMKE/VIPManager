@@ -9,5 +9,6 @@
 @import UIKit;
 
 @interface UIImage (ImageAdditions)
++ (UIImage *)backgroundWithColor:(UIColor *)color;
 + (UIImage *)additionSignImageWithSize:(CGSize)size;
 @end

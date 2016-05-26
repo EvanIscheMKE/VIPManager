@@ -6,9 +6,10 @@
 //  Copyright © 2016 Evan William Ische. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
-@interface HDDataGridTableViewCell : UITableViewCell
+#import "HDDefaultDataGridCell.h"
+@interface HDDataGridTableViewCell : HDDefaultDataGridCell
 @property (nonatomic, copy) NSString *startingBalance;
 @property (nonatomic, copy) NSString *endingBalance;
 @property (nonatomic, copy) NSString *itemCost;

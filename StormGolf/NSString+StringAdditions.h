@@ -10,4 +10,5 @@
 
 @interface NSString (StringAdditions)
 + (NSString *)formattedStringFromDate:(NSDate *)date;
++ (NSString *)stringWithFrontOffset:(NSString *)string;
 @end

@@ -6,6 +6,8 @@
 //  Copyright © 2016 Evan William Ische. All rights reserved.
 //
 
+#import "HDDataVisualizationView.h"
+#import "HDTransactionManager.h"
 #import "HDTransactionPopoverViewController.h"
 #import "HDTransactionsViewController.h"
 #import "HDTransactionsHeaderView.h"
@@ -14,6 +16,7 @@
 #import "UIColor+ColorAdditions.h"
 #import "NSString+StringAdditions.h"
 #import "HDSalesDataGridTableViewCell.h"
+#import "UIFont+FontAdditions.h"
 #import "HDItemManager.h"
 #import "HDSalesHeaderView.h"
 #import "HDDBManager.h"
@@ -24,10 +27,9 @@ NSString * const HDSalesTableViewReuseIdentifier = @"HDSalesTableViewReuseIdenti
 NSString * const HDTableViewReusableTransactionHeaderFooterIdentifier = @"HDTableViewReusableTransactionHeaderFooterIdentifier";
 NSString * const HDTableViewReusableSalesHeaderFooterIdentifier = @"HDTableViewReusableSalesHeaderFooterIdentifier";
 
-const NSUInteger NUMBER_OF_BUTTONS = 2;
-@interface HDCalendarContainerView ()
-@end
+typedef void (^HDSalesCompletionBlock)(NSUInteger count, CGFloat total);
 
+const NSUInteger NUMBER_OF_BUTTONS = 2;
 @implementation HDCalendarContainerView {
     CGSize _size;
 }
@@ -42,7 +44,7 @@ const NSUInteger NUMBER_OF_BUTTONS = 2;
         
         NSString *title = [NSString formattedStringFromDate:NSDate.date];
         
-        UIFont *font = [UIFont systemFontOfSize:19.0f];
+        UIFont *font = [UIFont stormGolfFontOfSize:21.0f];
     
         _size = [title sizeWithAttributes: @{ NSFontAttributeName: font }];
 
@@ -51,7 +53,7 @@ const NSUInteger NUMBER_OF_BUTTONS = 2;
             UIButton *btn = [[UIButton alloc] initWithFrame:bounds];
             btn.tag = i;
             btn.backgroundColor = [UIColor clearColor];
-            btn.titleLabel.font = [UIFont systemFontOfSize:15.0f];
+            btn.titleLabel.font = [UIFont stormGolfFontOfSize:14.0f];
             btn.titleLabel.textAlignment = NSTextAlignmentCenter;
             [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
             [btn setTitle:[NSString formattedStringFromDate:NSDate.date] forState:UIControlStateNormal];
@@ -96,15 +98,20 @@ const NSUInteger NUMBER_OF_BUTTONS = 2;
 - (void)drawRect:(CGRect)rect {
     [[UIColor blackColor] setStroke];
     UIBezierPath *bezierPath = [UIBezierPath bezierPath];
-    bezierPath.lineWidth = 1.0f;
-    [bezierPath moveToPoint:CGPointMake(CGRectGetMidX(self.bounds), 10.0f)];
-    [bezierPath addLineToPoint:CGPointMake(CGRectGetMidX(self.bounds), CGRectGetHeight(self.bounds) - 10.0f)];
+    bezierPath.lineWidth = 2.0f;
+    bezierPath.lineCapStyle = kCGLineCapRound;
+    [bezierPath moveToPoint:CGPointMake(CGRectGetMidX(self.bounds), 12.0f)];
+    [bezierPath addLineToPoint:CGPointMake(CGRectGetMidX(self.bounds), CGRectGetHeight(self.bounds) - 12.0f)];
     [bezierPath stroke];
 }
 
 @end
 
-const CGFloat TABLEVIEW_HEADER_HEIGHT = 36.0f;
+
+
+
+
+static const CGFloat TABLEVIEW_HEADER_HEIGHT = 88.0f;
 @interface HDTransactionsViewController () < HDCalendarViewDelegate >
 @property (nonatomic, strong) NSArray *currentTransactions;
 @property (nonatomic, strong) UISegmentedControl *segmentControl;
@@ -112,11 +119,15 @@ const CGFloat TABLEVIEW_HEADER_HEIGHT = 36.0f;
 
 @implementation HDTransactionsViewController {
     BOOL _displayTransactions;
+    NSUInteger _dataViewMaxValue;
 }
 
 - (void)viewDidLoad {
     
     _displayTransactions = YES;
+    
+    self.tableView.separatorColor = [UIColor clearColor];
+    self.tableView.backgroundColor = [UIColor whiteColor];
     
     [super viewDidLoad];
     [self.tableView registerClass:[HDDataGridTableViewCell class]
@@ -128,24 +139,17 @@ forHeaderFooterViewReuseIdentifier:HDTableViewReusableTransactionHeaderFooterIde
     [self.tableView registerClass:[HDSalesHeaderView class]
 forHeaderFooterViewReuseIdentifier:HDTableViewReusableSalesHeaderFooterIdentifier];
     
-    self.segmentControl = [[UISegmentedControl alloc] initWithItems:@[@"TRANSACTIONS", @"SALES"]];
-    self.segmentControl.tintColor = [UIColor flatSTRedColor];
+    self.segmentControl = [[UISegmentedControl alloc] initWithItems:@[@"Transactions", @"Sales"]];
+    self.segmentControl.tintColor = [UIColor blackColor];
     self.segmentControl.selectedSegmentIndex = 0;
     [self.segmentControl addTarget:self action:@selector(_updateTableViewData:) forControlEvents:UIControlEventValueChanged];
-
-    for (NSUInteger i = 0; i < 2; i++) {
-        [self.segmentControl setTitleTextAttributes:@{NSFontAttributeName:[UIFont boldSystemFontOfSize:9.0f]}
-                                           forState: (i == 0) ? UIControlStateSelected : UIControlStateNormal];
-    }
-    
-    UIView *space = [[UIView alloc] initWithFrame:self.segmentControl.bounds];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:space];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.segmentControl];
-    
-    const CGRect containerBounds = CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.view.bounds), 44.0f);
-    HDCalendarContainerView *container = [[HDCalendarContainerView alloc] initWithFrame:containerBounds];
-    container.delegate = self;
-    self.navigationItem.titleView = container;
+    [self.segmentControl setTitleTextAttributes:@{NSFontAttributeName:[UIFont stormGolfFontOfSize:15.0f]}
+                                       forState:UIControlStateSelected];
+    [self.segmentControl setTitleTextAttributes:@{NSFontAttributeName:[UIFont stormGolfFontOfSize:15.0f]}
+                                       forState:UIControlStateNormal];
+    [self.segmentControl setWidth:120.0f forSegmentAtIndex:0];
+    [self.segmentControl setWidth:120.0f forSegmentAtIndex:1];
+    self.navigationItem.titleView = self.segmentControl;
     
     NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier: NSCalendarIdentifierGregorian];
     NSUInteger unixTodayMorning = [[calendar dateBySettingHour:0 minute:0 second:0 ofDate:NSDate.date options:0] timeIntervalSince1970];
@@ -155,15 +159,17 @@ forHeaderFooterViewReuseIdentifier:HDTableViewReusableSalesHeaderFooterIdentifie
     
     query = @"select * from transactions";
     [[HDDBManager sharedManager] queryTransactionDataFromDatabase:query completion:^(NSArray *results) {
-         self.currentTransactions = results;
+        
+        self.currentTransactions = results;
+        
+        _dataViewMaxValue = [[HDTransactionManager sharedManager] updateCurrentTransactionQueryResults:results];
+        
         [self.tableView reloadData];
+    
         for (HDTransactionObject *transaction in self.currentTransactions) {
             NSString *startTime = [[HDHelper formatter] stringFromDate:transaction.date];
-           // NSLog(@"%@",startTime);
         }
     }];
-    
-    self.tableView.rowHeight = 50.0f;
 }
 
 #pragma mark - <UITableViewDataSource>
@@ -176,6 +182,7 @@ forHeaderFooterViewReuseIdentifier:HDTableViewReusableSalesHeaderFooterIdentifie
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
     if (_displayTransactions) {
         HDDataGridTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HDTransactionTableViewReuseIdentifier forIndexPath:indexPath];
         
@@ -188,35 +195,35 @@ forHeaderFooterViewReuseIdentifier:HDTableViewReusableSalesHeaderFooterIdentifie
                 cell.itemCost = [HDHelper stringFromNumber:fabs(transaction.cost)];
                 cell.transactionDate = [[HDHelper formatter] stringFromDate:transaction.date];
                 cell.itemDescription = transaction.title;
-                cell.memberName = [NSString stringWithFormat:@"   %@",transaction.username];
+                cell.memberName = transaction.username;
                 cell.cashierName = transaction.admin;
+                
+                if ([transaction.title isEqualToString:@"VIP Card"]||[transaction.title isEqualToString:@"Created Account"]) {
+                    [cell setBackgroundColor:[UIColor flatSTYellowColor]];
+                } else {
+                    [cell setBackgroundColor:[UIColor whiteColor]];
+                }
             }
         }];
         
         return cell;
     } else {
+        
         HDItem *item = [[HDItemManager sharedManager] itemAtIndex:indexPath.row];
         HDSalesDataGridTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HDSalesTableViewReuseIdentifier forIndexPath:indexPath];
-        
-        cell.textLabel.text = item.itemDescription;
+        [[HDTransactionManager sharedManager] infoForItemWithDescription:item.itemDescription
+                                                              completion:^(NSUInteger count, CGFloat total) {
+            cell.itemDescription = item.itemDescription;
+            cell.amountSold = [NSString stringWithFormat:@"%lu",count];
+            cell.totalSold = [HDHelper stringFromNumber:total];
+            
+            cell.dataView.min = 0;
+            cell.dataView.max = _dataViewMaxValue;
+            cell.dataView.plot = count;
+            cell.dataView.strokeColor = [UIColor colorForRowAtIndex:indexPath.row];
+        }];
         
         return cell;
-    }
-    
-}
-
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if ([tableView respondsToSelector:@selector(setSeparatorInset:)]) {
-        [tableView setSeparatorInset:UIEdgeInsetsZero];
-    }
-    
-    if ([tableView respondsToSelector:@selector(setLayoutMargins:)]) {
-        [tableView setLayoutMargins:UIEdgeInsetsZero];
-    }
-    
-    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
-        [cell setLayoutMargins:UIEdgeInsetsZero];
     }
 }
 

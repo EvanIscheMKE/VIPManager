@@ -9,6 +9,5 @@
 @import UIKit;
 
 extern NSString * const HDTableViewReloadDataNotification;
-@interface HDItemManagerPopoverViewController : UITableViewController
-
+@interface HDItemManagerPopoverViewController : UIViewController
 @end

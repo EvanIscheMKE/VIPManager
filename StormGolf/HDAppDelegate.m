@@ -9,10 +9,14 @@
 #import "HDItemManager.h"
 #import "HDDBManager.h"
 #import "HDAppDelegate.h"
+#import "HDToolBar.h"
 #import "HDHomeViewController.h"
 #import "HDItemManagerViewController.h"
 #import "HDTransactionsViewController.h"
+#import "HDTransactionPopoverViewController.h"
 #import "UIColor+ColorAdditions.h"
+#import "UIFont+FontAdditions.h"
+#import "HDAppDelegate.h"
 
 @interface HDAppDelegate ()
 @end
@@ -26,7 +30,9 @@
     
     /* */
     HDHomeViewController *controller = [[HDHomeViewController alloc] init];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithNavigationBarClass:nil
+                                                                                                 toolbarClass:[HDToolBar class]];
+    navigationController.viewControllers = @[controller];
     navigationController.navigationBarHidden = YES;
     navigationController.toolbarHidden = NO;
     controller.toolbarItems = [self _toolBarItems];
@@ -40,15 +46,17 @@
     [[UIToolbar appearance] setBarTintColor:[UIColor whiteColor]];
     [[UIToolbar appearance] setTintColor:[UIColor blackColor]];
     
+    [[UINavigationBar appearance] setClipsToBounds:YES];
     [[UINavigationBar appearance] setTranslucent:NO];
+    [[UINavigationBar appearance] setTitleTextAttributes:@{ NSFontAttributeName:[UIFont stormGolfFontOfSize:18.0f],
+                                                 NSForegroundColorAttributeName:[UIColor blackColor]}];
     [[UINavigationBar appearance] setBarTintColor:[UIColor whiteColor]];
-    [[UINavigationBar appearance] setTintColor:[UIColor flatSTRedColor]];
+    [[UINavigationBar appearance] setTintColor:[UIColor blackColor]];
     
     if (![[NSUserDefaults standardUserDefaults] boolForKey:@"first"]) {
         [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"first"];
         [self _populateWithSampleData];
     }
-    
     return YES;
 }
 
@@ -68,51 +76,80 @@
 
 - (NSArray *)_toolBarItems {
     
-    UIBarButtonItem *fixedSpaceSmall = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    UIBarButtonItem *fixedSpaceSmall = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                                     target:nil
+                                                                                     action:nil];
     fixedSpaceSmall.width = 20.0f;
     
-    UIBarButtonItem *fixedSpaceMedium = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    fixedSpaceMedium.width = 50.0f;
+    UIBarButtonItem *fixedSpaceMedium = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                                      target:nil
+                                                                                      action:nil];
+    fixedSpaceMedium.width = 40.0f;
     
-    UIBarButtonItem *fixedSpaceLarge = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    fixedSpaceLarge.width = 100.0f;
+    UIBarButtonItem *fixedSpaceLarge = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+                                                                                     target:nil
+                                                                                     action:nil];
+    fixedSpaceLarge.width = 80.0f;
     
-    NSArray *toolBarItems = @[
-                              fixedSpaceMedium,
-                              [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Search"]
+    UIBarButtonItem *flex = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
+                                                                          target:nil
+                                                                          action:nil];
+    
+    UIBarButtonItem *search = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Search"]
                                                                style:UIBarButtonItemStylePlain
                                                               target:self
-                                                              action:@selector(_dismissToPresentingViewController:)],
-                              fixedSpaceLarge,
-                              [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
-                                                                            target:self
-                                                                            action:@selector(_presentItemManagerViewController:)],
-                              fixedSpaceLarge,
-                              [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemPlay
-                                                                            target:self
-                                                                            action:@selector(_presentTransactionViewController:)],
-                              [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
-                                                                            target:nil
-                                                                            action:nil],
-                              [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRedo
-                                                                            target:self
-                                                                            action:@selector(_present:)], fixedSpaceSmall];
-    return toolBarItems;
+                                                              action:@selector(_dismissToPresentingViewController:)];
+    
+    UIBarButtonItem *item = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Search"]
+                                                             style:UIBarButtonItemStylePlain
+                                                            target:self
+                                                            action:@selector(_presentItemManagerViewController:)];
+    
+    UIBarButtonItem *user = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"User"]
+                                                             style:UIBarButtonItemStylePlain
+                                                            target:self
+                                                            action:@selector(_presentItemManagerViewController:)];
+    
+    UIBarButtonItem *trans = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Transaction"]
+                                                              style:UIBarButtonItemStylePlain
+                                                             target:self
+                                                             action:@selector(_presentTransactionViewController:)];
+    
+    return @[ fixedSpaceMedium,
+              search,
+              fixedSpaceLarge,
+              item,
+              fixedSpaceLarge,
+              trans,
+              flex,
+              user,
+              fixedSpaceSmall ];
 }
 
 - (IBAction)_dismissToPresentingViewController:(id)sender {
     if ([self _controllerHasChildrenViewController]) {
+        [[self _controller] beginObserveringNotifications];
         [self _removeChildViewController];
     }
 }
 
 - (IBAction)_presentItemManagerViewController:(id)sender {
-    
+    [[self _controller] stopObservingNotifications];
     if ([self _controllerHasChildrenViewController]) {
         [self _removeChildViewController];
         [self _itemManagerViewController];
     } else {
         [self _itemManagerViewController];
+    }
+}
+
+- (IBAction)_presentTransactionViewController:(id)sender {
+     [[self _controller] stopObservingNotifications];
+    if ([self _controllerHasChildrenViewController]) {
+        [self _removeChildViewController];
+        [self _transactionViewController];
+    } else {
+        [self _transactionViewController];
     }
 }
 
@@ -124,16 +161,6 @@
     [[self _controller] addChildViewController:navigationController];
     [[self _controller].view addSubview:navigationController.view];
     [navigationController didMoveToParentViewController:[self _controller]];
-}
-
-- (IBAction)_presentTransactionViewController:(id)sender {
-    
-    if ([self _controllerHasChildrenViewController]) {
-        [self _removeChildViewController];
-        [self _transactionViewController];
-    } else {
-        [self _transactionViewController];
-    }
 }
 
 - (void)_transactionViewController {
@@ -196,7 +223,7 @@
                                                                   price:[[HDItemManager sharedManager] itemAtIndex:index].itemCost
                                                             description:[[HDItemManager sharedManager] itemAtIndex:index].itemDescription
                                                                  userID:userID
-                                                                  admin:@"ADMIN"];
+                                                                  admin:@"Admin"];
             [[HDDBManager sharedManager] executeQuery:query];
             if ([HDDBManager sharedManager].affectedRows != 0) {
                 NSLog(@"Query 1 was executed successfully. Affected rows = %ld", (long)[HDDBManager sharedManager].affectedRows);

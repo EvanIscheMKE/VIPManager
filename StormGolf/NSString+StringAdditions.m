@@ -15,4 +15,8 @@
     return [[HDHelper formatter] stringFromDate:date];
 }
 
++ (NSString *)stringWithFrontOffset:(NSString *)string {
+    return [NSString stringWithFormat:@"   %@",string];
+}
+
 @end

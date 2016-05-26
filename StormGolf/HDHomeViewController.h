@@ -13,5 +13,7 @@
 @end
 
 @interface HDHomeViewController : UIViewController
+- (void)beginObserveringNotifications;
+- (void)stopObservingNotifications;
 @end
 

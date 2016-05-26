@@ -8,5 +8,6 @@
 
 @import UIKit;
 
-@interface HDTransactionsHeaderView : UITableViewHeaderFooterView
+#import "HDDefaultHeaderFooterView.h"
+@interface HDTransactionsHeaderView : HDDefaultHeaderFooterView
 @end

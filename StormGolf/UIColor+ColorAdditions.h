@@ -11,6 +11,8 @@
 @interface UIColor (FlatColors)
 /*! www.flatuicolors.com !*/
 
++ (UIColor *)colorForRowAtIndex:(NSUInteger)index;
+
 /*STD*/
 + (UIColor *)flatSTTripleColor;
 + (UIColor *)flatLCDoubleColor;
@@ -27,6 +29,11 @@
 + (UIColor *)flatLCTanColor;
 + (UIColor *)flatSTYellowColor;
 + (UIColor *)flatSTLightBlueColor;
++ (UIColor *)flatTableCellBlueColor;
++ (UIColor *)flatTableHeaderCellBlueColor;
++ (UIColor *)flatTableSpacerCellBlueColor;
++ (UIColor *)flatTableTextBlueColor;
++ (UIColor *)flatToolBarBlueColor;
 
 /* Blues */
 + (UIColor *)flatPeterRiverColor;

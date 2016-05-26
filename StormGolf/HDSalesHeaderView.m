@@ -8,70 +8,48 @@
 
 #import "HDSalesHeaderView.h"
 #import "UIColor+ColorAdditions.h"
+#import "NSString+StringAdditions.h"
+#import "HDTableViewHeaderBackgroundView.h"
 
-static const CGFloat ITEM_NAME_SCREEN_PERCENTAGE = .2;
-static const CGFloat SALE_GRAPH_MIN_SCREEN_PERCENTAGE = .6;
-static const CGFloat SALE_GRAPH_MAX_SCREEN_PERCENTAGE = .1;
-static const CGFloat SALE_NUMBER_SCREEN_PERCENTAGE  = .1;
+static const CGFloat ITEM_NAME_SCREEN_PERCENTAGE = .2f;
+static const CGFloat SALE_GRAPH_FULL_PERCENTAGE = .4f;
+static const CGFloat SALE_NUMBER_SCREEN_PERCENTAGE  = .2f;
+static const CGFloat TOTAL_AMOUNT_SCREEN_PERCENTAGE  = .2f;
 
-@implementation HDSalesHeaderView {
-    NSArray *_values;
-}
+@implementation HDSalesHeaderView
 
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithReuseIdentifier:reuseIdentifier]) {
-        
-        self.contentView.backgroundColor = [UIColor clearColor];
-        self.backgroundView = [[UIView alloc] initWithFrame:self.contentView.bounds];
-        self.backgroundView.backgroundColor = [UIColor flatSTRedColor];
-        
-        _values = @[@(ITEM_NAME_SCREEN_PERCENTAGE),
-                    @(SALE_GRAPH_MIN_SCREEN_PERCENTAGE),
-                    @(SALE_GRAPH_MAX_SCREEN_PERCENTAGE),
-                    @(SALE_NUMBER_SCREEN_PERCENTAGE)];
-        
-        for (NSUInteger i = 0; i < _values.count; i++) {
-            UILabel *label = [[UILabel alloc] init];
-            label.textColor = [UIColor whiteColor];
-            label.text = [[self _labelForIndex:i] uppercaseString];
-            label.textAlignment = NSTextAlignmentLeft;
-            label.font = [UIFont boldSystemFontOfSize:9.0f];
-            [self.contentView addSubview:label];
-        }
-    }
+    self.values = @[@(ITEM_NAME_SCREEN_PERCENTAGE),
+                @(SALE_GRAPH_FULL_PERCENTAGE),
+                @(SALE_NUMBER_SCREEN_PERCENTAGE),
+                @(TOTAL_AMOUNT_SCREEN_PERCENTAGE)];
+    if (self = [super initWithReuseIdentifier:reuseIdentifier]) { }
     return self;
 }
 
-- (void)layoutSubviews {
-    [super layoutSubviews];
+- (void)drawRect:(CGRect)rect {
+    [super drawRect:rect];
     
-    CGFloat previousWidth = 0.0f;
-    
-    NSUInteger index = 0;
-    for (UILabel *subview in self.contentView.subviews) {
-        const CGFloat labelWidthMultiplier = [[_values objectAtIndex:index] doubleValue];
-        const CGFloat labelHeight = CGRectGetHeight(self.contentView.bounds);
-        const CGFloat labelWidth = labelWidthMultiplier * CGRectGetWidth(self.contentView.bounds);
-        const CGRect labelFrame = CGRectMake(previousWidth, 0.0f, labelWidth, labelHeight);
-        subview.frame = labelFrame;
-        previousWidth += labelWidthMultiplier  * CGRectGetWidth(self.contentView.bounds);
-        
-        index++;
-    }
+    /* */
 }
 
-- (NSString *)_labelForIndex:(NSInteger)index {
+- (NSString *)labelForIndex:(NSUInteger)index {
+    NSString *title = nil;
     switch (index) {
         case 0:
-            return @"   Item Name";
+            title = @"Item Name";
+            break;
         case 1:
-            return @"0";
+            title = @"Visual";
+            break;
         case 2:
-            return @"40";
+            title = @"Sales";
+            break;
         case 3:
-            return @"Sales";
+            title = @"Total";
+            break;
     }
-    return nil;
+    return [NSString stringWithFrontOffset:title];
 }
 
 @end

@@ -6,25 +6,31 @@
 //  Copyright © 2016 Evan William Ische. All rights reserved.
 //
 
+#import "NSString+StringAdditions.h"
+#import "UIColor+ColorAdditions.h"
 #import "HDItemManagerTableViewCell.h"
 
-@implementation HDItemManagerTableViewCell
+static const CGFloat ITEM_TITLE_SCREEN_PERCENTAGE = .8f;
+static const CGFloat ITEM_VALUE_SCREEN_PERCENTAGE = .2f;
+
+@implementation HDItemManagerTableViewCell {
+    NSArray *_values;
+}
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    if (self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseIdentifier]) {
+    self.values = @[@(ITEM_TITLE_SCREEN_PERCENTAGE),
+                  @(ITEM_VALUE_SCREEN_PERCENTAGE)];
+    if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
     }
     return self;
 }
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
+- (void)setItemTitle:(NSString *)itemTitle {
+    [(UILabel *)self.contentView.subviews.firstObject setText:[NSString stringWithFrontOffset:itemTitle]];
 }
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+- (void)setItemCost:(NSString *)itemCost {
+    [(UILabel *)self.contentView.subviews.lastObject setText:[NSString stringWithFrontOffset:itemCost]];
 }
 
 @end

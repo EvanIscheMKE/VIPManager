@@ -6,6 +6,7 @@
 //  Copyright © 2016 Evan William Ische. All rights reserved.
 //
 
+#import "HDItemManagerHeaderFooterView.h"
 #import "HDItemManagerPopoverViewController.h"
 #import "HDItemManagerViewController.h"
 #import "HDItemManagerTableViewCell.h"
@@ -14,7 +15,9 @@
 #import "HDHelper.h"
 
 static NSString * const HDTableViewReuseIdentifier = @"HDTableViewReuseIdentifier";
+static NSString * const HDTableViewHeaderViewReuseIdentifier = @"HDTableViewReuseIdentifier";
 
+static const CGFloat TABLEVIEW_HEADER_HEIGHT = 44.0f;
 @interface HDItemManagerViewController ()<UIPopoverPresentationControllerDelegate>
 @end
 
@@ -25,16 +28,18 @@ static NSString * const HDTableViewReuseIdentifier = @"HDTableViewReuseIdentifie
 }
 
 - (void)viewDidLoad {
-    
     [super viewDidLoad];
-    [self.tableView registerClass:[HDItemManagerTableViewCell class] forCellReuseIdentifier:HDTableViewReuseIdentifier];
     
     self.title = @"Item Manager";
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.tableView.separatorColor = [UIColor clearColor];
+    self.tableView.backgroundColor = [UIColor whiteColor];
+    
+    [self.tableView registerClass:[HDItemManagerTableViewCell class] forCellReuseIdentifier:HDTableViewReuseIdentifier];
+    [self.tableView registerClass:[HDItemManagerHeaderFooterView class] forHeaderFooterViewReuseIdentifier:HDTableViewHeaderViewReuseIdentifier];
+    
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                                            target:self
                                                                                            action:@selector(_presentPopoverViewController:)];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self.tableView
                                              selector:@selector(reloadData)
                                                  name:HDTableViewReloadDataNotification
@@ -45,15 +50,15 @@ static NSString * const HDTableViewReuseIdentifier = @"HDTableViewReuseIdentifie
 
 - (IBAction)_presentPopoverViewController:(id)sender {
    
-    HDItemManagerPopoverViewController *controller = [[HDItemManagerPopoverViewController alloc] initWithStyle:UITableViewStyleGrouped];
-    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
-    navigationController.preferredContentSize = CGSizeMake(320.0f, 360.0f);
-    navigationController.modalPresentationStyle = UIModalPresentationPopover;
-    [self presentViewController:navigationController animated:YES completion:nil];
+    HDItemManagerPopoverViewController *controller = [[HDItemManagerPopoverViewController alloc] init];
+    controller.preferredContentSize = CGSizeMake(290.0f, 320.0f);
+    controller.modalPresentationStyle = UIModalPresentationPopover;
+    [self presentViewController:controller animated:YES completion:nil];
     
-    UIPopoverPresentationController *popController = [navigationController popoverPresentationController];
+    UIPopoverPresentationController *popController = [controller popoverPresentationController];
     popController.permittedArrowDirections = UIPopoverArrowDirectionUp;
     popController.barButtonItem = self.navigationItem.rightBarButtonItem;
+    popController.backgroundColor = [UIColor whiteColor];
     popController.delegate = self;
 }
 
@@ -71,9 +76,8 @@ static NSString * const HDTableViewReuseIdentifier = @"HDTableViewReuseIdentifie
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HDItemManagerTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HDTableViewReuseIdentifier forIndexPath:indexPath];
-    cell.textLabel.text = [[HDItemManager sharedManager] itemAtIndex:indexPath.row].itemDescription;
-    cell.detailTextLabel.text = [HDHelper stringFromNumber:fabs([[HDItemManager sharedManager] itemAtIndex:indexPath.row].itemCost)];
-    cell.detailTextLabel.textColor = [UIColor flatPeterRiverColor];
+    cell.itemTitle = [[HDItemManager sharedManager] itemAtIndex:indexPath.row].itemDescription;
+    cell.itemCost = [HDHelper stringFromNumber:fabs([[HDItemManager sharedManager] itemAtIndex:indexPath.row].itemCost)];
     return  cell;
 }
 
@@ -84,6 +88,26 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
         [[HDItemManager sharedManager] removeItemAtIndex:indexPath.row];
         [tableView deleteRowsAtIndexPaths:@[indexPath]
                          withRowAnimation:YES];
+    }
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    return TABLEVIEW_HEADER_HEIGHT;
+}
+
+- (UITableViewHeaderFooterView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    return [tableView dequeueReusableHeaderFooterViewWithIdentifier:HDTableViewHeaderViewReuseIdentifier];
+}
+
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+#pragma mark - <UIScrollViewDelegate>
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (scrollView.contentOffset.y < 0.0f) {
+        scrollView.contentOffset = CGPointZero;
     }
 }
 

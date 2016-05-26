@@ -10,6 +10,22 @@
 
 @implementation UIColor (FlatColors)
 
++ (UIColor *)colorForRowAtIndex:(NSUInteger)index {
+    NSUInteger rows = index % 4;
+    switch (rows) {
+        case 0:
+            return [UIColor flatSTLightBlueColor];
+        case 1:
+            return [UIColor flatSTTripleColor];
+        case 2:
+            return [UIColor flatSTYellowColor];
+        case 3:
+            return [UIColor flatSTRedColor];
+        default:
+            return nil;
+    }
+}
+
 + (UIColor *)flatSTTripleColor {
     return [UIColor colorWithRed:(62/255.0f) green:(96/255.0f) blue:(112/255.0f) alpha:1];
 }
@@ -68,6 +84,28 @@
 
 + (UIColor *)flatSTDarkNavyColor {
     return [UIColor colorWithRed:(2/255.0f) green:(25/255.0f) blue:(35/255.0f) alpha:1];
+}
+
+#pragma mark - Storm Golf Blues
+
++ (UIColor *)flatTableCellBlueColor {
+    return [UIColor colorWithRed:(28/255.0f) green:(50/255.0f) blue:(74/255.0f) alpha:1];
+}
+
++ (UIColor *)flatTableHeaderCellBlueColor {
+    return [UIColor colorWithRed:(31/255.0f) green:(54/255.0f) blue:(80/255.0f) alpha:1];
+}
+
++ (UIColor *)flatTableSpacerCellBlueColor {
+    return [UIColor colorWithRed:(37/255.0f) green:(62/255.0f) blue:(93/255.0f) alpha:1];
+}
+
++ (UIColor *)flatTableTextBlueColor {
+    return [UIColor colorWithRed:(83/255.0f) green:(112/255.0f) blue:(149/255.0f) alpha:1];
+}
+
++ (UIColor *)flatToolBarBlueColor {
+    return [UIColor colorWithRed:(83/255.0f) green:(112/255.0f) blue:(149/255.0f) alpha:1];
 }
 
 /* Blues */

@@ -7,6 +7,7 @@
 //
 
 @import Foundation;
+@import UIKit;
 
 typedef void (^ResultsBlock)(float startingBalance);
 
