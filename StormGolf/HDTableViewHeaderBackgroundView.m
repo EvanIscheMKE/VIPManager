@@ -10,15 +10,18 @@
 #import "HDTableViewHeaderBackgroundView.h"
 
 static const CGFloat DEFAULT_HEADER_HEIGHT = 44.0f;
-@implementation HDTableViewHeaderBackgroundView {
-    NSArray *_values;
-}
+@implementation HDTableViewHeaderBackgroundView
 
 - (instancetype)initWithFrame:(CGRect)frame values:(NSArray *)values {
     if (self = [super initWithFrame:frame]) {
-        _values = values;
+        self.values = values;
     }
     return self;
+}
+
+- (void)setValues:(NSArray *)values {
+    _values = values;
+    [self setNeedsDisplay];
 }
 
 - (void)drawRect:(CGRect)rect {

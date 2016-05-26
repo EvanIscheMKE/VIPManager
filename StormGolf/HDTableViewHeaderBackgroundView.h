@@ -9,5 +9,6 @@
 @import UIKit;
 
 @interface HDTableViewHeaderBackgroundView : UIView
+@property (nonatomic, copy) NSArray *values;
 - (instancetype)initWithFrame:(CGRect)frame values:(NSArray *)values;
 @end

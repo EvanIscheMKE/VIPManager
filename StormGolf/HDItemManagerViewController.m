@@ -6,7 +6,7 @@
 //  Copyright © 2016 Evan William Ische. All rights reserved.
 //
 
-#import "HDItemManagerHeaderFooterView.h"
+#import "HDDataGridHeaderFooterView.h"
 #import "HDItemManagerPopoverViewController.h"
 #import "HDItemManagerViewController.h"
 #import "HDItemManagerTableViewCell.h"
@@ -15,7 +15,7 @@
 #import "HDHelper.h"
 
 static NSString * const HDTableViewReuseIdentifier = @"HDTableViewReuseIdentifier";
-static NSString * const HDTableViewHeaderViewReuseIdentifier = @"HDTableViewReuseIdentifier";
+static NSString * const HDDataGridHeaderFooterIdentifier = @"HDDataGridHeaderFooterIdentifier";
 
 static const CGFloat TABLEVIEW_HEADER_HEIGHT = 44.0f;
 @interface HDItemManagerViewController ()<UIPopoverPresentationControllerDelegate>
@@ -35,7 +35,7 @@ static const CGFloat TABLEVIEW_HEADER_HEIGHT = 44.0f;
     self.tableView.backgroundColor = [UIColor whiteColor];
     
     [self.tableView registerClass:[HDItemManagerTableViewCell class] forCellReuseIdentifier:HDTableViewReuseIdentifier];
-    [self.tableView registerClass:[HDItemManagerHeaderFooterView class] forHeaderFooterViewReuseIdentifier:HDTableViewHeaderViewReuseIdentifier];
+    [self.tableView registerClass:[HDDataGridHeaderFooterView class] forHeaderFooterViewReuseIdentifier:HDDataGridHeaderFooterIdentifier];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                                            target:self
@@ -62,12 +62,6 @@ static const CGFloat TABLEVIEW_HEADER_HEIGHT = 44.0f;
     popController.delegate = self;
 }
 
-#pragma mark - <UIPopoverPresentationControllerDelegate>
-
-- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller {
-    return UIModalPresentationNone;
-}
-
 #pragma mark - <UITableViewCellDataSource>
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -81,26 +75,15 @@ static const CGFloat TABLEVIEW_HEADER_HEIGHT = 44.0f;
     return  cell;
 }
 
-- (void)tableView:(UITableView *)tableView
-commitEditingStyle:(UITableViewCellEditingStyle)editingStyle
-forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        [[HDItemManager sharedManager] removeItemAtIndex:indexPath.row];
-        [tableView deleteRowsAtIndexPaths:@[indexPath]
-                         withRowAnimation:YES];
-    }
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return TABLEVIEW_HEADER_HEIGHT;
 }
 
 - (UITableViewHeaderFooterView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    return [tableView dequeueReusableHeaderFooterViewWithIdentifier:HDTableViewHeaderViewReuseIdentifier];
-}
-
-- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
+    NSDictionary *dictionary = [HDDataGridHeaderFooterView itemManager];
+    HDDataGridHeaderFooterView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:HDDataGridHeaderFooterIdentifier];
+    [header performLayoutForValues:dictionary[HDDataGridValueKey] text:dictionary[HDDataGridTextKey]];
+    return header;
 }
 
 #pragma mark - <UIScrollViewDelegate>
@@ -111,11 +94,6 @@ forRowAtIndexPath:(NSIndexPath *)indexPath {
     }
 }
 
-#pragma mark - LifeCycle
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    self.tableView.frame = self.view.bounds;
-}
 
 @end

@@ -6,11 +6,11 @@
 //  Copyright © 2016 Evan William Ische. All rights reserved.
 //
 
+#import "HDDataGridHeaderFooterView.h"
 #import "HDDataVisualizationView.h"
 #import "HDTransactionManager.h"
 #import "HDTransactionPopoverViewController.h"
 #import "HDTransactionsViewController.h"
-#import "HDTransactionsHeaderView.h"
 #import "HDDataGridTableViewCell.h"
 #import "HDTransactionObject.h"
 #import "UIColor+ColorAdditions.h"
@@ -18,101 +18,17 @@
 #import "HDSalesDataGridTableViewCell.h"
 #import "UIFont+FontAdditions.h"
 #import "HDItemManager.h"
-#import "HDSalesHeaderView.h"
 #import "HDDBManager.h"
 #import "HDHelper.h"
 
 NSString * const HDTransactionTableViewReuseIdentifier = @"HDTransactionTableViewReuseIdentifier";
 NSString * const HDSalesTableViewReuseIdentifier = @"HDSalesTableViewReuseIdentifier";
-NSString * const HDTableViewReusableTransactionHeaderFooterIdentifier = @"HDTableViewReusableTransactionHeaderFooterIdentifier";
-NSString * const HDTableViewReusableSalesHeaderFooterIdentifier = @"HDTableViewReusableSalesHeaderFooterIdentifier";
+NSString * const HDDataGridHeaderFooterIdentifier = @"HDDataGridHeaderFooterIdentifier";
 
 typedef void (^HDSalesCompletionBlock)(NSUInteger count, CGFloat total);
 
-const NSUInteger NUMBER_OF_BUTTONS = 2;
-@implementation HDCalendarContainerView {
-    CGSize _size;
-}
-
-- (instancetype)initWithFrame:(CGRect)frame {
-    if (self = [super initWithFrame:frame]) {
-        
-        self.backgroundColor = [UIColor whiteColor];
-        
-        NSDateFormatter *formatter = [HDHelper formatter];
-        formatter.timeStyle = NSDateFormatterNoStyle;
-        
-        NSString *title = [NSString formattedStringFromDate:NSDate.date];
-        
-        UIFont *font = [UIFont stormGolfFontOfSize:21.0f];
-    
-        _size = [title sizeWithAttributes: @{ NSFontAttributeName: font }];
-
-        for (NSInteger i = 0; i < NUMBER_OF_BUTTONS; i++) {
-            const CGRect bounds = CGRectMake(0.0f, 0.0f, _size.width, _size.height);
-            UIButton *btn = [[UIButton alloc] initWithFrame:bounds];
-            btn.tag = i;
-            btn.backgroundColor = [UIColor clearColor];
-            btn.titleLabel.font = [UIFont stormGolfFontOfSize:14.0f];
-            btn.titleLabel.textAlignment = NSTextAlignmentCenter;
-            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            [btn setTitle:[NSString formattedStringFromDate:NSDate.date] forState:UIControlStateNormal];
-            [btn addTarget:self action:@selector(_presentCalendar:) forControlEvents:UIControlEventTouchUpInside];
-            [self addSubview:btn];
-        }
-    }
-    return self;
-}
-
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    NSUInteger i = 0;
-    const CGFloat startingPointX = CGRectGetMidX(self.bounds) - _size.width / 2.0f;
-    for (UIButton *btn in self.subviews) {
-        btn.center = CGPointMake(startingPointX + (i * _size.width), CGRectGetMidY(self.bounds));
-        i++;
-    }
-}
-
-#pragma mark - Public
-
-- (void)updateStartingDate:(NSDate *)startingDate {
-    UIButton *btn = (UIButton *)self.subviews.firstObject;
-    [btn setTitle:[NSString formattedStringFromDate:startingDate] forState:UIControlStateNormal];
-}
-
-- (void)updateEndingDate:(NSDate *)endingDate {
-    UIButton *btn = (UIButton *)self.subviews.lastObject;
-    [btn setTitle:[NSString formattedStringFromDate:endingDate] forState:UIControlStateNormal];
-}
-
-#pragma mark - Private
-
-- (IBAction)_presentCalendar:(UIButton *)sender {
-    if (self.delegate && [self.delegate respondsToSelector:@selector(presentCalendarOfType:)]) {
-        [self.delegate presentCalendarOfType:sender.tag];
-    }
-}
-
-- (void)drawRect:(CGRect)rect {
-    [[UIColor blackColor] setStroke];
-    UIBezierPath *bezierPath = [UIBezierPath bezierPath];
-    bezierPath.lineWidth = 2.0f;
-    bezierPath.lineCapStyle = kCGLineCapRound;
-    [bezierPath moveToPoint:CGPointMake(CGRectGetMidX(self.bounds), 12.0f)];
-    [bezierPath addLineToPoint:CGPointMake(CGRectGetMidX(self.bounds), CGRectGetHeight(self.bounds) - 12.0f)];
-    [bezierPath stroke];
-}
-
-@end
-
-
-
-
-
 static const CGFloat TABLEVIEW_HEADER_HEIGHT = 88.0f;
-@interface HDTransactionsViewController () < HDCalendarViewDelegate >
+@interface HDTransactionsViewController ()
 @property (nonatomic, strong) NSArray *currentTransactions;
 @property (nonatomic, strong) UISegmentedControl *segmentControl;
 @end
@@ -134,10 +50,7 @@ static const CGFloat TABLEVIEW_HEADER_HEIGHT = 88.0f;
            forCellReuseIdentifier:HDTransactionTableViewReuseIdentifier];
     [self.tableView registerClass:[HDSalesDataGridTableViewCell class]
            forCellReuseIdentifier:HDSalesTableViewReuseIdentifier];
-    [self.tableView registerClass:[HDTransactionsHeaderView class]
-forHeaderFooterViewReuseIdentifier:HDTableViewReusableTransactionHeaderFooterIdentifier];
-    [self.tableView registerClass:[HDSalesHeaderView class]
-forHeaderFooterViewReuseIdentifier:HDTableViewReusableSalesHeaderFooterIdentifier];
+    [self.tableView registerClass:[HDDataGridHeaderFooterView class] forHeaderFooterViewReuseIdentifier:HDDataGridHeaderFooterIdentifier];
     
     self.segmentControl = [[UISegmentedControl alloc] initWithItems:@[@"Transactions", @"Sales"]];
     self.segmentControl.tintColor = [UIColor blackColor];
@@ -228,10 +141,18 @@ forHeaderFooterViewReuseIdentifier:HDTableViewReusableSalesHeaderFooterIdentifie
 }
 
 - (UITableViewHeaderFooterView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+
+    NSDictionary *dictionary = nil;
     if (_displayTransactions) {
-        return [tableView dequeueReusableHeaderFooterViewWithIdentifier:HDTableViewReusableTransactionHeaderFooterIdentifier];
+        dictionary = [HDDataGridHeaderFooterView transaction];
+    } else {
+        dictionary = [HDDataGridHeaderFooterView sales];
     }
-    return [tableView dequeueReusableHeaderFooterViewWithIdentifier:HDTableViewReusableSalesHeaderFooterIdentifier];
+    
+    HDDataGridHeaderFooterView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:HDDataGridHeaderFooterIdentifier];
+    [header performLayoutForValues:dictionary[HDDataGridValueKey]
+                              text:dictionary[HDDataGridTextKey]];
+    return header;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
@@ -264,61 +185,19 @@ forHeaderFooterViewReuseIdentifier:HDTableViewReusableSalesHeaderFooterIdentifie
 //    }];
 //}
 
-#pragma mark - <HDCalendarViewDelegate>
-
-- (void)presentCalendarOfType:(HDCalendarType)type {
-    [self _presentDatePickerPopoverWithType:type];
-    switch (type) {
-        case HDCalendarTypeStarting:
-            NSLog(@"STARTING");
-            break;
-        case HDCalendarTypeEnding:
-            NSLog(@"ENDING");
-            break;
-        default:
-            break;
-    }
-}
-
-#pragma mark - Convenice
-
-- (UIView *)_sourceRectFromType:(HDCalendarType)type {
-    switch (type) {
-        case HDCalendarTypeStarting:
-            return self.navigationItem.titleView.subviews.firstObject;
-        case HDCalendarTypeEnding:
-            return self.navigationItem.titleView.subviews.lastObject;
-        default:
-            break;
-    }
-}
-
-- (CGRect)_rectFromCalendarType:(HDCalendarType)type {
-    switch (type) {
-        case HDCalendarTypeStarting:
-            return CGRectInset(self.navigationItem.titleView.subviews.firstObject.bounds, 0.0, 10.0f);
-        case HDCalendarTypeEnding:
-            return CGRectInset(self.navigationItem.titleView.subviews.lastObject.bounds, 0.0, 10.0f);
-        default:
-            break;
-    }
-}
-
 #pragma mark - Private
 
-- (void)_presentDatePickerPopoverWithType:(HDCalendarType)type {
-    HDTransactionPopoverViewController *controller = [[HDTransactionPopoverViewController alloc] init];
-    controller.preferredContentSize = CGSizeMake(250.0f, 200.0f);
-    controller.modalPresentationStyle = UIModalPresentationPopover;
-    [self presentViewController:controller animated:YES completion:nil];
-    
-    UIPopoverPresentationController *popController = [controller popoverPresentationController];
-    popController.backgroundColor = [UIColor whiteColor];
-    popController.canOverlapSourceViewRect = YES;
-    popController.permittedArrowDirections = UIPopoverArrowDirectionUp;
-    popController.sourceView = [self _sourceRectFromType:type];
-    popController.sourceRect = [self _rectFromCalendarType:type];
-}
+//- (void)_presentDatePickerPopoverWithType:(HDCalendarType)type {
+//    HDTransactionPopoverViewController *controller = [[HDTransactionPopoverViewController alloc] init];
+//    controller.preferredContentSize = CGSizeMake(250.0f, 200.0f);
+//    controller.modalPresentationStyle = UIModalPresentationPopover;
+//    [self presentViewController:controller animated:YES completion:nil];
+//    
+//    UIPopoverPresentationController *popController = [controller popoverPresentationController];
+//    popController.backgroundColor = [UIColor whiteColor];
+//    popController.canOverlapSourceViewRect = YES;
+//    popController.permittedArrowDirections = UIPopoverArrowDirectionUp;
+//}
 
 #pragma mark - Selector
 

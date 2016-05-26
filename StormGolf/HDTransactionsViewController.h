@@ -14,16 +14,5 @@ typedef NS_ENUM(NSInteger,HDCalendarType) {
     HDCalendarTypeEnding = 1
 };
 
-@protocol HDCalendarViewDelegate;
-@interface HDCalendarContainerView : UIView
-@property (nonatomic, weak) id<HDCalendarViewDelegate> delegate;
-- (void)updateStartingDate:(NSDate *)startingDate;
-- (void)updateEndingDate:(NSDate *)endingDate;
-@end
-@protocol HDCalendarViewDelegate <NSObject>
-@optional
-- (void)presentCalendarOfType:(HDCalendarType)type;
-@end
-
 @interface HDTransactionsViewController : UITableViewController
 @end
