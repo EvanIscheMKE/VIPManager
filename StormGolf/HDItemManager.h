@@ -11,6 +11,7 @@
 @interface HDItem : NSObject <NSCoding>
 @property (nonatomic, copy) NSString *itemDescription;
 @property (nonatomic, assign) double itemCost;
+- (NSArray *)data;
 @end
 
 @interface HDItemManager : NSObject

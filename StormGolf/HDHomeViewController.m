@@ -10,7 +10,7 @@
 #import "UIImage+ImageAdditions.h"
 #import "HDHomeViewController.h"
 #import "UIColor+ColorAdditions.h"
-#import "HDItemManagerViewController.h"
+#import "HDItemManagerDataGridController.h"
 #import "UIFont+FontAdditions.h"
 #import "UIFont+FontAdditions.h"
 #import "HDUserObject.h"
@@ -75,7 +75,6 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
 - (NSAttributedString *)_attributedPlaceholderWithString:(NSString *)placeholder {
     NSDictionary *attributes = @{ NSFontAttributeName:[UIFont stormGolfFontOfSize:20.0f],
                                   NSForegroundColorAttributeName:[UIColor blackColor] };
-    NSLog(@"%@",attributes[NSFontAttributeName]);
     return [[NSAttributedString alloc] initWithString:placeholder
                                            attributes:attributes];
 }
@@ -192,7 +191,6 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
 }
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField {
-    NSLog(@"%@",NSStringFromSelector(_cmd));
     _queryResults = nil;
     [self.tableView reloadData];
     return YES;
@@ -282,7 +280,6 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
 }
 
 - (void)beginObserveringNotifications {
-    NSLog(@"BEGIN");
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(_keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -290,7 +287,6 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
 }
 
 - (void)stopObservingNotifications {
-    NSLog(@"STOP");
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 

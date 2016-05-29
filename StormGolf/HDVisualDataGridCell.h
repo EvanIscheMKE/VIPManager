@@ -1,14 +1,14 @@
 //
-//  HDDataVisualizationView.h
+//  HDVisualDataGridCell.h
 //  StormGolf
 //
-//  Created by Evan Ische on 5/24/16.
+//  Created by Evan Ische on 5/28/16.
 //  Copyright © 2016 Evan William Ische. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import UIKit;
 
-@interface HDDataVisualizationView : UIView
+@interface HDVisualDataGridCell : UICollectionViewCell
 @property (nonatomic, assign) CGFloat lineWidth;
 @property (nonatomic, assign) NSUInteger max;
 @property (nonatomic, assign) NSUInteger min;

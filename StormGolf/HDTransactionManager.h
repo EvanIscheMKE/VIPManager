@@ -12,6 +12,6 @@ typedef void (^HDSalesCompletionBlock)(NSUInteger count, double total);
 @interface HDTransactionManager : NSObject
 + (HDTransactionManager *)sharedManager;
 - (NSUInteger)updateCurrentTransactionQueryResults:(NSArray *)results;
-- (void)infoForItemWithDescription:(NSString *)description
-                        completion:(HDSalesCompletionBlock)completionBlock;
+- (void)infoForItem:(NSString *)itemDescription
+         completion:(HDSalesCompletionBlock)completionBlock;
 @end

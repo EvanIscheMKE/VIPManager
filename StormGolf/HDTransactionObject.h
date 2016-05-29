@@ -7,6 +7,7 @@
 //
 
 @import Foundation;
+@import UIKit;
 
 @interface HDTransactionObject : NSObject
 @property (nonatomic, assign) NSUInteger iD;
@@ -16,4 +17,5 @@
 @property (nonatomic, copy) NSString *admin;
 @property (nonatomic, copy) NSString *username;
 @property (nonatomic, copy) NSString *title;
+- (NSArray *)dataWithStartingBalance:(CGFloat)startingBalance;
 @end

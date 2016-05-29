@@ -7,6 +7,7 @@
 //
 
 #import "HDItemManager.h"
+#import "HDHelper.h"
 
 NSString * const HDItemUserDefaultsKey = @"HDItemUserDefaultsKey";
 NSString * const HDDescriptionKey = @"description";
@@ -37,6 +38,10 @@ NSString * const HDCostKey = @"cost";
 - (void)encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:self.itemDescription forKey:HDDescriptionKey];
     [aCoder encodeDouble:self.itemCost forKey:HDCostKey];
+}
+
+- (NSArray *)data {
+    return @[self.itemDescription, [HDHelper stringFromNumber:fabs(self.itemCost)]];
 }
 
 @end

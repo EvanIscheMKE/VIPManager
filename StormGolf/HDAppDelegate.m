@@ -10,9 +10,13 @@
 #import "HDDBManager.h"
 #import "HDAppDelegate.h"
 #import "HDToolBar.h"
+
+#import "HDDataGridController.h"
+
+#import "HDCashierPopoverViewController.h"
 #import "HDHomeViewController.h"
-#import "HDItemManagerViewController.h"
-#import "HDTransactionsViewController.h"
+#import "HDItemManagerDataGridController.h"
+#import "HDTransactionDataGridController.h"
 #import "HDTransactionPopoverViewController.h"
 #import "UIColor+ColorAdditions.h"
 #import "UIFont+FontAdditions.h"
@@ -62,6 +66,20 @@
 
 #pragma mark - Private
 
+- (IBAction)_presentCashierPopoverController:(id)sender {
+    HDCashierPopoverViewController *controller = [[HDCashierPopoverViewController alloc] init];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+    navigationController.preferredContentSize = CGSizeMake(290.0f, 320.0f);
+    navigationController.modalPresentationStyle = UIModalPresentationPopover;
+    navigationController.navigationBarHidden = NO;
+    [[self _controller] presentViewController:navigationController animated:YES completion:nil];
+    
+    UIPopoverPresentationController *popController = [navigationController popoverPresentationController];
+    popController.permittedArrowDirections = UIPopoverArrowDirectionDown;
+    popController.barButtonItem = self._controller.toolbarItems[self._controller.toolbarItems.count - 2];
+    popController.backgroundColor = [UIColor whiteColor];
+}
+
 - (UINavigationController *)_navigationController {
     return (UINavigationController *)self.window.rootViewController;
 }
@@ -108,7 +126,7 @@
     UIBarButtonItem *user = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"User"]
                                                              style:UIBarButtonItemStylePlain
                                                             target:self
-                                                            action:@selector(_presentItemManagerViewController:)];
+                                                            action:@selector(_presentCashierPopoverController:)];
     
     UIBarButtonItem *trans = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"Transaction"]
                                                               style:UIBarButtonItemStylePlain
@@ -155,7 +173,7 @@
 
 - (void)_itemManagerViewController {
     
-    HDItemManagerViewController *controller = [[HDItemManagerViewController  alloc] init];
+    HDItemManagerDataGridController *controller = [[HDItemManagerDataGridController  alloc] init];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
     
     [[self _controller] addChildViewController:navigationController];
@@ -165,7 +183,7 @@
 
 - (void)_transactionViewController {
     
-    HDTransactionsViewController *controller = [[HDTransactionsViewController alloc] init];
+    HDTransactionDataGridController *controller = [[HDTransactionDataGridController alloc] init];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
   
     [[self _controller] addChildViewController:navigationController];

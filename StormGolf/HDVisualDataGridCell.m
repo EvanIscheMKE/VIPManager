@@ -1,28 +1,26 @@
 //
-//  HDDataVisualizationView.m
+//  HDVisualDataGridCell.m
 //  StormGolf
 //
-//  Created by Evan Ische on 5/24/16.
+//  Created by Evan Ische on 5/28/16.
 //  Copyright © 2016 Evan William Ische. All rights reserved.
 //
 
-#import "UIColor+ColorAdditions.h"
-#import "HDDataVisualizationView.h"
+#import "HDVisualDataGridCell.h"
 
 static const CGFloat INSET_X = 10.0f;
-@implementation HDDataVisualizationView {
-   CGFloat _pixelsPerPoint;
-   CGFloat _pointMultiple;
-   CGFloat _maxWidth;
-   CGFloat _plotWidth;
+@implementation HDVisualDataGridCell {
+    CGFloat _pixelsPerPoint;
+    CGFloat _pointMultiple;
+    CGFloat _maxWidth;
+    CGFloat _plotWidth;
 }
 
-- (instancetype)init {
-    if (self = [super init]) {
-        
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
         /* */
         self.backgroundColor = [UIColor whiteColor];
-        self.strokeColor = [UIColor flatSTLightBlueColor];
+        self.strokeColor = [UIColor blueColor];
         self.lineWidth = 16.0f;
         
         /* */
@@ -40,6 +38,7 @@ static const CGFloat INSET_X = 10.0f;
     _maxWidth = CGRectGetWidth(CGRectInset(self.bounds, INSET_X, 0.0f));
     if (_maxWidth > 0) {
         _pixelsPerPoint = _maxWidth / 100.0f;
+        NSLog(@"%f", _maxWidth);
     }
     
     self.max = self.max;
@@ -53,7 +52,7 @@ static const CGFloat INSET_X = 10.0f;
     UIBezierPath *bezierPath = [UIBezierPath bezierPath];
     bezierPath.lineWidth = self.lineWidth;
     [bezierPath moveToPoint:CGPointMake(INSET_X, CGRectGetMidY(self.bounds))];
-    [bezierPath addLineToPoint:CGPointMake(MAX(_plotWidth,0), CGRectGetMidY(self.bounds))];
+    [bezierPath addLineToPoint:CGPointMake(MAX(_plotWidth + INSET_X, INSET_X), CGRectGetMidY(self.bounds))];
     [bezierPath stroke];
 }
 
@@ -64,8 +63,8 @@ static const CGFloat INSET_X = 10.0f;
 
 - (void)setPlot:(NSUInteger)plot {
     _plot = plot;
-    _plotWidth = _plot * _pointMultiple * _pixelsPerPoint;
-    [self setNeedsDisplay];
+    _plotWidth = roundl(_plot * _pointMultiple * _pixelsPerPoint);
 }
+
 
 @end

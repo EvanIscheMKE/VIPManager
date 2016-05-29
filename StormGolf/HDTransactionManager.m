@@ -39,7 +39,7 @@
     __block NSUInteger currentMax = 0;
     for (NSUInteger i = 0; i < [HDItemManager sharedManager].count; i++) {
         __block HDItem *item = [[HDItemManager sharedManager] itemAtIndex:i];
-        [self infoForItemWithDescription:item.itemDescription completion:^(NSUInteger count, double total) {
+        [self infoForItem:item.itemDescription completion:^(NSUInteger count, double total) {
             if (item.itemDescription) {
                 [_cache setObject:@[@(count), @(total)] forKey:item.itemDescription];
             }
@@ -52,19 +52,19 @@
     return currentMax;
 }
 
-- (void)infoForItemWithDescription:(NSString *)description
-                        completion:(HDSalesCompletionBlock)completionBlock {
+- (void)infoForItem:(NSString *)itemDescription
+         completion:(HDSalesCompletionBlock)completionBlock {
     
-    if (_cache[description]) {
+    if (_cache[itemDescription]) {
         if (completionBlock) {
-            completionBlock([[_cache[description] firstObject] unsignedIntegerValue], [[_cache[description] lastObject] unsignedIntegerValue]);
+            completionBlock([[_cache[itemDescription] firstObject] unsignedIntegerValue], [[_cache[itemDescription] lastObject] unsignedIntegerValue]);
         }
     }
 
     NSUInteger count = 0;
     double total = 0.0f;
     for (HDTransactionObject *transaction in _currentQueryResults) {
-        if ([transaction.title isEqualToString:description]) {
+        if ([transaction.title isEqualToString:itemDescription]) {
             count++;
             total += fabs(transaction.cost);
         }

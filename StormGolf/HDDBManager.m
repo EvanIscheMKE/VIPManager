@@ -146,10 +146,6 @@ typedef void (^CompletionBlock)(NSArray *results);
     });
 }
 
-+ (BOOL)isSQLiteThreadSafe {
-    return sqlite3_threadsafe() == 2;
-}
-
 - (void)queryTransactionDataFromDatabase:(NSString *)query completion:(CompletionBlock)completion {
     
     __block NSArray *results = nil;

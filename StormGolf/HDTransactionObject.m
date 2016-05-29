@@ -7,16 +7,18 @@
 //
 
 #import "HDTransactionObject.h"
+#import "HDHelper.h"
 
 @implementation HDTransactionObject
 
-- (NSString *)description {
-    return [NSString stringWithFormat:@"TRANSACTIONID:%zd, USERID:%zd, COST:%f, TIMESTAMP:%@, USERNAME:%@, DESCRIPTION:%@ ",self.iD,
-            self.userID,
-            self.cost,
-            self.date,
-            self.username,
-            self.title];
+- (NSArray *)dataWithStartingBalance:(CGFloat)startingBalance {
+    return @[self.username,
+             [HDHelper stringFromNumber:startingBalance],
+             [HDHelper stringFromNumber:startingBalance + self.cost],
+             [HDHelper stringFromNumber:fabs(self.cost)],
+             self.admin,
+             [[HDHelper formatter] stringFromDate:self.date],
+             self.title];
 }
 
 @end

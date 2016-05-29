@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		382220661CD16837003A446A /* HDItemManagerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 382220651CD16837003A446A /* HDItemManagerViewController.m */; };
-		382220691CD26EFA003A446A /* HDTransactionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 382220681CD26EFA003A446A /* HDTransactionsViewController.m */; };
+		380E1FB21CF8B3CA0077DE8A /* HDDataGridController.m in Sources */ = {isa = PBXBuildFile; fileRef = 380E1FB11CF8B3CA0077DE8A /* HDDataGridController.m */; };
+		380E1FB51CF8C1E90077DE8A /* HDDataGridTestHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 380E1FB41CF8C1E90077DE8A /* HDDataGridTestHeader.m */; };
+		380E1FB81CFA2D010077DE8A /* HDVisualDataGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 380E1FB71CFA2D010077DE8A /* HDVisualDataGridCell.m */; };
+		380E1FBB1CFA36FA0077DE8A /* HDCashierPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 380E1FBA1CFA36FA0077DE8A /* HDCashierPopoverViewController.m */; };
+		382220661CD16837003A446A /* HDItemManagerDataGridController.m in Sources */ = {isa = PBXBuildFile; fileRef = 382220651CD16837003A446A /* HDItemManagerDataGridController.m */; };
+		382220691CD26EFA003A446A /* HDTransactionDataGridController.m in Sources */ = {isa = PBXBuildFile; fileRef = 382220681CD26EFA003A446A /* HDTransactionDataGridController.m */; };
 		3822206E1CD3D147003A446A /* items.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3822206D1CD3D147003A446A /* items.plist */; };
 		382845681CD95543002420E4 /* HDHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 382845671CD95543002420E4 /* HDHelper.m */; };
 		3828456B1CD955B0002420E4 /* HDUserObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 3828456A1CD955B0002420E4 /* HDUserObject.m */; };
@@ -20,26 +24,17 @@
 		38721A2F1CCABDA7007B9FE3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 38721A2D1CCABDA7007B9FE3 /* LaunchScreen.storyboard */; };
 		38721A3A1CCABDA7007B9FE3 /* StormGolfTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 38721A391CCABDA7007B9FE3 /* StormGolfTests.m */; };
 		38721A4A1CCACD43007B9FE3 /* UIColor+ColorAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 38721A491CCACD43007B9FE3 /* UIColor+ColorAdditions.m */; };
-		3883875A1CF4BE48007EA9BA /* HDTableViewHeaderBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 388387591CF4BE48007EA9BA /* HDTableViewHeaderBackgroundView.m */; };
-		388387691CF4D959007EA9BA /* HDDataVisualizationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 388387681CF4D959007EA9BA /* HDDataVisualizationView.m */; };
 		3883876C1CF4E8DD007EA9BA /* HDTransactionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3883876B1CF4E8DD007EA9BA /* HDTransactionManager.m */; };
 		38BDC2F41CCD4C9F00E8B77D /* HDItemManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38BDC2F31CCD4C9F00E8B77D /* HDItemManager.m */; };
 		38D4B05B1CE3DDAF00BF7311 /* FullNames.txt in Resources */ = {isa = PBXBuildFile; fileRef = 38D4B05A1CE3DDAF00BF7311 /* FullNames.txt */; };
-		38D4B0611CE3F56400BF7311 /* HDItemManagerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38D4B0601CE3F56400BF7311 /* HDItemManagerTableViewCell.m */; };
 		38D4B0631CE403C700BF7311 /* stormdb.sql in Resources */ = {isa = PBXBuildFile; fileRef = 38D4B0621CE403C700BF7311 /* stormdb.sql */; };
 		38ED4A001CEBB4E400720A6F /* UIImage+ImageAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED49FF1CEBB4E400720A6F /* UIImage+ImageAdditions.m */; };
 		38ED4A031CEBBE1600720A6F /* HDUserSearchTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED4A021CEBBE1600720A6F /* HDUserSearchTableViewCell.m */; };
 		38ED4A061CEBF32600720A6F /* HDItemManagerPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED4A051CEBF32600720A6F /* HDItemManagerPopoverViewController.m */; };
 		38ED4A091CEF911F00720A6F /* NSString+StringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED4A081CEF911F00720A6F /* NSString+StringAdditions.m */; };
 		38ED4A0C1CEF9BD300720A6F /* HDTransactionPopoverViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED4A0B1CEF9BD300720A6F /* HDTransactionPopoverViewController.m */; };
-		38ED4A111CF37C6700720A6F /* HDSalesDataGridTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38ED4A101CF37C6700720A6F /* HDSalesDataGridTableViewCell.m */; };
-		38EE1DAD1CDB0E06009ABB87 /* HDDataGridTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */; };
-		38F2F4521CF53BA00042BCFB /* HDDefaultDataGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F2F4511CF53BA00042BCFB /* HDDefaultDataGridCell.m */; };
 		38F2F45E1CF60AAB0042BCFB /* HDToolBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F2F45D1CF60AAB0042BCFB /* HDToolBar.m */; };
 		38F2F4611CF626A20042BCFB /* UIFont+FontAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F2F4601CF626A20042BCFB /* UIFont+FontAdditions.m */; };
-		38F2F4641CF6A9450042BCFB /* HDHeaderFooterDateBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F2F4631CF6A9450042BCFB /* HDHeaderFooterDateBackgroundView.m */; };
-		38F2F4671CF7432E0042BCFB /* HDDefaultTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F2F4661CF7432E0042BCFB /* HDDefaultTableViewController.m */; };
-		38F2F46B1CF7476F0042BCFB /* HDDataGridHeaderFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F2F46A1CF7476F0042BCFB /* HDDataGridHeaderFooterView.m */; };
 		38F711361CD6721D008C9DC5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F711351CD6721D008C9DC5 /* libsqlite3.tbd */; };
 		38F711381CD67229008C9DC5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F711371CD67229008C9DC5 /* QuartzCore.framework */; };
 		38F7113C1CD673AB008C9DC5 /* HDDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F7113B1CD673AB008C9DC5 /* HDDBManager.m */; };
@@ -56,10 +51,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		382220641CD16837003A446A /* HDItemManagerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDItemManagerViewController.h; sourceTree = "<group>"; };
-		382220651CD16837003A446A /* HDItemManagerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDItemManagerViewController.m; sourceTree = "<group>"; };
-		382220671CD26EFA003A446A /* HDTransactionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDTransactionsViewController.h; sourceTree = "<group>"; };
-		382220681CD26EFA003A446A /* HDTransactionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDTransactionsViewController.m; sourceTree = "<group>"; };
+		380E1FB01CF8B3CA0077DE8A /* HDDataGridController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDDataGridController.h; sourceTree = "<group>"; };
+		380E1FB11CF8B3CA0077DE8A /* HDDataGridController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDDataGridController.m; sourceTree = "<group>"; };
+		380E1FB31CF8C1E90077DE8A /* HDDataGridTestHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDDataGridTestHeader.h; sourceTree = "<group>"; };
+		380E1FB41CF8C1E90077DE8A /* HDDataGridTestHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDDataGridTestHeader.m; sourceTree = "<group>"; };
+		380E1FB61CFA2D010077DE8A /* HDVisualDataGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDVisualDataGridCell.h; sourceTree = "<group>"; };
+		380E1FB71CFA2D010077DE8A /* HDVisualDataGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDVisualDataGridCell.m; sourceTree = "<group>"; };
+		380E1FB91CFA36FA0077DE8A /* HDCashierPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDCashierPopoverViewController.h; sourceTree = "<group>"; };
+		380E1FBA1CFA36FA0077DE8A /* HDCashierPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDCashierPopoverViewController.m; sourceTree = "<group>"; };
+		382220641CD16837003A446A /* HDItemManagerDataGridController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDItemManagerDataGridController.h; sourceTree = "<group>"; };
+		382220651CD16837003A446A /* HDItemManagerDataGridController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDItemManagerDataGridController.m; sourceTree = "<group>"; };
+		382220671CD26EFA003A446A /* HDTransactionDataGridController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDTransactionDataGridController.h; sourceTree = "<group>"; };
+		382220681CD26EFA003A446A /* HDTransactionDataGridController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDTransactionDataGridController.m; sourceTree = "<group>"; };
 		3822206D1CD3D147003A446A /* items.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = items.plist; sourceTree = "<group>"; };
 		382845661CD95543002420E4 /* HDHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDHelper.h; sourceTree = "<group>"; };
 		382845671CD95543002420E4 /* HDHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDHelper.m; sourceTree = "<group>"; };
@@ -81,17 +84,11 @@
 		38721A3B1CCABDA7007B9FE3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		38721A481CCACD43007B9FE3 /* UIColor+ColorAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ColorAdditions.h"; sourceTree = "<group>"; };
 		38721A491CCACD43007B9FE3 /* UIColor+ColorAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ColorAdditions.m"; sourceTree = "<group>"; };
-		388387581CF4BE48007EA9BA /* HDTableViewHeaderBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDTableViewHeaderBackgroundView.h; sourceTree = "<group>"; };
-		388387591CF4BE48007EA9BA /* HDTableViewHeaderBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDTableViewHeaderBackgroundView.m; sourceTree = "<group>"; };
-		388387671CF4D959007EA9BA /* HDDataVisualizationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDDataVisualizationView.h; sourceTree = "<group>"; };
-		388387681CF4D959007EA9BA /* HDDataVisualizationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDDataVisualizationView.m; sourceTree = "<group>"; };
 		3883876A1CF4E8DD007EA9BA /* HDTransactionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDTransactionManager.h; sourceTree = "<group>"; };
 		3883876B1CF4E8DD007EA9BA /* HDTransactionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDTransactionManager.m; sourceTree = "<group>"; };
 		38BDC2F21CCD4C9F00E8B77D /* HDItemManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDItemManager.h; sourceTree = "<group>"; };
 		38BDC2F31CCD4C9F00E8B77D /* HDItemManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDItemManager.m; sourceTree = "<group>"; };
 		38D4B05A1CE3DDAF00BF7311 /* FullNames.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = FullNames.txt; sourceTree = "<group>"; };
-		38D4B05F1CE3F56400BF7311 /* HDItemManagerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDItemManagerTableViewCell.h; sourceTree = "<group>"; };
-		38D4B0601CE3F56400BF7311 /* HDItemManagerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDItemManagerTableViewCell.m; sourceTree = "<group>"; };
 		38D4B0621CE403C700BF7311 /* stormdb.sql */ = {isa = PBXFileReference; lastKnownFileType = file; name = stormdb.sql; path = ../stormdb.sql; sourceTree = "<group>"; };
 		38ED49FE1CEBB4E400720A6F /* UIImage+ImageAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ImageAdditions.h"; sourceTree = "<group>"; };
 		38ED49FF1CEBB4E400720A6F /* UIImage+ImageAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ImageAdditions.m"; sourceTree = "<group>"; };
@@ -103,22 +100,10 @@
 		38ED4A081CEF911F00720A6F /* NSString+StringAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+StringAdditions.m"; sourceTree = "<group>"; };
 		38ED4A0A1CEF9BD300720A6F /* HDTransactionPopoverViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDTransactionPopoverViewController.h; sourceTree = "<group>"; };
 		38ED4A0B1CEF9BD300720A6F /* HDTransactionPopoverViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDTransactionPopoverViewController.m; sourceTree = "<group>"; };
-		38ED4A0F1CF37C6700720A6F /* HDSalesDataGridTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDSalesDataGridTableViewCell.h; sourceTree = "<group>"; };
-		38ED4A101CF37C6700720A6F /* HDSalesDataGridTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDSalesDataGridTableViewCell.m; sourceTree = "<group>"; };
-		38EE1DAB1CDB0E06009ABB87 /* HDDataGridTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDDataGridTableViewCell.h; sourceTree = "<group>"; };
-		38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDDataGridTableViewCell.m; sourceTree = "<group>"; };
-		38F2F4501CF53BA00042BCFB /* HDDefaultDataGridCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDDefaultDataGridCell.h; sourceTree = "<group>"; };
-		38F2F4511CF53BA00042BCFB /* HDDefaultDataGridCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDDefaultDataGridCell.m; sourceTree = "<group>"; };
 		38F2F45C1CF60AAB0042BCFB /* HDToolBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDToolBar.h; sourceTree = "<group>"; };
 		38F2F45D1CF60AAB0042BCFB /* HDToolBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDToolBar.m; sourceTree = "<group>"; };
 		38F2F45F1CF626A20042BCFB /* UIFont+FontAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIFont+FontAdditions.h"; sourceTree = "<group>"; };
 		38F2F4601CF626A20042BCFB /* UIFont+FontAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIFont+FontAdditions.m"; sourceTree = "<group>"; };
-		38F2F4621CF6A9450042BCFB /* HDHeaderFooterDateBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDHeaderFooterDateBackgroundView.h; sourceTree = "<group>"; };
-		38F2F4631CF6A9450042BCFB /* HDHeaderFooterDateBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDHeaderFooterDateBackgroundView.m; sourceTree = "<group>"; };
-		38F2F4651CF7432E0042BCFB /* HDDefaultTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDDefaultTableViewController.h; sourceTree = "<group>"; };
-		38F2F4661CF7432E0042BCFB /* HDDefaultTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDDefaultTableViewController.m; sourceTree = "<group>"; };
-		38F2F4691CF7476F0042BCFB /* HDDataGridHeaderFooterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDDataGridHeaderFooterView.h; sourceTree = "<group>"; };
-		38F2F46A1CF7476F0042BCFB /* HDDataGridHeaderFooterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDDataGridHeaderFooterView.m; sourceTree = "<group>"; };
 		38F711351CD6721D008C9DC5 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		38F711371CD67229008C9DC5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		38F7113A1CD673AB008C9DC5 /* HDDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDDBManager.h; sourceTree = "<group>"; };
@@ -172,7 +157,6 @@
 				38EE1DAE1CDB0E98009ABB87 /* View */,
 				38BDC2F51CCD56EA00E8B77D /* Model */,
 				38F2F4681CF743390042BCFB /* Controller */,
-				38BDC2F11CCD4C8C00E8B77D /* Base */,
 				38721A2B1CCABDA7007B9FE3 /* Assets.xcassets */,
 				38721A2D1CCABDA7007B9FE3 /* LaunchScreen.storyboard */,
 				38721A1F1CCABDA7007B9FE3 /* Supporting Files */,
@@ -202,126 +186,21 @@
 			path = StormGolfTests;
 			sourceTree = "<group>";
 		};
-		3883875B1CF4D7AC007EA9BA /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				38F2F4591CF604350042BCFB /* Popover */,
-				38F2F4581CF604290042BCFB /* Main */,
-			);
-			name = Controller;
-			sourceTree = "<group>";
-		};
-		3883875C1CF4D7BC007EA9BA /* Manager */ = {
+		38BDC2F51CCD56EA00E8B77D /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				38BDC2F21CCD4C9F00E8B77D /* HDItemManager.h */,
 				38BDC2F31CCD4C9F00E8B77D /* HDItemManager.m */,
-			);
-			name = Manager;
-			sourceTree = "<group>";
-		};
-		3883875D1CF4D7D3007EA9BA /* View */ = {
-			isa = PBXGroup;
-			children = (
-				3883876D1CF5018B007EA9BA /* Cell */,
-			);
-			name = View;
-			sourceTree = "<group>";
-		};
-		3883875E1CF4D7E2007EA9BA /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				38F2F45B1CF6043F0042BCFB /* Popover */,
-				38F2F45A1CF6043A0042BCFB /* Main */,
-			);
-			name = Controller;
-			sourceTree = "<group>";
-		};
-		3883875F1CF4D802007EA9BA /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				3828456C1CD97F3A002420E4 /* HDTransactionObject.h */,
-				3828456D1CD97F3A002420E4 /* HDTransactionObject.m */,
-				3883876A1CF4E8DD007EA9BA /* HDTransactionManager.h */,
-				3883876B1CF4E8DD007EA9BA /* HDTransactionManager.m */,
-			);
-			name = Model;
-			sourceTree = "<group>";
-		};
-		388387601CF4D81E007EA9BA /* View */ = {
-			isa = PBXGroup;
-			children = (
-				388387671CF4D959007EA9BA /* HDDataVisualizationView.h */,
-				388387681CF4D959007EA9BA /* HDDataVisualizationView.m */,
-				388387611CF4D826007EA9BA /* Cell */,
-			);
-			name = View;
-			sourceTree = "<group>";
-		};
-		388387611CF4D826007EA9BA /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				38EE1DAB1CDB0E06009ABB87 /* HDDataGridTableViewCell.h */,
-				38EE1DAC1CDB0E06009ABB87 /* HDDataGridTableViewCell.m */,
-				38ED4A0F1CF37C6700720A6F /* HDSalesDataGridTableViewCell.h */,
-				38ED4A101CF37C6700720A6F /* HDSalesDataGridTableViewCell.m */,
-			);
-			name = Cell;
-			sourceTree = "<group>";
-		};
-		388387641CF4D882007EA9BA /* View */ = {
-			isa = PBXGroup;
-			children = (
-				38ED4A011CEBBE1600720A6F /* HDUserSearchTableViewCell.h */,
-				38ED4A021CEBBE1600720A6F /* HDUserSearchTableViewCell.m */,
-			);
-			name = View;
-			sourceTree = "<group>";
-		};
-		388387651CF4D88B007EA9BA /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				38721A251CCABDA7007B9FE3 /* HDHomeViewController.h */,
-				38721A261CCABDA7007B9FE3 /* HDHomeViewController.m */,
-			);
-			name = Controller;
-			sourceTree = "<group>";
-		};
-		388387661CF4D8A2007EA9BA /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				382845691CD955B0002420E4 /* HDUserObject.h */,
-				3828456A1CD955B0002420E4 /* HDUserObject.m */,
-			);
-			name = Model;
-			sourceTree = "<group>";
-		};
-		3883876D1CF5018B007EA9BA /* Cell */ = {
-			isa = PBXGroup;
-			children = (
-				38D4B05F1CE3F56400BF7311 /* HDItemManagerTableViewCell.h */,
-				38D4B0601CE3F56400BF7311 /* HDItemManagerTableViewCell.m */,
-			);
-			name = Cell;
-			sourceTree = "<group>";
-		};
-		38BDC2F11CCD4C8C00E8B77D /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				38D4B0561CE3BEBC00BF7311 /* User Search */,
-				38D4B0551CE39E2D00BF7311 /* Item Manager */,
-				38D4B05C1CE3F33100BF7311 /* Transactions */,
-			);
-			name = Base;
-			sourceTree = "<group>";
-		};
-		38BDC2F51CCD56EA00E8B77D /* Model */ = {
-			isa = PBXGroup;
-			children = (
 				38F7113A1CD673AB008C9DC5 /* HDDBManager.h */,
 				38F7113B1CD673AB008C9DC5 /* HDDBManager.m */,
 				382845661CD95543002420E4 /* HDHelper.h */,
 				382845671CD95543002420E4 /* HDHelper.m */,
+				382845691CD955B0002420E4 /* HDUserObject.h */,
+				3828456A1CD955B0002420E4 /* HDUserObject.m */,
+				3828456C1CD97F3A002420E4 /* HDTransactionObject.h */,
+				3828456D1CD97F3A002420E4 /* HDTransactionObject.m */,
+				3883876A1CF4E8DD007EA9BA /* HDTransactionManager.h */,
+				3883876B1CF4E8DD007EA9BA /* HDTransactionManager.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -341,85 +220,28 @@
 			name = Category;
 			sourceTree = "<group>";
 		};
-		38D4B0551CE39E2D00BF7311 /* Item Manager */ = {
-			isa = PBXGroup;
-			children = (
-				3883875D1CF4D7D3007EA9BA /* View */,
-				3883875C1CF4D7BC007EA9BA /* Manager */,
-				3883875B1CF4D7AC007EA9BA /* Controller */,
-			);
-			name = "Item Manager";
-			sourceTree = "<group>";
-		};
-		38D4B0561CE3BEBC00BF7311 /* User Search */ = {
-			isa = PBXGroup;
-			children = (
-				388387661CF4D8A2007EA9BA /* Model */,
-				388387641CF4D882007EA9BA /* View */,
-				388387651CF4D88B007EA9BA /* Controller */,
-			);
-			name = "User Search";
-			sourceTree = "<group>";
-		};
-		38D4B05C1CE3F33100BF7311 /* Transactions */ = {
-			isa = PBXGroup;
-			children = (
-				388387601CF4D81E007EA9BA /* View */,
-				3883875F1CF4D802007EA9BA /* Model */,
-				3883875E1CF4D7E2007EA9BA /* Controller */,
-			);
-			name = Transactions;
-			sourceTree = "<group>";
-		};
 		38EE1DAE1CDB0E98009ABB87 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				38F2F4501CF53BA00042BCFB /* HDDefaultDataGridCell.h */,
-				38F2F4511CF53BA00042BCFB /* HDDefaultDataGridCell.m */,
-				388387581CF4BE48007EA9BA /* HDTableViewHeaderBackgroundView.h */,
-				388387591CF4BE48007EA9BA /* HDTableViewHeaderBackgroundView.m */,
-				38F2F4621CF6A9450042BCFB /* HDHeaderFooterDateBackgroundView.h */,
-				38F2F4631CF6A9450042BCFB /* HDHeaderFooterDateBackgroundView.m */,
-				38F2F4691CF7476F0042BCFB /* HDDataGridHeaderFooterView.h */,
-				38F2F46A1CF7476F0042BCFB /* HDDataGridHeaderFooterView.m */,
+				38ED4A011CEBBE1600720A6F /* HDUserSearchTableViewCell.h */,
+				38ED4A021CEBBE1600720A6F /* HDUserSearchTableViewCell.m */,
+				380E1FB61CFA2D010077DE8A /* HDVisualDataGridCell.h */,
+				380E1FB71CFA2D010077DE8A /* HDVisualDataGridCell.m */,
 				38F2F45C1CF60AAB0042BCFB /* HDToolBar.h */,
 				38F2F45D1CF60AAB0042BCFB /* HDToolBar.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
 		};
-		38F2F4581CF604290042BCFB /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				382220641CD16837003A446A /* HDItemManagerViewController.h */,
-				382220651CD16837003A446A /* HDItemManagerViewController.m */,
-			);
-			name = Main;
-			sourceTree = "<group>";
-		};
 		38F2F4591CF604350042BCFB /* Popover */ = {
-			isa = PBXGroup;
-			children = (
-				38ED4A041CEBF32600720A6F /* HDItemManagerPopoverViewController.h */,
-				38ED4A051CEBF32600720A6F /* HDItemManagerPopoverViewController.m */,
-			);
-			name = Popover;
-			sourceTree = "<group>";
-		};
-		38F2F45A1CF6043A0042BCFB /* Main */ = {
-			isa = PBXGroup;
-			children = (
-				382220671CD26EFA003A446A /* HDTransactionsViewController.h */,
-				382220681CD26EFA003A446A /* HDTransactionsViewController.m */,
-			);
-			name = Main;
-			sourceTree = "<group>";
-		};
-		38F2F45B1CF6043F0042BCFB /* Popover */ = {
 			isa = PBXGroup;
 			children = (
 				38ED4A0A1CEF9BD300720A6F /* HDTransactionPopoverViewController.h */,
 				38ED4A0B1CEF9BD300720A6F /* HDTransactionPopoverViewController.m */,
+				38ED4A041CEBF32600720A6F /* HDItemManagerPopoverViewController.h */,
+				38ED4A051CEBF32600720A6F /* HDItemManagerPopoverViewController.m */,
+				380E1FB91CFA36FA0077DE8A /* HDCashierPopoverViewController.h */,
+				380E1FBA1CFA36FA0077DE8A /* HDCashierPopoverViewController.m */,
 			);
 			name = Popover;
 			sourceTree = "<group>";
@@ -427,8 +249,17 @@
 		38F2F4681CF743390042BCFB /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				38F2F4651CF7432E0042BCFB /* HDDefaultTableViewController.h */,
-				38F2F4661CF7432E0042BCFB /* HDDefaultTableViewController.m */,
+				38F2F4591CF604350042BCFB /* Popover */,
+				38721A251CCABDA7007B9FE3 /* HDHomeViewController.h */,
+				38721A261CCABDA7007B9FE3 /* HDHomeViewController.m */,
+				382220641CD16837003A446A /* HDItemManagerDataGridController.h */,
+				382220651CD16837003A446A /* HDItemManagerDataGridController.m */,
+				382220671CD26EFA003A446A /* HDTransactionDataGridController.h */,
+				382220681CD26EFA003A446A /* HDTransactionDataGridController.m */,
+				380E1FB01CF8B3CA0077DE8A /* HDDataGridController.h */,
+				380E1FB11CF8B3CA0077DE8A /* HDDataGridController.m */,
+				380E1FB31CF8C1E90077DE8A /* HDDataGridTestHeader.h */,
+				380E1FB41CF8C1E90077DE8A /* HDDataGridTestHeader.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -546,34 +377,29 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				38D4B0611CE3F56400BF7311 /* HDItemManagerTableViewCell.m in Sources */,
-				38F2F4671CF7432E0042BCFB /* HDDefaultTableViewController.m in Sources */,
 				38721A271CCABDA7007B9FE3 /* HDHomeViewController.m in Sources */,
 				3828456E1CD97F3A002420E4 /* HDTransactionObject.m in Sources */,
-				38F2F4521CF53BA00042BCFB /* HDDefaultDataGridCell.m in Sources */,
-				388387691CF4D959007EA9BA /* HDDataVisualizationView.m in Sources */,
 				38F2F45E1CF60AAB0042BCFB /* HDToolBar.m in Sources */,
 				38ED4A031CEBBE1600720A6F /* HDUserSearchTableViewCell.m in Sources */,
 				38721A4A1CCACD43007B9FE3 /* UIColor+ColorAdditions.m in Sources */,
 				3883876C1CF4E8DD007EA9BA /* HDTransactionManager.m in Sources */,
 				38ED4A001CEBB4E400720A6F /* UIImage+ImageAdditions.m in Sources */,
 				38721A241CCABDA7007B9FE3 /* HDAppDelegate.m in Sources */,
-				38F2F4641CF6A9450042BCFB /* HDHeaderFooterDateBackgroundView.m in Sources */,
 				38F2F4611CF626A20042BCFB /* UIFont+FontAdditions.m in Sources */,
-				38ED4A111CF37C6700720A6F /* HDSalesDataGridTableViewCell.m in Sources */,
-				38EE1DAD1CDB0E06009ABB87 /* HDDataGridTableViewCell.m in Sources */,
 				38F7113C1CD673AB008C9DC5 /* HDDBManager.m in Sources */,
 				38ED4A091CEF911F00720A6F /* NSString+StringAdditions.m in Sources */,
 				3828456B1CD955B0002420E4 /* HDUserObject.m in Sources */,
-				3883875A1CF4BE48007EA9BA /* HDTableViewHeaderBackgroundView.m in Sources */,
 				38BDC2F41CCD4C9F00E8B77D /* HDItemManager.m in Sources */,
-				38F2F46B1CF7476F0042BCFB /* HDDataGridHeaderFooterView.m in Sources */,
-				382220661CD16837003A446A /* HDItemManagerViewController.m in Sources */,
+				380E1FBB1CFA36FA0077DE8A /* HDCashierPopoverViewController.m in Sources */,
+				382220661CD16837003A446A /* HDItemManagerDataGridController.m in Sources */,
 				382845681CD95543002420E4 /* HDHelper.m in Sources */,
+				380E1FB21CF8B3CA0077DE8A /* HDDataGridController.m in Sources */,
 				38ED4A061CEBF32600720A6F /* HDItemManagerPopoverViewController.m in Sources */,
 				38721A211CCABDA7007B9FE3 /* main.m in Sources */,
-				382220691CD26EFA003A446A /* HDTransactionsViewController.m in Sources */,
+				380E1FB51CF8C1E90077DE8A /* HDDataGridTestHeader.m in Sources */,
+				382220691CD26EFA003A446A /* HDTransactionDataGridController.m in Sources */,
 				38ED4A0C1CEF9BD300720A6F /* HDTransactionPopoverViewController.m in Sources */,
+				380E1FB81CFA2D010077DE8A /* HDVisualDataGridCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
