@@ -169,7 +169,7 @@ balanceForTransactionID:(NSInteger)transactionID
             results:(ResultsBlock)resultsBlock {
     
     /* Starting Balance for all Members */
-    __block float startingBalance = 00.00;
+    __block float startingBalance = 00.00; 
     dispatch_sync(self.queue, ^{
      
         NSString *query = [HDDBManager queryStringForTransactionsFromUserID:userID beforeTransitionID:transactionID];

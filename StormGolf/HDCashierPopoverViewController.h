@@ -8,6 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HDCashierPopoverViewController : UITableViewController
+@interface HDCashier : NSObject
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic, copy) UIImage *image;
+@end
 
+@interface HDCashierManager : NSObject
+- (NSUInteger)count;
+- (void)addCashier:(HDCashier *)cashier;
+- (void)removeCashier:(HDCashier *)cashier;
+- (void)removeCashierAtIndex:(NSInteger)index;
+- (HDCashier *)cashierAtIndex:(NSInteger)index;
+- (void)saveChanges;
++ (HDCashierManager *)sharedManager;
+@end
+
+@interface HDCashierPopoverViewController : UITableViewController
 @end

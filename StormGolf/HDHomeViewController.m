@@ -6,6 +6,7 @@
 //  Copyright © 2016 Evan William Ische. All rights reserved.
 //
 
+#import "HDSignupViewController.h"
 #import "HDUserSearchTableViewCell.h"
 #import "UIImage+ImageAdditions.h"
 #import "HDHomeViewController.h"
@@ -81,7 +82,7 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
 
 @end
 
-@interface HDHomeViewController () < UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate >
+@interface HDHomeViewController () < UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, HDSignupViewControllerDelegate >
 @property (nonatomic, strong) HDSearchBar *searchBar;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) NSMutableDictionary *userSearchDictionary;
@@ -139,7 +140,20 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
 }
 
 - (void)_presentUserViewController {
-  
+    
+    [self stopObservingNotifications];
+    
+    HDSignupViewController *controller = [[HDSignupViewController alloc] initWithStyle: UITableViewStyleGrouped];
+    controller.delegate = self;
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:controller];
+    navigationController.navigationBar.clipsToBounds = NO;
+    [self.navigationController presentViewController:navigationController animated:NO completion:nil];
+}
+
+- (void)signupIsCompleted:(HDSignupViewController *)controller {
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self beginObserveringNotifications];
+    }];
 }
 
 - (void)firstname:(NSString **)firstname lastname:(NSString **)lastname {
@@ -200,7 +214,7 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
 
 - (HDUserSearchTableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     HDUserSearchTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HDTableViewCellReuseIdentifier
-                                                            forIndexPath:indexPath];
+                                                                      forIndexPath:indexPath];
     
     HDUserObject *user = _queryResults[indexPath.row];
     [[HDDBManager sharedManager] currentUserBalanceWithUserID:user.userID results:^(float startingBalance) {

@@ -28,10 +28,10 @@ typedef NS_ENUM(NSUInteger, HDDataType){
 @interface HDTransactionDataGridController ()
 @property (nonatomic, strong) NSArray *currentTransactions;
 @property (nonatomic, strong) UISegmentedControl *segmentControl;
+@property (nonatomic, assign) HDDataType dataType;
 @end
 
 @implementation HDTransactionDataGridController {
-    HDDataType _dataType;
     NSUInteger _dataViewMaxValue;
     NSMutableDictionary *_transactionDictionary;
 }
@@ -40,16 +40,16 @@ typedef NS_ENUM(NSUInteger, HDDataType){
     
     [super viewDidLoad];
     
-    _dataType = HDDataTypeTransactions;
+    self.dataType = HDDataTypeTransactions;
     _transactionDictionary = [NSMutableDictionary new];
     
     self.segmentControl = [[UISegmentedControl alloc] initWithItems:@[@"Transactions", @"Sales"]];
     self.segmentControl.tintColor = [UIColor blackColor];
     self.segmentControl.selectedSegmentIndex = 0;
     [self.segmentControl addTarget:self action:@selector(_updateTableViewData:) forControlEvents:UIControlEventValueChanged];
-    [self.segmentControl setTitleTextAttributes:@{NSFontAttributeName:[UIFont stormGolfFontOfSize:15.0f]}
+    [self.segmentControl setTitleTextAttributes:@{NSFontAttributeName:[UIFont stormGolfFontOfSize:13.0f]}
                                        forState:UIControlStateSelected];
-    [self.segmentControl setTitleTextAttributes:@{NSFontAttributeName:[UIFont stormGolfFontOfSize:15.0f]}
+    [self.segmentControl setTitleTextAttributes:@{NSFontAttributeName:[UIFont stormGolfFontOfSize:13.0f]}
                                        forState:UIControlStateNormal];
     [self.segmentControl setWidth:120.0f forSegmentAtIndex:0];
     [self.segmentControl setWidth:120.0f forSegmentAtIndex:1];
@@ -68,7 +68,7 @@ typedef NS_ENUM(NSUInteger, HDDataType){
         
         _dataViewMaxValue = [[HDTransactionManager sharedManager] updateCurrentTransactionQueryResults:results];
         
-        [self reloadData];
+        [self.collectionView reloadData];
     
         for (HDTransactionObject *transaction in self.currentTransactions) {
             NSString *startTime = [[HDHelper formatter] stringFromDate:transaction.date];
@@ -76,26 +76,21 @@ typedef NS_ENUM(NSUInteger, HDDataType){
     }];
 }
 
-#pragma mark - <UITableViewDataSource>
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if (_dataType == HDDataTypeTransactions) {
-        return self.currentTransactions.count * self.columnWidths.count;
-    }
-    return [HDItemManager sharedManager].count * self.columnWidths.count;
-}
+#pragma mark - <UICollectionViewDataSource>
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     
     NSUInteger row, column;
     [self row:&row column:&column fromIndexPath:indexPath];
     
+    UIColor *color = row % 2 == 0 ? [UIColor colorWithRed:(246/255.0f) green:(246/255.0f) blue:(246/255.0f) alpha:1] : [UIColor whiteColor];
+    
     if (_dataType == HDDataTypeTransactions) {
         
         HDTransactionObject *transaction = self.currentTransactions[row];
         
         HDDataGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:HDDataGridReuseIdentifier forIndexPath:indexPath];
-        cell.backgroundColor = [self _cellBackgroundColorForTransactionTitle:transaction.title];
+        cell.backgroundColor = color;
         
         if (_transactionDictionary[@(transaction.iD)]) {
             cell.textLabel.text = [NSString stringWithFrontOffset:_transactionDictionary[@(transaction.iD)][column]];
@@ -115,12 +110,11 @@ typedef NS_ENUM(NSUInteger, HDDataType){
         
     } else {
         
-        NSLog(@"ROW:%lu COLUMN:%lu",row, column);
-        
         HDItem *item = [[HDItemManager sharedManager] itemAtIndex:row];
         
         if (column != 1) {
             HDDataGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:HDDataGridReuseIdentifier forIndexPath:indexPath];
+            cell.backgroundColor = color;
             [[HDTransactionManager sharedManager] infoForItem:item.itemDescription completion:^(NSUInteger count, CGFloat total) {
                     NSString *labelText = nil;
                     switch (column) {
@@ -136,7 +130,6 @@ typedef NS_ENUM(NSUInteger, HDDataType){
                         default:
                             break;
                     }
-                NSLog(@"%@",labelText);
                 cell.textLabel.text = [NSString stringWithFrontOffset:labelText];
             }];
             
@@ -146,7 +139,9 @@ typedef NS_ENUM(NSUInteger, HDDataType){
             
             HDVisualDataGridCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:HDVisualDataGridReuseIdentifier
                                                                                    forIndexPath:indexPath];
-            [[HDTransactionManager sharedManager] infoForItem:item.itemDescription completion:^(NSUInteger count, CGFloat total) {
+            cell.backgroundColor = color;
+            [[HDTransactionManager sharedManager] infoForItem:item.itemDescription
+                                                   completion:^(NSUInteger count, CGFloat total) {
                 cell.min = 0;
                 cell.max = _dataViewMaxValue;
                 cell.plot = count;
@@ -159,20 +154,9 @@ typedef NS_ENUM(NSUInteger, HDDataType){
     }
 }
 
-#if 0
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-        }];
-        
-        return cell;
-    }
-}
-                                   
-#endif
-                                   
 - (UIColor *)_cellBackgroundColorForTransactionTitle:(NSString *)title {
     if ([title isEqualToString:@"VIP Card"]||[title isEqualToString:@"Created Account"]) {
-        return [UIColor flatSTYellowColor];
+        return [UIColor colorWithRed:(246/255.0f) green:(246/255.0f) blue:(246/255.0f) alpha:1];
     } else {
         return [UIColor whiteColor];
     }
@@ -210,47 +194,80 @@ typedef NS_ENUM(NSUInteger, HDDataType){
 //    popController.permittedArrowDirections = UIPopoverArrowDirectionUp;
 //}
 
-- (NSArray *)columnWidths {
-    
-    if (_dataType == HDDataTypeTransactions) {
-        return @[@(MEMBER_NAME_SCREEN_PERCENTAGE),
-                 @(STARTING_BALANCE_SCREEN_PERCENTAGE),
-                 @(ENDING_BALANCE_SCREEN_PERCENTAGE),
-                 @(ITEM_COST_SCREEN_PERCENTAGE),
-                 @(ADMIN_NAME_SCREEN_PERCENTAGE),
-                 @(TRANSITION_DATE_SCREEN_PERCENTAGE),
-                 @(TRANSITION_DESCRIPTION_SCREEN_PERCENTAGE)];
-    }
-    
-    return @[@(ITEM_NAME_SCREEN_PERCENTAGE),
-             @(SALE_GRAPH_FULL_PERCENTAGE),
-             @(SALE_NUMBER_SCREEN_PERCENTAGE),
-             @(TOTAL_AMOUNT_SCREEN_PERCENTAGE)];
+#pragma mark - Super Getters
+
+- (void)dataGridDidSelectCellAtRow:(NSInteger)row column:(NSInteger)column {
+        
 }
 
-- (NSArray *)columnTitles {
-    
+- (NSInteger)numberOfRowsInDataGridView {
     if (_dataType == HDDataTypeTransactions) {
-        return  @[[NSString stringWithFrontOffset:@"Customer"],
-                  [NSString stringWithFrontOffset:@"Starting"],
-                  [NSString stringWithFrontOffset:@"Ending"],
-                  [NSString stringWithFrontOffset:@"Cost"],
-                  [NSString stringWithFrontOffset:@"Cashier"],
-                  [NSString stringWithFrontOffset:@"Transaction Date"],
-                  [NSString stringWithFrontOffset:@"Description"]];
+        return self.currentTransactions.count;
     }
+    return [HDItemManager sharedManager].count;
+}
+
+- (NSInteger)numberOfColumnsInDataGridView {
+    if (self.dataType == HDDataTypeTransactions) {
+        return 7;
+    }
+    return 4;
+}
+
+- (CGFloat)heightForCellAtIndexPath:(NSIndexPath *)indexPath {
+    return COLLECTIONVIEW_DEFAULT_ROW_HEIGHT;
+}
+
+- (CGFloat)widthForCellAtIndexPath:(NSIndexPath *)indexPath {
     
-    return @[[NSString stringWithFrontOffset:@"Item Name"],
-             [NSString stringWithFrontOffset:@"Visual"],
-             [NSString stringWithFrontOffset:@"Sales"],
-             [NSString stringWithFrontOffset:@"Total"]];
+    NSUInteger row, column;
+    [self row:&row column:&column fromIndexPath:indexPath];
+    
+    NSArray *columnWidths = nil;
+    if (self.dataType == HDDataTypeTransactions) {
+        columnWidths = @[@(MEMBER_NAME_SCREEN_PERCENTAGE),
+                         @(STARTING_BALANCE_SCREEN_PERCENTAGE),
+                         @(ENDING_BALANCE_SCREEN_PERCENTAGE),
+                         @(ITEM_COST_SCREEN_PERCENTAGE),
+                         @(ADMIN_NAME_SCREEN_PERCENTAGE),
+                         @(TRANSITION_DATE_SCREEN_PERCENTAGE),
+                         @(TRANSITION_DESCRIPTION_SCREEN_PERCENTAGE)];
+    } else {
+        columnWidths = @[@(ITEM_NAME_SCREEN_PERCENTAGE),
+                         @(SALE_GRAPH_FULL_PERCENTAGE),
+                         @(SALE_NUMBER_SCREEN_PERCENTAGE),
+                         @(TOTAL_AMOUNT_SCREEN_PERCENTAGE)];
+    }
+    return [columnWidths[column] doubleValue];
+}
+
+- (NSString *)titleForHeaderAtIndexPath:(NSIndexPath *)indexPath {
+    NSUInteger row, column;
+    [self row:&row column:&column fromIndexPath:indexPath];
+    
+    NSArray *columnTitles = nil;
+    if (self.dataType == HDDataTypeTransactions) {
+        columnTitles = @[[NSString stringWithFrontOffset:@"Customer"],
+                         [NSString stringWithFrontOffset:@"Starting"],
+                         [NSString stringWithFrontOffset:@"Ending"],
+                         [NSString stringWithFrontOffset:@"Cost"],
+                         [NSString stringWithFrontOffset:@"Cashier"],
+                         [NSString stringWithFrontOffset:@"Transaction Date"],
+                         [NSString stringWithFrontOffset:@"Description"]];
+    } else {
+        columnTitles = @[[NSString stringWithFrontOffset:@"Item Name"],
+                         [NSString stringWithFrontOffset:@"Visual"],
+                         [NSString stringWithFrontOffset:@"Sales"],
+                         [NSString stringWithFrontOffset:@"Total"]];
+    }
+    return columnTitles[column];
 }
 
 #pragma mark - Selector
 
 - (IBAction)_updateTableViewData:(UISegmentedControl *)sender {
-    _dataType = sender.selectedSegmentIndex;
-    [self reloadData];
+    self.dataType = sender.selectedSegmentIndex;
+    [self.collectionView reloadData];
 }
 
 @end

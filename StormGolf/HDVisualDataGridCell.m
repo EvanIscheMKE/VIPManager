@@ -38,7 +38,6 @@ static const CGFloat INSET_X = 10.0f;
     _maxWidth = CGRectGetWidth(CGRectInset(self.bounds, INSET_X, 0.0f));
     if (_maxWidth > 0) {
         _pixelsPerPoint = _maxWidth / 100.0f;
-        NSLog(@"%f", _maxWidth);
     }
     
     self.max = self.max;

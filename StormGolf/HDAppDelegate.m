@@ -18,6 +18,7 @@
 #import "HDItemManagerDataGridController.h"
 #import "HDTransactionDataGridController.h"
 #import "HDTransactionPopoverViewController.h"
+#import "HDSignupViewController.h"
 #import "UIColor+ColorAdditions.h"
 #import "UIFont+FontAdditions.h"
 #import "HDAppDelegate.h"
@@ -50,6 +51,8 @@
     [[UIToolbar appearance] setBarTintColor:[UIColor whiteColor]];
     [[UIToolbar appearance] setTintColor:[UIColor blackColor]];
     
+    [[UITextField appearance] setTintColor:[UIColor blackColor]];
+    
     [[UINavigationBar appearance] setClipsToBounds:YES];
     [[UINavigationBar appearance] setTranslucent:NO];
     [[UINavigationBar appearance] setTitleTextAttributes:@{ NSFontAttributeName:[UIFont stormGolfFontOfSize:18.0f],
@@ -72,6 +75,7 @@
     navigationController.preferredContentSize = CGSizeMake(290.0f, 320.0f);
     navigationController.modalPresentationStyle = UIModalPresentationPopover;
     navigationController.navigationBarHidden = NO;
+    navigationController.navigationBar.clipsToBounds = NO;
     [[self _controller] presentViewController:navigationController animated:YES completion:nil];
     
     UIPopoverPresentationController *popController = [navigationController popoverPresentationController];

@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface HDDataGridTestHeader : UICollectionReusableView
+@interface HDDataGridHeader : UICollectionReusableView
 - (void)layoutColumnWidths:(NSArray *)columnWidths
               columnTitles:(NSArray *)columnTitles;
 @end

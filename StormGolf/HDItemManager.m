@@ -108,6 +108,17 @@ NSString * const HDCostKey = @"cost";
     return _items;
 }
 
+- (CGFloat)currentVIPCardPrice {
+    CGFloat price = 0.0f;
+    for (HDItem *item in self.items) {
+        if ([item.itemDescription isEqualToString:@"VIP Card"]) {
+            price = item.itemCost;
+            break;
+        }
+    }
+    return price;
+}
+
 - (void)removeItemAtIndex:(NSInteger)index {
     [self.items removeObjectAtIndex:index];
     [self _save];

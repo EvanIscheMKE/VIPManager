@@ -11,7 +11,7 @@
 @implementation UIFont (FontAdditions)
 
 + (UIFont *)stormGolfFontOfSize:(CGFloat)fontSize {
-    return [UIFont fontWithName:@"GillSans" size:fontSize];
+    return [UIFont fontWithName:@"OpenSans" size:fontSize];
 }
 
 + (UIFont *)stormGolfLightFontOfSize:(CGFloat)fontSize {

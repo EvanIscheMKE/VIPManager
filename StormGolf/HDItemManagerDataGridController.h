@@ -10,8 +10,13 @@
 
 #import "HDDataGridController.h"
 
-static const CGFloat ITEM_TITLE_SCREEN_PERCENTAGE = 750.0f;
-static const CGFloat ITEM_VALUE_SCREEN_PERCENTAGE = 274.0f;
+static const CGFloat CHECK_BOX_SCREEN_PERCENTAGE = 50.0f;
+static const CGFloat ITEM_TITLE_SCREEN_PERCENTAGE = 699.0f;
+static const CGFloat ITEM_VALUE_SCREEN_PERCENTAGE = 273.0f;
 
-@interface HDItemManagerDataGridController : HDDataGridController
+@interface HDDataGridCheckBoxCell : UICollectionViewCell
+@property (nonatomic, assign, getter=isCheckedForRemoval) BOOL checkedForRemoval;
+@end
+
+@interface HDItemManagerDataGridController : HDDataGridController <UIPopoverPresentationControllerDelegate>
 @end

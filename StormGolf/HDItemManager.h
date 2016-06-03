@@ -6,7 +6,7 @@
 //  Copyright © 2016 Evan William Ische. All rights reserved.
 //
 
-@import Foundation;
+@import UIKit;
 
 @interface HDItem : NSObject <NSCoding>
 @property (nonatomic, copy) NSString *itemDescription;
@@ -19,6 +19,7 @@
 - (void)addItem:(HDItem *)item;
 - (void)removeItem:(HDItem *)item;
 - (void)removeItemAtIndex:(NSInteger)index;
+- (CGFloat)currentVIPCardPrice;
 - (HDItem *)itemAtIndex:(NSInteger)index;
 - (void)saveChanges;
 + (HDItemManager *)sharedManager;

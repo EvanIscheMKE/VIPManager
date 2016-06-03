@@ -10,6 +10,18 @@
 
 @implementation UIColor (FlatColors)
 
++ (UIColor *)flatDataGridHeaderTextColor {
+    return [UIColor colorWithRed:(75/255.0f) green:(169/255.0f) blue:(223/255.0f) alpha:1];
+}
+
++ (UIColor *)flatDataGridCellTextColor {
+    return [UIColor colorWithRed:(130/255.0f) green:(130/255.0f) blue:(130/255.0f) alpha:1];
+}
+
++ (UIColor *)flatDataGridSeperatorColor {
+    return [UIColor colorWithRed:(200/255.0f) green:(200/255.0f) blue:(200/255.0f) alpha:1];
+}
+
 + (UIColor *)colorForRowAtIndex:(NSUInteger)index {
     NSUInteger rows = index % 4;
     switch (rows) {
