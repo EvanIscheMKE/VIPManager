@@ -17,6 +17,7 @@ static NSString * const HDTableViewCell2ReuseIndentifier = @"HDTableViewCell2Reu
 
 @implementation HDSignupTableViewCell {
     NSMutableArray *_btns;
+    CGFloat _startingBalance;
 }
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
@@ -35,6 +36,7 @@ static NSString * const HDTableViewCell2ReuseIndentifier = @"HDTableViewCell2Reu
         
         self.textField.inputAccessoryView = self.toolbar;
         
+        _startingBalance = [[HDItemManager sharedManager] currentVIPCardPrice];
     }
     return self;
 }
@@ -49,14 +51,17 @@ static NSString * const HDTableViewCell2ReuseIndentifier = @"HDTableViewCell2Reu
         
         _btns = [NSMutableArray new];
         
-        CGFloat startingPointX = CGRectGetMidX(container.bounds) - (2.0 * (50.0f + 10.0f)) / 2.0f;
+        const CGSize buttonSize = CGSizeMake(50.0f, 50.0f);
+        
+        CGFloat startingPointX = CGRectGetMidX(container.bounds) - (2.0 * (buttonSize.width + 10.0f)) / 2.0f;
         for (NSInteger i = 0; i < 3; i++) {
-            CGRect bounds = CGRectMake(0.0f, 0.0f, 50.0f, 50.0f);
+            CGRect bounds = CGRectMake(0.0f, 0.0f, buttonSize.width, buttonSize.height);
             UIButton *button = [[UIButton alloc] initWithFrame:bounds];
-            button.selected = (i == 0);
+            button.selected = (i==0);
             button.backgroundColor = [UIColor whiteColor];
             button.layer.borderColor = (i==0)?[UIColor blackColor].CGColor:[UIColor grayColor].CGColor;
             button.layer.borderWidth = 1.0f;
+            button.layer.cornerRadius = CGRectGetMidX(button.bounds);
             button.titleLabel.font = [UIFont stormGolfFontOfSize:12.0f];
             button.center = CGPointMake(startingPointX + (i * (50.0f + 10.0f)), CGRectGetMidY(container.bounds));
             [button addTarget:self action:@selector(_selectStartingBalance:) forControlEvents:UIControlEventTouchUpInside];
@@ -83,13 +88,17 @@ static NSString * const HDTableViewCell2ReuseIndentifier = @"HDTableViewCell2Reu
         
         toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.contentView.bounds), 64.0f)];
         toolbar.barTintColor = [UIColor whiteColor];
-        toolbar.items = @[flex, item, flex, done, fix];
+        toolbar.items = @[fix, item, flex, done, fix];
 
     });
     return toolbar;
 }
 
 - (void)dismiss {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(finishedSignUpWithStartingBalance:)]) {
+        /* FIX !Must point to selected Starting Balance! FIX */
+        [self.delegate finishedSignUpWithStartingBalance:_startingBalance];
+    }
 }
 
 - (IBAction)_selectStartingBalance:(UIButton *)sender {
@@ -101,6 +110,11 @@ static NSString * const HDTableViewCell2ReuseIndentifier = @"HDTableViewCell2Reu
     
     sender.selected = !sender.selected;
     sender.layer.borderColor = sender.selected ? [UIColor blackColor].CGColor : [UIColor grayColor].CGColor;
+    
+    NSCharacterSet *set = [NSCharacterSet characterSetWithCharactersInString:@".0123456789"];
+    NSString *results = [[sender.titleLabel.text componentsSeparatedByCharactersInSet:[set invertedSet]] componentsJoinedByString:@""];
+    
+    _startingBalance = [results floatValue];
 }
 
 - (void)layoutSubviews {
@@ -148,6 +162,10 @@ static const CGFloat TABLE_ROW_HEIGHT = 90.0f;
 
 static const NSUInteger NUMBER_OF_ROWS_PER_SECTION = 1;
 static const NSUInteger NUMBER_OF_SECTIONS = 3;
+
+@interface HDSignupViewController ()<HDSignupViewTableViewCellDelegate>
+@end
+
 @implementation HDSignupViewController {
     NSArray *_titles;
 }
@@ -157,7 +175,7 @@ static const NSUInteger NUMBER_OF_SECTIONS = 3;
     
     _titles = @[@"First Name", @"Last Name", @"Email (Optional)"];
     
-    self.tableView.userInteractionEnabled = false;
+    self.email = @"No Current Email";
     self.tableView.backgroundColor = [UIColor whiteColor];
     self.tableView.separatorColor = [UIColor clearColor];
     
@@ -176,6 +194,52 @@ static const NSUInteger NUMBER_OF_SECTIONS = 3;
 }
 
 - (IBAction)_dismiss:(id)sender {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(dismissSignUpController:)]) {
+        [self.delegate dismissSignUpController:self];
+    }
+}
+
+- (void)finishedSignUpWithStartingBalance:(CGFloat)startingBalance {
+
+    self.startingBalance = startingBalance;
+    for (NSUInteger index = 0; index < [self numberOfSectionsInTableView:self.tableView]; index++) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:index];
+        HDSignupTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+        
+        BOOL textFieldIsEmpty = NO;
+        NSString *trimmedString = [cell.textField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        if (trimmedString.length == 0) {
+            textFieldIsEmpty = YES;
+        }
+        
+        switch (index) {
+            case 0:
+                if (textFieldIsEmpty) {
+                    NSLog(@"First Name Empty");
+                    return;
+                }
+                
+                self.firstName = cell.textField.text;
+                break;
+            case 1:
+                if (textFieldIsEmpty) {
+                    NSLog(@"Last Name Empty");
+                    return;
+                }
+                
+                self.lastName = cell.textField.text;
+                break;
+            case 2: {
+                if (!textFieldIsEmpty) {
+                    self.email = cell.textField.text;
+                }
+            } break;
+            default:
+                break;
+        }
+    }
+    
+
     if (self.delegate && [self.delegate respondsToSelector:@selector(signupIsCompleted:)]) {
         [self.delegate signupIsCompleted:self];
     }
@@ -184,30 +248,10 @@ static const NSUInteger NUMBER_OF_SECTIONS = 3;
 #pragma mark - <UITextFieldDelegate>
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    
-    if ([textField.text isEqualToString:@""]) {
-        return NO;
-    }
-    
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:textField.tag + 1];
-    
     HDSignupTableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    
-    const CGFloat tableHeaderHeight = [self tableView:self.tableView heightForRowAtIndexPath:indexPath];
-    const CGFloat tableCellHeight   = [self tableView:self.tableView heightForHeaderInSection:indexPath.section];
-    
-    const CGFloat contentOffsetY = self.tableView.contentOffset.y + (tableHeaderHeight + tableCellHeight);
-  //  [self.tableView setContentOffset:CGPointMake(0.0f, contentOffsetY) animated:NO];
-    
-    switch (textField.tag) {
-        case 0:
-        case 1:
-            [cell.textField becomeFirstResponder];
-            break;
-        case 2:
-        default:
-            break;
-    }
+    if (textField.tag == 1) { cell.textField.keyboardType = UIKeyboardTypeEmailAddress; }
+    [cell.textField becomeFirstResponder];
     return NO;
 }
 
@@ -216,6 +260,7 @@ static const NSUInteger NUMBER_OF_SECTIONS = 3;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     HDSignupTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HDTableViewCell1ReuseIndentifier forIndexPath:indexPath];
+    cell.delegate = self;
     cell.textField.tag = indexPath.section;
     cell.textField.delegate = self;
     cell.textField.backgroundColor = [UIColor clearColor];

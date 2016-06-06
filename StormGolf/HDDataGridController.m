@@ -56,7 +56,7 @@
 
 - (IBAction)_longPress:(id)sender {
     self.textField = [[UITextField alloc] initWithFrame:self.contentView.bounds];
-    self.textField.background = [UIColor yellowColor];
+    self.textField.backgroundColor = [UIColor yellowColor];
     self.textField.font = self.textField.font;
     self.textField.textColor = self.textLabel.textColor;
     self.textLabel.text = self.textLabel.text;
@@ -194,6 +194,7 @@ NSString * const HDDataGridFooterIdentifier = @"HDDataGridFooterIdentifier";
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.collectionView.contentInset = UIEdgeInsetsMake(0.0f, 0.0f, CGRectGetHeight(self.navigationController.toolbar.bounds) + 8.0f, 0.0f);
      self.collectionView.backgroundColor = [UIColor flatDataGridSeperatorColor];
     [self.collectionView registerClass:[HDDataGridHeader class]
           forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
@@ -294,42 +295,47 @@ referenceSizeForFooterInSection:(NSInteger)section {
 }
 
 - (NSInteger)numberOfRowsInDataGridView {
+    NSAssert(NO, @"'%@' Must be overridden in subclass",NSStringFromSelector(_cmd));
     return 0;
 }
 
 - (NSInteger)numberOfColumnsInDataGridView {
+    NSAssert(NO, @"'%@' Must be overridden in subclass",NSStringFromSelector(_cmd));
     return 0;
 }
 
 - (CGFloat)heightForCellAtIndexPath:(NSIndexPath *)indexPath {
+    NSAssert(NO, @"'%@' Must be overridden in subclass",NSStringFromSelector(_cmd));
     return 0;
 }
 
 - (CGFloat)widthForCellAtIndexPath:(NSIndexPath *)indexPath {
+    NSAssert(NO, @"'%@' Must be overridden in subclass",NSStringFromSelector(_cmd));
     return 0;
 }
 
 - (NSString *)titleForHeaderAtIndexPath:(NSIndexPath *)indexPath {
+    NSAssert(NO, @"'%@' Must be overridden in subclass",NSStringFromSelector(_cmd));
     return nil;
 }
 
 - (void)dataGridHighlightColumnsInRow:(NSInteger)row {
     
-    NSInteger startingIndex = (row == 0) ? 0 : row * self.numberOfColumnsInDataGridView;
+    NSInteger startingIndex = row * self.numberOfColumnsInDataGridView;
 
     for (NSUInteger i = startingIndex; i < startingIndex + self.numberOfColumnsInDataGridView; i++) {
         UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:i inSection:0]];
-        cell.backgroundColor = [UIColor colorWithRed:(252/255.0f) green:(192/255.0f) blue:(203/255.0f) alpha:1];
+        cell.backgroundColor = [UIColor flatSTLightBlueColor];
     }
 }
 
 - (void)dataGridUnHighlightColumnsInRow:(NSInteger)row {
     
-    NSInteger startingIndex = (row == 0) ? 0 : row * self.numberOfColumnsInDataGridView;
+    NSInteger startingIndex = row * self.numberOfColumnsInDataGridView;
     
     for (NSUInteger i = startingIndex; i < startingIndex + self.numberOfColumnsInDataGridView; i++) {
         UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:i inSection:0]];
-        cell.backgroundColor = row % 2 == 0 ? [UIColor colorWithRed:(246/255.0f) green:(246/255.0f) blue:(246/255.0f) alpha:1]  : [UIColor whiteColor];
+        cell.backgroundColor = (row % 2 == 0) ? [UIColor flatDataGridCellColor]  : [UIColor whiteColor];
     }
 }
 

@@ -122,6 +122,7 @@ typedef void (^CompletionBlock)(NSArray *results);
                 if (executeQueryResults == SQLITE_DONE) {
                     self.affectedRows = sqlite3_changes(_sqlite3Database);
                     self.lastInsertedRowID = sqlite3_last_insert_rowid(_sqlite3Database);
+                    NSLog(@"HDDB %lu",_lastInsertedRowID);
                 } else {
                     NSLog(@"DB Error: %s", sqlite3_errmsg(_sqlite3Database));
                 }
@@ -135,6 +136,8 @@ typedef void (^CompletionBlock)(NSArray *results);
 }
 
 - (void)queryUserDataFromDatabase:(NSString *)query completion:(CompletionBlock)completion {
+    
+    NSLog(@"HDDB %lld",self.lastInsertedRowID);
     
     __block NSArray *results = nil;
     dispatch_sync(self.queue, ^{
@@ -202,6 +205,7 @@ balanceForTransactionID:(NSInteger)transactionID
     });
 }
 
+
 #pragma mark - Classy 
 
 + (NSString *)queryStringForFirstName:(NSString *)firstName lastName:(NSString *)lastName {
@@ -223,6 +227,10 @@ balanceForTransactionID:(NSInteger)transactionID
 + (NSString *)queryStringFromUnixStartDate:(NSInteger)startDate
                                 finishDate:(NSInteger)finishDate {
    return [NSString stringWithFormat:@"select * from transactions where createdAt >= %zd AND createdAt <= %zd", startDate, finishDate];
+}
+
++ (NSString *)queryForLastUserObject {
+    return @"SELECT * FROM userInfo ORDER BY userID DESC LIMIT 1";
 }
 
 + (NSString *)executableStringWithFirstName:(NSString *)firstname

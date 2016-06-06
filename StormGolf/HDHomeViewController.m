@@ -6,15 +6,18 @@
 //  Copyright © 2016 Evan William Ische. All rights reserved.
 //
 
+#import "HDCashierPopoverViewController.h"
 #import "HDSignupViewController.h"
 #import "HDUserSearchTableViewCell.h"
 #import "UIImage+ImageAdditions.h"
 #import "HDHomeViewController.h"
 #import "UIColor+ColorAdditions.h"
+#import "HDUserViewController.h"
 #import "HDItemManagerDataGridController.h"
 #import "UIFont+FontAdditions.h"
 #import "UIFont+FontAdditions.h"
 #import "HDUserObject.h"
+#import "HDItemManager.h"
 #import "HDDBManager.h"
 #import "HDHelper.h"
 
@@ -116,7 +119,7 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
     self.searchBar.delegate = self;
     self.searchBar.center = self.view.center;
     [self.searchBar.rightActionButton addTarget:self
-                                         action:@selector(_presentUserViewController)
+                                         action:@selector(_presentSignupViewController:)
                                forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:self.searchBar];
 }
@@ -139,7 +142,7 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
     [super viewDidLoad];
 }
 
-- (void)_presentUserViewController {
+- (IBAction)_presentSignupViewController:(id)sender {
     
     [self stopObservingNotifications];
     
@@ -151,12 +154,40 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
 }
 
 - (void)signupIsCompleted:(HDSignupViewController *)controller {
-    [self dismissViewControllerAnimated:YES completion:^{
+    
+    NSString *transactionDescription = @"Created Account";
+    NSString *firstName = controller.firstName;
+    NSString *lastName = controller.lastName;
+    NSString *email = controller.email;
+    NSString *fullName = [NSString stringWithFormat:@"%@ %@",firstName, lastName];
+    
+    [self dismissViewControllerAnimated:NO completion:^{
+        [self beginObserveringNotifications];
+        
+        NSString *cashier = [[HDCashierManager sharedManager].currentCashier name];
+        [[HDDBManager sharedManager] executeQuery:[HDDBManager executableStringWithFirstName:firstName
+                                                                                    lastname:lastName
+                                                                                       email:email]];
+        
+        NSInteger userID = [HDDBManager sharedManager].lastInsertedRowID;
+        [[HDDBManager sharedManager] executeQuery:[HDDBManager executableStringWithUserName:fullName
+                                                                                      price:controller.startingBalance
+                                                                                description:transactionDescription
+                                                                                     userID:userID
+                                                                                      admin:cashier]];
+        NSLog(@"%zd",userID);
+    }];
+}
+
+- (void)dismissSignUpController:(HDSignupViewController *)controller {
+    [self dismissViewControllerAnimated:NO
+                             completion:^{
         [self beginObserveringNotifications];
     }];
 }
 
-- (void)firstname:(NSString **)firstname lastname:(NSString **)lastname {
+- (void)firstname:(NSString **)firstname
+         lastname:(NSString **)lastname {
     NSArray *nameParts = [_currentSearchString componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     *firstname = nameParts.firstObject;
     if (nameParts.count == 2) {
@@ -193,6 +224,7 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
     NSString *queryString = [HDDBManager queryStringForFirstName:firstName lastName:lastName];
     [[HDDBManager sharedManager] queryUserDataFromDatabase:queryString completion:^(NSArray *results) {
         _queryResults = results;
+        NSLog(@"\n%@",results);
         [_userSearchDictionary setObject:results forKey:_currentSearchString];
         [self.tableView reloadData];
     }];
@@ -217,7 +249,8 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
                                                                       forIndexPath:indexPath];
     
     HDUserObject *user = _queryResults[indexPath.row];
-    [[HDDBManager sharedManager] currentUserBalanceWithUserID:user.userID results:^(float startingBalance) {
+    [[HDDBManager sharedManager] currentUserBalanceWithUserID:user.userID
+                                                      results:^(float startingBalance) {
         NSRange range =[user.fullname rangeOfString:_currentSearchString options:NSCaseInsensitiveSearch];
         cell.textLabel.attributedText = [self highlightedString:user.fullname forRange:range color:cell.detailTextLabel.textColor];
         cell.detailTextLabel.text = [HDHelper stringFromNumber:startingBalance];
@@ -232,7 +265,11 @@ static NSString * const HDTableViewCellReuseIdentifier = @"HDTableViewCellReuseI
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    [self _presentUserViewController];
+    
+    HDUserObject *user = _queryResults[indexPath.row];
+    HDUserViewController *controller = [HDUserViewController new];
+    controller.user = user;
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 #pragma mark - <Actions>

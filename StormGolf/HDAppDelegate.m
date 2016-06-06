@@ -10,9 +10,7 @@
 #import "HDDBManager.h"
 #import "HDAppDelegate.h"
 #import "HDToolBar.h"
-
 #import "HDDataGridController.h"
-
 #import "HDCashierPopoverViewController.h"
 #import "HDHomeViewController.h"
 #import "HDItemManagerDataGridController.h"
@@ -75,7 +73,6 @@
     navigationController.preferredContentSize = CGSizeMake(290.0f, 320.0f);
     navigationController.modalPresentationStyle = UIModalPresentationPopover;
     navigationController.navigationBarHidden = NO;
-    navigationController.navigationBar.clipsToBounds = NO;
     [[self _controller] presentViewController:navigationController animated:YES completion:nil];
     
     UIPopoverPresentationController *popController = [navigationController popoverPresentationController];
@@ -239,7 +236,7 @@
                                                              userID:userID
                                                               admin:@"Admin"];
         [[HDDBManager sharedManager] executeQuery:query2];
-        for (NSUInteger i = 0; i < (arc4random() % 4); i++) {
+        for (NSUInteger i = 0; i < (arc4random() % 3); i++) {
             NSUInteger index = arc4random() % [[HDItemManager sharedManager] count];
             NSString *query = [HDDBManager executableStringWithUserName:[NSString stringWithFormat:@"%@ %@",firstname,lastname]
                                                                   price:[[HDItemManager sharedManager] itemAtIndex:index].itemCost

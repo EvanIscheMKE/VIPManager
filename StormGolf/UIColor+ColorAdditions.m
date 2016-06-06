@@ -10,6 +10,10 @@
 
 @implementation UIColor (FlatColors)
 
++ (UIColor *)flatDataGridCellColor {
+    return [UIColor colorWithRed:(246/255.0f) green:(246/255.0f) blue:(246/255.0f) alpha:1];
+}
+
 + (UIColor *)flatDataGridHeaderTextColor {
     return [UIColor colorWithRed:(75/255.0f) green:(169/255.0f) blue:(223/255.0f) alpha:1];
 }

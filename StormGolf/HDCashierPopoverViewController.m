@@ -8,20 +8,22 @@
 
 #import "HDCashierPopoverViewController.h"
 #import "UIFont+FontAdditions.h"
+#import "UIColor+ColorAdditions.h"
 
-NSString * const HDTableViewReuseIdentifier = @"HDTableViewReuseIdentifier";
+NSString * const HDCollectionViewReuseIdentifier = @"HDTableViewReuseIdentifier";
 
 NSString * const HDCashierUserDefaultsKey = @"HDCashierUserDefaultsKey";
+
+NSString * const HDCurrentKey = @"HDCurrentKey";
 NSString * const HDImageKey = @"HDImageKey";
 NSString * const HDNameKey = @"HDNameKey";
-
-
 @implementation HDCashier
 
 - (instancetype)initWithName:(NSString *)name image:(UIImage *)image {
     if (self = [super init]) {
         self.image = image;
         self.name = name;
+        self.current = NO;
     }
     return self;
 }
@@ -32,6 +34,7 @@ NSString * const HDNameKey = @"HDNameKey";
     if (self = [super init]) {
         self.image = [aDecoder decodeObjectForKey:HDImageKey];
         self.name = [aDecoder decodeObjectForKey:HDNameKey];
+        self.current = [aDecoder decodeBoolForKey:HDCurrentKey];
     }
     return self;
 }
@@ -39,8 +42,39 @@ NSString * const HDNameKey = @"HDNameKey";
 #pragma mark - Encoder
 
 - (void)encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeBool:self.current forKey:HDCurrentKey];
     [aCoder encodeObject:self.image forKey:HDImageKey];
     [aCoder encodeObject:self.name  forKey:HDNameKey];
+}
+
+@end
+
+@implementation HDCashierCollectionViewCell
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    if (self = [super initWithFrame:frame]) {
+        
+        self.textLabel = [[UILabel alloc] init];
+        self.textLabel.font = [UIFont stormGolfFontOfSize:16.0f];
+        self.textLabel.textColor = [UIColor blackColor];
+        [self.contentView addSubview:self.textLabel];
+        
+        self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 46.0f, 46.0f)];
+        [self.contentView addSubview:self.imageView];
+        
+    }
+    return self;
+}
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+    
+    [self.textLabel sizeToFit];
+    self.textLabel.center = CGPointMake(CGRectGetMidX(self.contentView.bounds),
+                                        CGRectGetHeight(self.contentView.bounds) - CGRectGetMidY(self.textLabel.bounds) - 5.0f);//Padding
+    
+    self.imageView.center = CGPointMake(self.textLabel.center.x, CGRectGetHeight(self.contentView.bounds) / 2.65f);
+    
 }
 
 @end
@@ -62,6 +96,15 @@ NSString * const HDNameKey = @"HDNameKey";
 
 #pragma mark - Public
 
+- (HDCashier *)currentCashier {
+    for (HDCashier *cashier in self.cashiers) {
+        if (cashier.current) {
+            return cashier;
+        }
+    }
+    return nil;
+}
+
 - (void)addCashier:(HDCashier *)cashier {
     [self.cashiers addObject:cashier];
     [self _save];
@@ -74,6 +117,12 @@ NSString * const HDNameKey = @"HDNameKey";
 
 - (HDCashier *)cashierAtIndex:(NSInteger)index {
     return self.cashiers[index];
+}
+
+- (void)updateCurrentCashier:(HDCashier *)cashier {
+    [self.cashiers makeObjectsPerformSelector:@selector(setCurrent:) withObject:0];
+    cashier.current = YES;
+    [self _save];
 }
 
 - (void)saveChanges {
@@ -96,8 +145,11 @@ NSString * const HDNameKey = @"HDNameKey";
         _cashiers = cashiers;
     } else {
         _cashiers = [NSMutableArray new];
-        [_cashiers addObject:[[HDCashier alloc] initWithName:@"Admin"
-                                                       image:[UIImage imageNamed:@""]]];
+        
+        HDCashier *cashier = [[HDCashier alloc] initWithName:@"Admin" image:[UIImage imageNamed:@"User"]];
+        cashier.current = YES;
+        
+        [_cashiers addObject:cashier];
         [self _save:_cashiers];
     }
     return _cashiers;
@@ -130,19 +182,25 @@ NSString * const HDNameKey = @"HDNameKey";
 
 @end
 
-
-
-
-
 @implementation HDCashierPopoverViewController {
     BOOL _isTableViewHeaderPresented;
+    NSUInteger _numberOfColumns;
+    CGFloat _spacing;
 }
 
 - (instancetype)init {
-    if (self = [super init]) {
-        self.title = @"Cashier Manager";
-        self.navigationController.navigationBarHidden = NO;
-        self.navigationController.navigationBar.clipsToBounds = NO;
+    
+     _spacing = 10.0f;
+    UICollectionViewFlowLayout *flow = [UICollectionViewFlowLayout new];
+    flow.sectionInset = UIEdgeInsetsMake(_spacing, _spacing, _spacing, _spacing);
+    flow.minimumLineSpacing = _spacing;
+    flow.minimumInteritemSpacing = _spacing;
+    
+    if (self = [super initWithCollectionViewLayout:flow]) {
+        
+        _numberOfColumns = 3;
+        
+        self.title = @"Cashier";
     }
     return self;
 }
@@ -150,7 +208,8 @@ NSString * const HDNameKey = @"HDNameKey";
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    [self.tableView registerClass:[UITableViewCell class] forCellReuseIdentifier:HDTableViewReuseIdentifier];
+    self.collectionView.backgroundColor = [UIColor flatDataGridCellColor];
+    [self.collectionView registerClass:[HDCashierCollectionViewCell class] forCellWithReuseIdentifier:HDCollectionViewReuseIdentifier];
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                                            target:self
@@ -159,33 +218,38 @@ NSString * const HDNameKey = @"HDNameKey";
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    /* */
-    self.navigationController.navigationBarHidden = NO;
-    self.navigationController.navigationBar.clipsToBounds = NO;
     self.navigationController.view.superview.layer.cornerRadius = 0;
     self.navigationController.view.layer.cornerRadius = 0;
 }
 
 - (IBAction)_presentCreateAccountMenu:(id)sender {
-    if (!self.tableView.tableHeaderView) {
-        self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, CGRectGetWidth(self.view.bounds), 200.0f)];
-    } else {
-        self.tableView.tableHeaderView = nil;
-    }
+
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     return [[HDCashierManager sharedManager] count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:HDTableViewReuseIdentifier forIndexPath:indexPath];
-    cell.textLabel.text = @"Admin";
-    cell.textLabel.font = [UIFont stormGolfLightFontOfSize:18.0f];
-    //cell.imageView.image =
-    cell.imageView.backgroundColor = [UIColor redColor];
+- (CGSize)collectionView:(UICollectionView *)collectionView
+                  layout:(UICollectionViewLayout *)collectionViewLayout
+  sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+    
+    NSUInteger amountOfSpacers = _numberOfColumns + 1;
+    CGFloat totalSpace = amountOfSpacers * _spacing;
+    CGFloat itemWidth = (CGRectGetWidth(self.view.bounds) - totalSpace) / _numberOfColumns ;
+    
+    return CGSizeMake(itemWidth, itemWidth * 1.25f);
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+    HDCashier *cashier = [[HDCashierManager sharedManager] cashierAtIndex:indexPath.item];
+    HDCashierCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:HDCollectionViewReuseIdentifier
+                                                                                  forIndexPath:indexPath];
+    cell.backgroundColor = [UIColor whiteColor];
+    cell.textLabel.text = cashier.name;
+    cell.imageView.image = cashier.image;
     return cell;
 }
+
 
 @end

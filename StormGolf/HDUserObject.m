@@ -18,7 +18,9 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"LASTNAME:%@, FIRSTNAME:%@, EMAIL:%@", self.lastName, self.firstName, self.email];
+    return [NSString stringWithFormat:@"%lu",self.userID];
+    
+    //return [NSString stringWithFormat:@"LASTNAME:%@, FIRSTNAME:%@, EMAIL:%@", self.lastName, self.firstName, self.email];
 }
 
 @end

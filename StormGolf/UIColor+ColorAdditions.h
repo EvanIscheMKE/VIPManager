@@ -13,6 +13,7 @@
 
 + (UIColor *)colorForRowAtIndex:(NSUInteger)index;
 
++ (UIColor *)flatDataGridCellColor;
 + (UIColor *)flatDataGridHeaderTextColor;
 + (UIColor *)flatDataGridCellTextColor;
 + (UIColor *)flatDataGridSeperatorColor;

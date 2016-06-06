@@ -31,7 +31,8 @@ typedef void (^ResultsBlock)(float startingBalance);
 - (void)currentUser:(NSInteger)userID
 balanceForTransactionID:(NSInteger)transactionID
             results:(ResultsBlock)resultsBlock;
-
+- (void)userIdNumberFromNewestUserObject:(void (^)(NSUInteger userID))completion;
++ (NSString *)queryForLastUserObject;
 + (NSString *)queryStringForFirstName:(NSString *)firstName
                              lastName:(NSString *)lastName;
 + (NSString *)executableStringWithFirstName:(NSString *)firstname

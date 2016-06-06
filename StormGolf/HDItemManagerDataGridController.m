@@ -28,16 +28,33 @@
     bezierPath.lineJoinStyle = kCGLineJoinRound;
     bezierPath.lineWidth = 2.0f;
     [bezierPath stroke];
+    
+    if ((self.checkedForRemoval)) {
+        UIBezierPath *check = [UIBezierPath bezierPath];
+        [check moveToPoint:CGPointMake(CGRectGetMidX(self.contentView.bounds) - 5.0f, CGRectGetMidY(self.contentView.bounds))];
+        [check addLineToPoint:CGPointMake(CGRectGetMidX(self.contentView.bounds) - 1.0f, CGRectGetMidY(self.contentView.bounds) + 6.0f)];
+        [check addLineToPoint:CGPointMake(CGRectGetMidX(self.contentView.bounds) + 5.0f, CGRectGetMidY(self.contentView.bounds) - 5.0f)];
+        check.lineCapStyle = kCGLineCapRound;
+        check.lineJoinStyle = kCGLineJoinRound;
+        check.lineWidth = 3.0f;
+        [check stroke];
+    }
 }
 
 - (void)setCheckedForRemoval:(BOOL)checkedForRemoval{
     _checkedForRemoval = checkedForRemoval;
-    NSLog(_checkedForRemoval ? @"Selected" : @"Not Selected");
+    [self setNeedsDisplay];
 }
 
 @end
 
-@implementation HDItemManagerDataGridController
+
+
+
+
+@implementation HDItemManagerDataGridController {
+    NSMutableArray *_rowsToDelete;
+}
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self.collectionView name:HDTableViewReloadDataNotification object:nil];
@@ -45,6 +62,7 @@
 
 - (instancetype)init {
     if (self = [super init]) {
+        _rowsToDelete = [NSMutableArray new];
         self.title = @"Item Manager";
     }
     return self;
@@ -54,8 +72,11 @@
     [super viewDidLoad];
     [self.collectionView registerClass:[HDDataGridCheckBoxCell class] forCellWithReuseIdentifier:@"CheckBox"];
     
+    
     [[NSNotificationCenter defaultCenter] addObserver:self.collectionView selector:@selector(reloadData)
                                                  name:HDTableViewReloadDataNotification object:nil];
+    
+    self.navigationController.navigationBar.tintColor = [UIColor flatDataGridHeaderTextColor];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemAdd
                                                                                           target:self
                                                                                           action:@selector(_presentPopoverViewController:)];
@@ -77,6 +98,50 @@
     popController.delegate = self;
 }
 
+- (IBAction)_deletedRows:(id)sender {
+    NSMutableString *message = [[NSMutableString alloc] initWithString:@"Are you sure you want to delete:"];
+    
+    BOOL attemptedToDeleteVIPCard = NO;
+    for (NSNumber *row in _rowsToDelete) {
+        HDItem *item = [[HDItemManager sharedManager] itemAtIndex:[row integerValue]];
+        if (![item.itemDescription isEqualToString:@"VIP Card"]) {
+            NSString *itemCost = [HDHelper stringFromNumber:fabs(item.itemCost)];
+            [message appendString:[NSString stringWithFormat:@" \n %@ %@",item.itemDescription, itemCost]];
+        } else {
+            attemptedToDeleteVIPCard = YES;
+        }
+    } if (attemptedToDeleteVIPCard) {
+        NSString *cardCost = [HDHelper stringFromNumber:fabs([[HDItemManager sharedManager] currentVIPCardPrice])];
+        [message appendString:[NSString stringWithFormat:@"\n Items that cannot be erased: \n VIP Card %@", cardCost]];
+    }
+    
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Alert"
+                                                                   message:message
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction *yes = [UIAlertAction actionWithTitle:@"Yes"
+                                                  style:UIAlertActionStyleDefault
+                                                handler:^(UIAlertAction * action) {
+                                                    for (NSNumber *row in _rowsToDelete) {
+                                                        HDItem *item = [[HDItemManager sharedManager] itemAtIndex:[row integerValue]];
+                                                        if (![item.itemDescription isEqualToString:@"VIP Card"]) {
+                                                            [[HDItemManager sharedManager] removeItem:item];
+                                                        }
+                                                    }
+                                                    [self.collectionView reloadData];
+                                                }];
+     [alert addAction:yes];
+    
+    UIAlertAction *no = [UIAlertAction actionWithTitle:@"No"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action) {
+                                   [self dismissViewControllerAnimated:YES completion:nil];
+                               }];
+    [alert addAction:no];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 #pragma mark - <UICollectionViewDataSource>
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
@@ -86,7 +151,7 @@
 
     HDItem *item = [[HDItemManager sharedManager] itemAtIndex:row];
     
-     UIColor *color = row % 2 == 0 ? [UIColor colorWithRed:(246/255.0f) green:(246/255.0f) blue:(246/255.0f) alpha:1] : [UIColor whiteColor];
+     UIColor *color = row % 2 == 0 ? [UIColor flatDataGridCellColor] : [UIColor whiteColor];
     
     if (column == 0) {
         HDDataGridCheckBoxCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"CheckBox" forIndexPath:indexPath];
@@ -118,8 +183,18 @@
         cell.checkedForRemoval = !cell.isCheckedForRemoval;
         if (cell.isCheckedForRemoval) {
             [self dataGridHighlightColumnsInRow:row];
+            [_rowsToDelete addObject:@(row)];
+            if (!self.navigationItem.leftBarButtonItem) {
+                self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemTrash
+                                                                                                      target:self
+                                                                                                      action:@selector(_deletedRows:)];
+            }
         } else {
             [self dataGridUnHighlightColumnsInRow:row];
+            [_rowsToDelete removeObjectIdenticalTo:@(row)];
+            if (_rowsToDelete.count == 0) {
+                self.navigationItem.leftBarButtonItem = nil;
+            }
         }
     }
 }

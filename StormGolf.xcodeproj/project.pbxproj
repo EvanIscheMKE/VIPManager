@@ -50,6 +50,7 @@
 		38F711361CD6721D008C9DC5 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F711351CD6721D008C9DC5 /* libsqlite3.tbd */; };
 		38F711381CD67229008C9DC5 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38F711371CD67229008C9DC5 /* QuartzCore.framework */; };
 		38F7113C1CD673AB008C9DC5 /* HDDBManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 38F7113B1CD673AB008C9DC5 /* HDDBManager.m */; };
+		38FF8CAA1D01E666003B8CE4 /* HDUserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FF8CA91D01E666003B8CE4 /* HDUserViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -133,6 +134,8 @@
 		38F711371CD67229008C9DC5 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		38F7113A1CD673AB008C9DC5 /* HDDBManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDDBManager.h; sourceTree = "<group>"; };
 		38F7113B1CD673AB008C9DC5 /* HDDBManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDDBManager.m; sourceTree = "<group>"; };
+		38FF8CA81D01E666003B8CE4 /* HDUserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HDUserViewController.h; sourceTree = "<group>"; };
+		38FF8CA91D01E666003B8CE4 /* HDUserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HDUserViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -297,10 +300,7 @@
 			isa = PBXGroup;
 			children = (
 				38F2F4591CF604350042BCFB /* Popover */,
-				38721A251CCABDA7007B9FE3 /* HDHomeViewController.h */,
-				38721A261CCABDA7007B9FE3 /* HDHomeViewController.m */,
-				3845478E1CFE350A0049E61A /* HDSignupViewController.h */,
-				3845478F1CFE350A0049E61A /* HDSignupViewController.m */,
+				38FF8CAB1D01E672003B8CE4 /* User Search Controllers */,
 				382220641CD16837003A446A /* HDItemManagerDataGridController.h */,
 				382220651CD16837003A446A /* HDItemManagerDataGridController.m */,
 				382220671CD26EFA003A446A /* HDTransactionDataGridController.h */,
@@ -319,6 +319,19 @@
 			);
 			name = Frameworks;
 			path = StormGolf;
+			sourceTree = "<group>";
+		};
+		38FF8CAB1D01E672003B8CE4 /* User Search Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				38721A251CCABDA7007B9FE3 /* HDHomeViewController.h */,
+				38721A261CCABDA7007B9FE3 /* HDHomeViewController.m */,
+				38FF8CA91D01E666003B8CE4 /* HDUserViewController.m */,
+				38FF8CA81D01E666003B8CE4 /* HDUserViewController.h */,
+				3845478E1CFE350A0049E61A /* HDSignupViewController.h */,
+				3845478F1CFE350A0049E61A /* HDSignupViewController.m */,
+			);
+			name = "User Search Controllers";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -436,6 +449,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				38721A271CCABDA7007B9FE3 /* HDHomeViewController.m in Sources */,
+				38FF8CAA1D01E666003B8CE4 /* HDUserViewController.m in Sources */,
 				3828456E1CD97F3A002420E4 /* HDTransactionObject.m in Sources */,
 				38F2F45E1CF60AAB0042BCFB /* HDToolBar.m in Sources */,
 				38ED4A031CEBBE1600720A6F /* HDUserSearchTableViewCell.m in Sources */,

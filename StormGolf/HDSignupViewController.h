@@ -8,9 +8,16 @@
 
 @import UIKit;
 
+@protocol HDSignupViewTableViewCellDelegate;
 @interface HDSignupTableViewCell : UITableViewCell
+@property (nonatomic, weak) id<HDSignupViewTableViewCellDelegate> delegate;
 @property (nonatomic, strong) UITextField *textField;
 @end
+
+@protocol HDSignupViewTableViewCellDelegate <NSObject>
+- (void)finishedSignUpWithStartingBalance:(CGFloat)startingBalance;
+@end
+
 
 @protocol HDSignupViewControllerDelegate;
 @interface HDSignupViewController : UITableViewController <UITextFieldDelegate>
@@ -23,4 +30,5 @@
 
 @protocol HDSignupViewControllerDelegate <NSObject>
 - (void)signupIsCompleted:(HDSignupViewController *)controller;
+- (void)dismissSignUpController:(HDSignupViewController *)controller;
 @end

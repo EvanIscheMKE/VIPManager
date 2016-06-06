@@ -71,7 +71,7 @@ typedef NS_ENUM(NSUInteger, HDDataType){
         [self.collectionView reloadData];
     
         for (HDTransactionObject *transaction in self.currentTransactions) {
-            NSString *startTime = [[HDHelper formatter] stringFromDate:transaction.date];
+           // NSString *startTime = [[HDHelper formatter] stringFromDate:transaction.date];
         }
     }];
 }
@@ -83,7 +83,7 @@ typedef NS_ENUM(NSUInteger, HDDataType){
     NSUInteger row, column;
     [self row:&row column:&column fromIndexPath:indexPath];
     
-    UIColor *color = row % 2 == 0 ? [UIColor colorWithRed:(246/255.0f) green:(246/255.0f) blue:(246/255.0f) alpha:1] : [UIColor whiteColor];
+    UIColor *color = row % 2 == 0 ? [UIColor flatDataGridCellColor] : [UIColor whiteColor];
     
     if (_dataType == HDDataTypeTransactions) {
         
